@@ -1,0 +1,30 @@
+{
+    "name": "dmitrykazak/magento-google-tag-manager",
+    "description": "Google Tag Manager (GTM) Extension for Magento 2",
+    "authors": [{
+        "name": "Dmitry Kazak",
+        "email": "dmitry.kazak0@gmail.com"
+    }],
+    "homepage": "https://github.com/dmitrykazak/magento-google-tag-manager",
+    "keywords": [
+        "magento 2",
+        "magento2-extension",
+        "google tag manager",
+        "tag-manager",
+        "magento",
+        "gtm"
+    ],
+    "require": {
+        "php": "~7.0.0|~7.1.0|~7.2.0"
+    },
+    "type": "magento2-module",
+    "license": "MIT",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "DK\\GoogleTagManager\\": ""
+        }
+    }
+}
