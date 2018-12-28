@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="head.additional">
+            <block class="DK\GoogleTagManager\Block\Gtm" name="dk_gtm_js" as="dk_gtm_js" template="DK_GoogleTagManager::gtm.phtml" />
+        </referenceContainer>
+        <referenceContainer name="after.body.start">
+            <block class="DK\GoogleTagManager\Block\Gtm" name="dk_gtm_noscript" as="dk_gtm_noscript" template="DK_GoogleTagManager::noscript.phtml" />
+        </referenceContainer>
+    </body>
+</page>
