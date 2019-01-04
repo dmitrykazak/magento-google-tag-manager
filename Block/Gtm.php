@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Block;
 
+use DK\GoogleTagManager\Helper\Config;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use DK\GoogleTagManager\Helper\Config;
 
 class Gtm extends Template
 {
@@ -22,11 +22,8 @@ class Gtm extends Template
      * @param Config $config
      * @param array $data
      */
-    public function __construct(
-        Context $context,
-        Config $config,
-        array $data = []
-    ) {
+    public function __construct(Context $context, Config $config, array $data = [])
+    {
         $this->config = $config;
         parent::__construct($context, $data);
     }

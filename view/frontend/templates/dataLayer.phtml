@@ -1,0 +1,15 @@
+<?php
+/**
+ * @var $block DK\GoogleTagManager\Block\DataLayer
+ */
+
+?>
+
+<script type="text/javascript">
+
+    window.dataLayer = window.dataLayer || [];
+
+    dataLayer.push(
+        <?php echo $block->getDataLayerJson() ?>
+    );
+</script>

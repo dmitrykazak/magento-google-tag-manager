@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
-use Magento\Store\Model\Store;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Store\Model\Store;
 
 class Config extends AbstractHelper
 {
