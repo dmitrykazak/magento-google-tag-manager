@@ -58,8 +58,14 @@ class DataLayer extends Template
     /**
      * @return string
      */
-    public function getDataLayerJson(): string
+    public function getDataLayerJson(): ?string
     {
+        $instance = $this->getInstance();
+
+        if (!($instance instanceof DataLayerInterface)) {
+            return null;
+        }
+
         return $this->jsonHelper->jsonEncode(
             $this->getInstance()->getLayer()
         );
@@ -70,9 +76,9 @@ class DataLayer extends Template
      *
      * @return string
      */
-    public function getType(): string
+    public function getTypeDataLayer(): ?string
     {
-        return $this->getData('type');
+        return $this->getData('type_data_layer');
     }
 
     /**
@@ -96,7 +102,7 @@ class DataLayer extends Template
     private function findClass(): string
     {
         $list = $this->dataLayerList->getList();
-        $nameInstance = $list[$this->getType()] ?? '';
+        $nameInstance = $list[$this->getTypeDataLayer()] ?? '';
 
         return $nameInstance;
     }

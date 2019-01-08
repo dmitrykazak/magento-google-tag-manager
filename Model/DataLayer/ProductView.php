@@ -6,9 +6,8 @@ namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use Magento\Catalog\Helper\Data as CatalogHelper;
-use Magento\Framework\DataObject;
 
-class ProductView extends DataObject implements DataLayerInterface
+class ProductView extends AbstractLayer implements DataLayerInterface
 {
     const CODE = 'product-view';
 
@@ -40,38 +39,39 @@ class ProductView extends DataObject implements DataLayerInterface
      */
     public function getLayer(): array
     {
-        return $this->prepareLayer();
+
+        $this->addVariable('event', 'gtm-ee-event');
+        $this->addVariable('gtm-ee-event-category', 'Product Impressions');
+        $this->addVariable(static::ECOMMERCE_NAME, [
+            static::DETAIL_NAME => [
+                static::ACTION_FIELD_NAME => [
+                    static::ACTON_PRODUCT_NAME => static::CODE
+                ],
+                static::PRODUCTS_NAME => [
+                    $this->productInfo()
+                ],
+            ],
+        ]);
+
+        return $this->getVariables();
     }
 
     /**
      * @return array
      */
-    private function prepareLayer(): array
+    private function productInfo(): array
     {
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->catalogHelper->getProduct();
 
-        $data = [
-            'ecommerce' => [
-                'detail' => [
-                    'actionField' => [
-                        'list' => $this->getCode(),
-                    ],
-                    'products' => [
-                        [
-                            'id' => $product->getId(),
-                            'sku' => $product->getSku(),
-                            'name' => $product->getName(),
-                            'price' => $product->getFinalPrice(),
-                            'category' => $this->getCategoryName(),
-                            'path' => $this->getCategoryPath(),
-                        ]
-                    ]
-                ]
-            ]
+        return [
+            'id' => $product->getId(),
+            'sku' => $product->getSku(),
+            'name' => $product->getName(),
+            'price' => $product->getFinalPrice(),
+            'category' => $this->getCategoryName(),
+            'path' => $this->getCategoryPath(),
         ];
-
-        return $data;
     }
 
     /**
