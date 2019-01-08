@@ -39,9 +39,6 @@ class ProductView extends AbstractLayer implements DataLayerInterface
      */
     public function getLayer(): array
     {
-
-        $this->addVariable('event', 'gtm-ee-event');
-        $this->addVariable('gtm-ee-event-category', 'Product Impressions');
         $this->addVariable(static::ECOMMERCE_NAME, [
             static::DETAIL_NAME => [
                 static::ACTION_FIELD_NAME => [
