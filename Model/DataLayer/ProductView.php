@@ -5,25 +5,21 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
+use DK\GoogleTagManager\Model\Handler\Product;
 use Magento\Catalog\Helper\Data as CatalogHelper;
 
 class ProductView extends AbstractLayer implements DataLayerInterface
 {
-    const CODE = 'product-view';
+    public const CODE = 'product-view';
 
     /**
      * @var CatalogHelper $catalogHelper
      */
-    private $catalogHelper;
+    private $productHandler;
 
-    /**
-     * ProductView constructor.
-     *
-     * @param \Magento\Catalog\Helper\Data $catalogHelper
-     */
-    public function __construct(CatalogHelper $catalogHelper)
+    public function __construct(Product $productHandler)
     {
-        $this->catalogHelper = $catalogHelper;
+        $this->productHandler = $productHandler;
     }
 
     /**
@@ -58,36 +54,16 @@ class ProductView extends AbstractLayer implements DataLayerInterface
      */
     private function productInfo(): array
     {
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = $this->catalogHelper->getProduct();
+        $product = $this->productHandler->getProduct();
 
         return [
             'id' => $product->getId(),
             'sku' => $product->getSku(),
             'name' => $product->getName(),
             'price' => $product->getFinalPrice(),
-            'category' => $this->getCategoryName(),
-            'path' => $this->getCategoryPath(),
+            'category' => $this->productHandler->getCategoryName(),
+            'path' => $this->productHandler->getCategoryPath(),
+            'brand' => $this->productHandler->getBrandValue(),
         ];
-    }
-
-    /**
-     * @return null|string
-     */
-    private function getCategoryName(): ?string
-    {
-        $category = $this->catalogHelper->getCategory();
-
-        return $category ? $category->getName() : null;
-    }
-
-    /**
-     * @return string
-     */
-    private function getCategoryPath(): string
-    {
-        $labels = array_column($this->catalogHelper->getBreadcrumbPath(), 'label');
-
-        return implode('|', $labels);
     }
 }

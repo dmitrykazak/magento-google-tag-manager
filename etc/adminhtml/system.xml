@@ -20,6 +20,17 @@
                         <field id="active">1</field>
                     </depends>
                 </field>
+                <field id="brand_enable" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Brand</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="brand_attribute" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attribute of brand</label>
+                    <source_model>DK\GoogleTagManager\Model\Config\Source\ProductAttributes</source_model>
+                    <depends>
+                        <field id="brand_enable">1</field>
+                    </depends>
+                </field>
             </group>
         </section>
     </system>

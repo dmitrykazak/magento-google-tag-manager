@@ -10,8 +10,11 @@ use Magento\Store\Model\Store;
 
 class Config extends AbstractHelper
 {
-    const XML_PATH_ACTIVE = 'google/googletagmanager/active';
-    const XML_PATH_ACCOUNT = 'google/googletagmanager/account';
+    private const XML_PATH_ACTIVE = 'google/googletagmanager/active';
+    private const XML_PATH_ACCOUNT = 'google/googletagmanager/account';
+
+    private const XML_PATH_BRAND_ENABLE = 'google/googletagmanager/brand_enable';
+    private const XML_PATH_BRAND_ATTRIBUTE = 'google/googletagmanager/brand_attribute';
 
     /**
      * @param null $store
@@ -23,7 +26,7 @@ class Config extends AbstractHelper
         $account = $this->getAccount($store);
 
         return $account && $this->scopeConfig->isSetFlag(
-            static::XML_PATH_ACTIVE,
+            self::XML_PATH_ACTIVE,
             ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -37,9 +40,36 @@ class Config extends AbstractHelper
     public function getAccount($store = null): ?string
     {
         return $this->scopeConfig->getValue(
-            static::XML_PATH_ACCOUNT,
+            self::XML_PATH_ACCOUNT,
             ScopeInterface::SCOPE_STORE,
             $store
         );
+    }
+
+    public function getEnableBrand($store = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_BRAND_ENABLE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * @param null $store
+     *
+     * @return string|null
+     */
+    public function getBrandAttribute($store = null): ?string
+    {
+        if ($this->getEnableBrand($store)) {
+            return $this->scopeConfig->getValue(
+                self::XML_PATH_BRAND_ATTRIBUTE,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            );
+        }
+
+        return null;
     }
 }
