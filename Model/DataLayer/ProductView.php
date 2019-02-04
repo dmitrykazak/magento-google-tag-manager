@@ -5,19 +5,18 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
-use DK\GoogleTagManager\Model\Handler\Product;
-use Magento\Catalog\Helper\Data as CatalogHelper;
+use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 
 class ProductView extends AbstractLayer implements DataLayerInterface
 {
     public const CODE = 'product-view';
 
     /**
-     * @var CatalogHelper $catalogHelper
+     * @var ProductHandler
      */
     private $productHandler;
 
-    public function __construct(Product $productHandler)
+    public function __construct(ProductHandler $productHandler)
     {
         $this->productHandler = $productHandler;
     }
