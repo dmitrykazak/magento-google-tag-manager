@@ -56,8 +56,7 @@ class ProductView extends AbstractLayer implements DataLayerInterface
         $product = $this->productHandler->getProduct();
 
         return [
-            'id' => $product->getId(),
-            'sku' => $product->getSku(),
+            'id' => $product->getData($this->productHandler->productIdentifier()),
             'name' => $product->getName(),
             'price' => $product->getFinalPrice(),
             'category' => $this->productHandler->getCategoryName(),

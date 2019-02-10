@@ -16,6 +16,8 @@ class Config extends AbstractHelper
     private const XML_PATH_BRAND_ENABLE = 'google/googletagmanager/brand_enable';
     private const XML_PATH_BRAND_ATTRIBUTE = 'google/googletagmanager/brand_attribute';
 
+    private const XML_PATH_PRODUCT_IDENTIFIER = 'google/googletagmanager/product_identifier';
+
     /**
      * @param null $store
      *
@@ -46,7 +48,7 @@ class Config extends AbstractHelper
         );
     }
 
-    public function getEnableBrand($store = null): bool
+    public function isEnableBrand($store = null): bool
     {
         return $this->scopeConfig->isSetFlag(
             self::XML_PATH_BRAND_ENABLE,
@@ -55,14 +57,9 @@ class Config extends AbstractHelper
         );
     }
 
-    /**
-     * @param null $store
-     *
-     * @return string|null
-     */
     public function getBrandAttribute($store = null): ?string
     {
-        if ($this->getEnableBrand($store)) {
+        if ($this->isEnableBrand($store)) {
             return $this->scopeConfig->getValue(
                 self::XML_PATH_BRAND_ATTRIBUTE,
                 ScopeInterface::SCOPE_STORE,
@@ -71,5 +68,14 @@ class Config extends AbstractHelper
         }
 
         return null;
+    }
+
+    public function getProductIdentifier($store = null): string
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_PRODUCT_IDENTIFIER,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 }

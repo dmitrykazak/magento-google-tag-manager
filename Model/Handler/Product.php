@@ -77,4 +77,9 @@ class Product
 
         return $brand;
     }
+
+    public function productIdentifier(): string
+    {
+        return $this->config->getProductIdentifier();
+    }
 }

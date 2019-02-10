@@ -7,7 +7,7 @@ namespace DK\GoogleTagManager\Test\Unit\Helper;
 use DK\GoogleTagManager\Helper\Config;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
-use Magento\Sales\Model\Store;
+use Magento\Store\Model\Store;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -66,7 +66,7 @@ class ConfigTest extends TestCase
         )->method(
             'getValue'
         )->with(
-            Config::XML_PATH_ACCOUNT
+            'google/googletagmanager/account'
         )->will(
             $this->returnValue($accountNumber)
         );
@@ -82,7 +82,7 @@ class ConfigTest extends TestCase
         )->method(
             'getValue'
         )->with(
-            Config::XML_PATH_ACCOUNT
+            'google/googletagmanager/account'
         )->willReturn($accountNumber);
 
         $this->assertNull($this->helper->getAccount($this->storeMock));
@@ -102,7 +102,7 @@ class ConfigTest extends TestCase
         )->method(
             'isSetFlag'
         )->with(
-            Config::XML_PATH_ACTIVE
+            'google/googletagmanager/active'
         )->will(
             $this->returnValue($isActive)
         );
@@ -119,6 +119,44 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * @dataProvider dataProviderBrandAttribute
+     */
+    public function testGetAttributeBrand(bool $isActive, ?string $expectResult): void
+    {
+        $this->scopeConfigMock->expects(
+            $this->once()
+        )->method(
+            'isSetFlag'
+        )->with(
+            'google/googletagmanager/brand_enable'
+        )->willReturn($isActive);
+
+        $this->scopeConfigMock->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->with(
+            $this->isType('string')
+        )->willReturn($expectResult);
+
+        $this->assertSame($expectResult, $this->helper->getBrandAttribute());
+    }
+
+    /**
+     * @dataProvider dataProviderProductIdentifier
+     */
+    public function testGetProductIdentifier(string $expect, string $current): void
+    {
+        $this->scopeConfigMock
+            ->expects($this->once())
+            ->method('getValue')
+            ->with($this->isType('string'))
+            ->willReturn($current);
+
+        $this->assertSame($expect, $this->helper->getProductIdentifier());
+    }
+
+    /**
      * @return array
      */
     public function dataProviderForTestIsActive(): array
@@ -128,6 +166,28 @@ class ConfigTest extends TestCase
             [true, '', false],
             [false, 'GTM-account', false],
             [false, null, false],
+        ];
+    }
+
+    public function dataProviderBrandAttribute(): \Generator
+    {
+        yield 'If the brand field is enabled' => [
+            true, 'sku',
+        ];
+
+        yield 'If the brand field is disabled' => [
+            false, null,
+        ];
+    }
+
+    public function dataProviderProductIdentifier(): \Generator
+    {
+        yield 'If product identifier is sku' => [
+            'sku', 'sku',
+        ];
+
+        yield 'If product identifier is entity_id' => [
+            'entity_id', 'entity_id'
         ];
     }
 }
