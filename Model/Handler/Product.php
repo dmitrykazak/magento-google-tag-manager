@@ -33,7 +33,7 @@ class Product
     {
         $category = $this->catalogHelper->getCategory();
 
-        return $category ? $category->getName() : null;
+        return null !== $category ? $category->getName() : null;
     }
 
     /**
