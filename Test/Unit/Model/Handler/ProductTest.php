@@ -8,6 +8,8 @@ use DK\GoogleTagManager\Helper\Config;
 use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 use Magento\Catalog\Helper\Data as CatalogHelper;
 use Magento\Catalog\Model\Category;
+use Magento\Catalog\Model\Product;
+use Magento\Framework\Api\AttributeInterface;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
@@ -61,7 +63,7 @@ class ProductTest extends TestCase
     {
         /** @var Category|\PHPUnit_Framework_MockObject_MockObject $category */
         $category = $this->createPartialMock(
-            \Magento\Catalog\Model\Category::class,
+            Category::class,
             ['getName']
         );
 
@@ -93,6 +95,81 @@ class ProductTest extends TestCase
             ->method('getBreadcrumbPath')->willReturn($categoryList);
 
         $this->assertSame($expectsPath, $this->productHandlerMock->getCategoryPath());
+    }
+
+    /**
+     * @param string $expectsBrandValue
+     * @param array $valueBrand
+     * @param string|null $brandAttribute
+     *
+     * @throws \ReflectionException
+     * @dataProvider brandValueDataProvider
+     */
+    public function testGetBrandValue(string $expectsBrandValue, array $valueBrand, ?string $brandAttribute): void
+    {
+        $this->configMock->expects($this->once())->method('getBrandAttribute')->willReturn($brandAttribute);
+
+        /** @var Product|\PHPUnit_Framework_MockObject_MockObject $product */
+        $product = $this->createPartialMock(
+            Product::class,
+            ['getCustomAttribute']
+        );
+
+        if (null === $brandAttribute) {
+            $this->catalogHelperMock->expects($this->never())->method('getProduct')->willReturn($product);
+        } else {
+            $value = \count($valueBrand) === 1 ? \array_shift($valueBrand) : $valueBrand;
+            $this->catalogHelperMock->expects($this->any())->method('getProduct')->willReturn($product);
+            $this->catalogHelperMock->getProduct()->setData($brandAttribute, $value);
+        }
+
+        $this->assertSame($expectsBrandValue, $this->productHandlerMock->getBrandValue());
+    }
+
+    public function testGetBrandValueAsCustomAttribute()
+    {
+        $this->configMock->expects($this->once())->method('getBrandAttribute')->willReturn('custom_brand');
+
+        /** @var Product|\PHPUnit_Framework_MockObject_MockObject $product */
+        $product = $this->createPartialMock(
+            Product::class,
+            ['getCustomAttribute']
+        );
+
+        $this->catalogHelperMock->expects($this->any())->method('getProduct')->willReturn($product);
+
+        $attributeValue = new \Magento\Framework\Api\AttributeValue([
+            AttributeInterface::ATTRIBUTE_CODE => 'custom_brand',
+            AttributeInterface::VALUE => 'Custom Brand Attribute'
+        ]);
+
+        $product->expects($this->once())->method('getCustomAttribute')
+            ->with($this->isType('string'))
+            ->willReturn($attributeValue);
+
+        $this->catalogHelperMock->getProduct()->setData('custom_brand', null);
+
+        $this->assertSame('Custom Brand Attribute', $this->productHandlerMock->getBrandValue());
+    }
+
+    public function brandValueDataProvider(): \Generator
+    {
+        yield 'If brand attribute is null' => [
+            '', [], null,
+        ];
+
+        yield 'If brand attribute is full' => [
+            'Brand 1', ['Brand 1'], 'brand',
+        ];
+
+        yield 'If brand attribute is full as array' => [
+            'Brand 1,Brand 2,Brand 3', [
+                'Brand 1',
+                'Brand 2',
+                'Brand 3',
+            ],
+            'brand',
+        ];
     }
 
     public function listCategoryDataProvider(): \Generator

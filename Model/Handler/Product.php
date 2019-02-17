@@ -61,9 +61,9 @@ class Product
         $attributeCode = $this->config->getBrandAttribute();
         if (null !== $attributeCode) {
 
-            $brand = $brand = $this->getProduct()->getData($attributeCode);
+            $brand = $this->getProduct()->getData($attributeCode);
             if (!$brand) {
-                $customAttribute = $this->getProduct()->getCustomAttribute($attributeCode);
+                $customAttribute = $this->getProduct()->getCustomAttribute('description');
 
                 if (null !== $customAttribute) {
                     $brand = $customAttribute->getValue();
