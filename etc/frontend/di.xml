@@ -6,6 +6,8 @@
         <arguments>
             <argument name="dataLayers" xsi:type="array">
                 <item name="product-view" xsi:type="string">DK\GoogleTagManager\Model\DataLayer\ProductView</item>
+                <item name="cart-view" xsi:type="string">DK\GoogleTagManager\Model\DataLayer\CartView</item>
+                <item name="checkout-success-view" xsi:type="string">DK\GoogleTagManager\Model\DataLayer\CheckoutSuccessView</item>
             </argument>
         </arguments>
     </type>

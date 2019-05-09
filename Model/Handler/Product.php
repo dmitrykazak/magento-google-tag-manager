@@ -6,6 +6,7 @@ namespace DK\GoogleTagManager\Model\Handler;
 
 use DK\GoogleTagManager\Helper\Config;
 use Magento\Catalog\Helper\Data as CatalogHelper;
+use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product as ProductCatalog;
 
 class Product
@@ -52,6 +53,11 @@ class Product
     public function getProduct(): ?ProductCatalog
     {
         return $this->catalogHelper->getProduct();
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->catalogHelper->getCategory();
     }
 
     public function getBrandValue(): string

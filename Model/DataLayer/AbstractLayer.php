@@ -10,6 +10,7 @@ abstract class AbstractLayer
     public const DETAIL_NAME = 'detail';
     public const ACTION_FIELD_NAME = 'actionField';
     public const PRODUCTS_NAME = 'products';
+    public const CATEGORY_NAME = 'category';
     public const ACTON_PRODUCT_NAME = 'list';
 
     private $variables = [];
