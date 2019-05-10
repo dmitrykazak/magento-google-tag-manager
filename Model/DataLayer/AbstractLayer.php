@@ -12,6 +12,7 @@ abstract class AbstractLayer
     public const PRODUCTS_NAME = 'products';
     public const CATEGORY_NAME = 'category';
     public const ACTON_PRODUCT_NAME = 'list';
+    public const PURCHASE = 'purchase';
 
     private $variables = [];
 
