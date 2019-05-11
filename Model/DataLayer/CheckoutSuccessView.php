@@ -10,6 +10,7 @@ use Magento\Framework\Escaper;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order\Item;
 use Magento\Store\Model\StoreManagerInterface;
+use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 
 class CheckoutSuccessView extends AbstractLayer implements DataLayerInterface
 {
@@ -30,17 +31,23 @@ class CheckoutSuccessView extends AbstractLayer implements DataLayerInterface
      * @var Escaper
      */
     private $escaper;
+    /**
+     * @var ProductHandler
+     */
+    private $productHandler;
 
     public function __construct(
         CheckoutSession $checkoutSession,
         PriceCurrencyInterface $priceCurrency,
         StoreManagerInterface $storeManager,
-        Escaper $escaper
+        Escaper $escaper,
+        ProductHandler $productHandler
     ){
         $this->checkoutSession = $checkoutSession;
         $this->priceCurrency = $priceCurrency;
         $this->storeManager = $storeManager;
         $this->escaper = $escaper;
+        $this->productHandler = $productHandler;
     }
 
     /**
@@ -53,39 +60,34 @@ class CheckoutSuccessView extends AbstractLayer implements DataLayerInterface
 
     public function getLayer(): array
     {
-        $this->addVariable(static::ECOMMERCE_NAME, [
-            static::PURCHASE => [
-                static::ACTION_FIELD_NAME => [
-                ],
-                static::PRODUCTS_NAME => $this->getProductListOrder(),
-            ],
-        ]);
-    }
-
-    public function getProductListOrder()
-    {
         $order = $this->checkoutSession->getLastRealOrder();
 
         $items = [];
         /** @var Item $item */
         foreach ($order->getAllVisibleItems() as $item) {
-            $items['id'] = $this->escaper->escapeJs($item->getSku());
+            $items['id'] = $item->getData($this->productHandler->productIdentifier());
             $items['name'] = $this->escaper->escapeJs($item->getName());
             $items['price'] = $this->priceCurrency->format($item->getPrice(), false, 2);
             $items['quantity'] = $item->getQtyOrdered();
+            $items['category'] = $this->productHandler->getCategoryName();
+            $items['brand'] = $this->productHandler->getBrandValue();
         }
 
         $transaction = [];
-        $transaction['transactionId'] = $order->getIncrementId();
+        $transaction['id'] = $order->getIncrementId();
+        $transaction['affiliation'] = $this->escaper->escapeJs($this->storeManager->getStore()->getFrontendName());
+        $transaction['total'] = $order->getBaseGrandTotal();
+        $transaction['tax'] = $order->getBaseTaxAmount();
+        $transaction['shipping'] = $order->getBaseShippingAmount();
+        $transaction['coupon'] = $order->getCouponCode();
 
-        $transaction['transactionAffiliation'] = $this->escaper->escapeJs($this->storeManager->getStore()->getFrontendName());
-        $transaction['transactionTotal'] = $order->getBaseGrandTotal();
-        $transaction['transactionTax'] = $order->getBaseTaxAmount();
-        $transaction['transactionShipping'] = $order->getBaseShippingAmount();
-        $transaction['transactionSubTotal'] = $order->getBaseSubtotal();
-        $transaction['transactionCouponCode'] = $order->getCouponCode();
-        $transaction['transactionDiscount'] = $order->getDiscountAmount();
+        $this->addVariable(static::ECOMMERCE_NAME, [
+            static::PURCHASE => [
+                static::ACTION_FIELD_NAME => $transaction,
+                static::PRODUCTS_NAME => $items,
+            ],
+        ]);
 
-        $transaction['transactionProducts'] = $items;
+        return $this->getVariables();
     }
 }
