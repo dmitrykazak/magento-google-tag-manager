@@ -12,9 +12,9 @@ use Magento\Sales\Model\Order\Item;
 use Magento\Store\Model\StoreManagerInterface;
 use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 
-class CheckoutSuccessView extends AbstractLayer implements DataLayerInterface
+class PurchaseView extends AbstractLayer implements DataLayerInterface
 {
-    public const CODE = 'checkout-success-view';
+    public const CODE = 'purchase-view';
     /**
      * @var CheckoutSession
      */
@@ -65,6 +65,9 @@ class CheckoutSuccessView extends AbstractLayer implements DataLayerInterface
         $items = [];
         /** @var Item $item */
         foreach ($order->getAllVisibleItems() as $item) {
+            $this->productHandler->setProduct($item->getProduct());
+            $this->productHandler->setCategory($item->getProduct()->getCategory());
+
             $items['id'] = $item->getData($this->productHandler->productIdentifier());
             $items['name'] = $this->escaper->escapeJs($item->getName());
             $items['price'] = $this->priceCurrency->format($item->getPrice(), false, 2);
@@ -75,7 +78,7 @@ class CheckoutSuccessView extends AbstractLayer implements DataLayerInterface
 
         $transaction = [];
         $transaction['id'] = $order->getIncrementId();
-        $transaction['affiliation'] = $this->escaper->escapeJs($this->storeManager->getStore()->getFrontendName());
+        $transaction['affiliation'] = $this->escaper->escapeJs($this->storeManager->getStore()->getName());
         $transaction['total'] = $order->getBaseGrandTotal();
         $transaction['tax'] = $order->getBaseTaxAmount();
         $transaction['shipping'] = $order->getBaseShippingAmount();
