@@ -66,13 +66,12 @@ class PurchaseView extends AbstractLayer implements DataLayerInterface
         /** @var Item $item */
         foreach ($order->getAllVisibleItems() as $item) {
             $this->productHandler->setProduct($item->getProduct());
-            $this->productHandler->setCategory($item->getProduct()->getCategory());
 
             $items['id'] = $item->getData($this->productHandler->productIdentifier());
             $items['name'] = $this->escaper->escapeJs($item->getName());
             $items['price'] = $this->priceCurrency->format($item->getPrice(), false, 2);
             $items['quantity'] = $item->getQtyOrdered();
-            $items['category'] = $this->productHandler->getCategoryName();
+            $items['category'] = $this->productHandler->getCategoriesPath();
             $items['brand'] = $this->productHandler->getBrandValue();
         }
 

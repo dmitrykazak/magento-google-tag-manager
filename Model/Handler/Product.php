@@ -8,6 +8,7 @@ use DK\GoogleTagManager\Helper\Config;
 use Magento\Catalog\Helper\Data as CatalogHelper;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product as ProductCatalog;
+use Magento\Catalog\Model\ResourceModel\Category\Collection;
 
 class Product
 {
@@ -25,11 +26,6 @@ class Product
      * @var ProductCatalog|null
      */
     private $product = null;
-
-    /**
-     * @var Category|null
-     */
-    private $category = null;
 
     public function __construct(CatalogHelper $catalogHelper, Config $config)
     {
@@ -52,7 +48,7 @@ class Product
      */
     public function getCategoryPath(): string
     {
-        $labels = array_column($this->catalogHelper->getBreadcrumbPath(), 'label');
+        $labels = \array_column($this->catalogHelper->getBreadcrumbPath(), 'label');
 
         return implode('/', $labels);
     }
@@ -78,18 +74,7 @@ class Product
 
     public function getCategory(): ?Category
     {
-        if (null !== $this->category) {
-            return $this->category;
-        }
-
         return $this->catalogHelper->getCategory();
-    }
-
-    public function setCategory(Category $category): Category
-    {
-        $this->category = $category;
-
-        return $this->category;
     }
 
     public function getBrandValue(): string
@@ -114,6 +99,21 @@ class Product
         }
 
         return $brand;
+    }
+
+    public function getCategoriesPath(): string
+    {
+        /** @var Collection $collection */
+        $collection = $this->getProduct()->getCategoryCollection()
+            ->addAttributeToSelect('name');
+
+        $categories = [];
+        /** @var Category $item */
+        foreach ($collection as $item) {
+            $categories[] = $item->getName();
+        }
+
+        return \implode('/', $categories);
     }
 
     public function productIdentifier(): string
