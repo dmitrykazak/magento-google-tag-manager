@@ -11,6 +11,7 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order\Item;
 use Magento\Store\Model\StoreManagerInterface;
 use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
+use Magento\Framework\Serialize\SerializerInterface;
 
 class PurchaseView extends AbstractLayer implements DataLayerInterface
 {
@@ -35,19 +36,25 @@ class PurchaseView extends AbstractLayer implements DataLayerInterface
      * @var ProductHandler
      */
     private $productHandler;
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
 
     public function __construct(
         CheckoutSession $checkoutSession,
         PriceCurrencyInterface $priceCurrency,
         StoreManagerInterface $storeManager,
         Escaper $escaper,
-        ProductHandler $productHandler
+        ProductHandler $productHandler,
+        SerializerInterface $serializer
     ){
         $this->checkoutSession = $checkoutSession;
         $this->priceCurrency = $priceCurrency;
         $this->storeManager = $storeManager;
         $this->escaper = $escaper;
         $this->productHandler = $productHandler;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -62,33 +69,35 @@ class PurchaseView extends AbstractLayer implements DataLayerInterface
     {
         $order = $this->checkoutSession->getLastRealOrder();
 
-        $items = [];
+        $purchaseOrderDto = new Purchase\Dto\Order();
+        $productItems = [];
+
         /** @var Item $item */
         foreach ($order->getAllVisibleItems() as $item) {
             $this->productHandler->setProduct($item->getProduct());
 
-            $items['id'] = $item->getData($this->productHandler->productIdentifier());
-            $items['name'] = $this->escaper->escapeJs($item->getName());
-            $items['price'] = $this->priceCurrency->format($item->getPrice(), false, 2);
-            $items['quantity'] = $item->getQtyOrdered();
-            $items['category'] = $this->productHandler->getCategoriesPath();
-            $items['brand'] = $this->productHandler->getBrandValue();
+            $productDto = new Dto\Product();
+            $productDto->id = $item->getData($this->productHandler->productIdentifier());
+            $productDto->name = $this->escaper->escapeJs($item->getName());
+            $productDto->price = $this->priceCurrency->format($item->getPrice(), false, 2);
+            $productDto->quantity = $item->getQtyOrdered();
+            $productDto->category = $this->escaper->escapeJs($this->productHandler->getCategoriesPath());
+            $productDto->brand = $this->productHandler->getBrandValue();
+
+            $productItems[] = $productDto;
         }
 
-        $transaction = [];
-        $transaction['id'] = $order->getIncrementId();
-        $transaction['affiliation'] = $this->escaper->escapeJs($this->storeManager->getStore()->getName());
-        $transaction['total'] = $order->getBaseGrandTotal();
-        $transaction['tax'] = $order->getBaseTaxAmount();
-        $transaction['shipping'] = $order->getBaseShippingAmount();
-        $transaction['coupon'] = $order->getCouponCode();
+        $purchaseOrderDto->id = $order->getIncrementId();
+        $purchaseOrderDto->affiliation = $this->escaper->escapeJs($order->getStore()->getFrontendName());
+        $purchaseOrderDto->total = $order->getBaseGrandTotal();
+        $purchaseOrderDto->tax = $order->getBaseTaxAmount();
+        $purchaseOrderDto->shipping = $order->getBaseShippingAmount();
+        $purchaseOrderDto->coupon = $order->getCouponCode();
+        $purchaseOrderDto->products = $productItems;
 
-        $this->addVariable(static::ECOMMERCE_NAME, [
-            static::PURCHASE => [
-                static::ACTION_FIELD_NAME => $transaction,
-                static::PRODUCTS_NAME => $items,
-            ],
-        ]);
+        $ecommerce = new Dto\Purchase\Ecommerce();
+        $ecommerce->event = 'gtm.orderPurchase';
+        $ecommerce->ecommerce = $purchaseOrderDto;
 
         return $this->getVariables();
     }
