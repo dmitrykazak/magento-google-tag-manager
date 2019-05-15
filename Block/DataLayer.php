@@ -30,6 +30,11 @@ class DataLayer extends Template
     private $dataLayerList;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * DataLayer constructor.
      *
      * @param Context $context

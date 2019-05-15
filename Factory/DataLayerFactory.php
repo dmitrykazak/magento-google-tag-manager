@@ -14,7 +14,7 @@ final class DataLayerFactory
      *
      * @var ObjectManagerInterface
      */
-    private $objectManager = null;
+    private $objectManager;
 
     /**
      * DataLayerFactory constructor.

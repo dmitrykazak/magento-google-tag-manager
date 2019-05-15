@@ -9,33 +9,33 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Escaper;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order\Item;
-use Magento\Store\Model\StoreManagerInterface;
 use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 use Magento\Framework\Serialize\SerializerInterface;
 
 class PurchaseView extends AbstractLayer implements DataLayerInterface
 {
     public const CODE = 'purchase-view';
+
     /**
      * @var CheckoutSession
      */
     private $checkoutSession;
+
     /**
      * @var PriceCurrencyInterface
      */
     private $priceCurrency;
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+
     /**
      * @var Escaper
      */
     private $escaper;
+
     /**
      * @var ProductHandler
      */
     private $productHandler;
+
     /**
      * @var SerializerInterface
      */
@@ -44,14 +44,12 @@ class PurchaseView extends AbstractLayer implements DataLayerInterface
     public function __construct(
         CheckoutSession $checkoutSession,
         PriceCurrencyInterface $priceCurrency,
-        StoreManagerInterface $storeManager,
         Escaper $escaper,
         ProductHandler $productHandler,
         SerializerInterface $serializer
-    ){
+    ) {
         $this->checkoutSession = $checkoutSession;
         $this->priceCurrency = $priceCurrency;
-        $this->storeManager = $storeManager;
         $this->escaper = $escaper;
         $this->productHandler = $productHandler;
         $this->serializer = $serializer;
