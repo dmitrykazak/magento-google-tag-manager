@@ -5,20 +5,19 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
-use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 
 class ProductView implements DataLayerInterface
 {
     public const CODE = 'product-view';
 
     /**
-     * @var ProductHandler
+     * @var Generator\Product
      */
-    private $productHandler;
+    private $productGenerator;
 
-    public function __construct(ProductHandler $productHandler)
+    public function __construct(Generator\Product $productGenerator)
     {
-        $this->productHandler = $productHandler;
+        $this->productGenerator = $productGenerator;
     }
 
     /**
@@ -30,21 +29,10 @@ class ProductView implements DataLayerInterface
     }
 
     /**
-     * @return object
+     * @return Dto\Product
      */
-    public function getLayer()
+    public function getLayer(): Dto\Product
     {
-        $product = $this->productHandler->getProduct();
-
-        $productDto = new Dto\Product();
-
-        $productDto->id = $product->getData($this->productHandler->productIdentifier());
-        $productDto->name = $product->getName();
-        $productDto->price = $product->getSpecialPrice() ?: $product->getPrice();
-        $productDto->category = $this->productHandler->getCategoryName();
-        $productDto->path = $this->productHandler->getCategoryPath();
-        $productDto->brand = $this->productHandler->getBrandValue();
-
-        return new \stdClass();
+        return $this->productGenerator->generate(null);
     }
 }

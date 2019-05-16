@@ -35,4 +35,9 @@ final class Product
      * @var string;
      */
     public $brand;
+
+    /**
+     * @var string
+     */
+    public $path;
 }

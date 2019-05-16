@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
-use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order\Item;
 
-class PurchaseView extends AbstractLayer implements DataLayerInterface
+class PurchaseView implements DataLayerInterface
 {
     public const CODE = 'purchase-view';
 
@@ -23,20 +22,19 @@ class PurchaseView extends AbstractLayer implements DataLayerInterface
      * @var PriceCurrencyInterface
      */
     private $priceCurrency;
-
     /**
-     * @var ProductHandler
+     * @var Generator\Product
      */
-    private $productHandler;
+    private $productGenerator;
 
     public function __construct(
         CheckoutSession $checkoutSession,
         PriceCurrencyInterface $priceCurrency,
-        ProductHandler $productHandler
+        Generator\Product $productGenerator
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->priceCurrency = $priceCurrency;
-        $this->productHandler = $productHandler;
+        $this->productGenerator = $productGenerator;
     }
 
     /**
@@ -56,18 +54,7 @@ class PurchaseView extends AbstractLayer implements DataLayerInterface
 
         /** @var Item $item */
         foreach ($order->getAllVisibleItems() as $item) {
-            $this->productHandler->setProduct($item->getProduct());
-
-            $productDto = new Dto\Product();
-            $productDto->id = $item->getData($this->productHandler->productIdentifier());
-            $productDto->name = $item->getName();
-            $productDto->price = $this->priceCurrency->format($item->getPrice(), false, 2);
-            $productDto->quantity = $item->getQtyOrdered();
-            $productDto->category = $this->productHandler->getCategoryName();
-            $productDto->path = $this->productHandler->getCategoriesPath();
-            $productDto->brand = $this->productHandler->getBrandValue();
-
-            $productItems[] = $productDto;
+            $productItems[] = $this->productGenerator->generate($item->getProduct());
         }
 
         $purchaseOrderDto->id = $order->getIncrementId();
