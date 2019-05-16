@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DK\GoogleTagManager\Model\Config\Source;
 
+use Magento\Catalog\Api\Data\EavAttributeInterface;
 use Magento\Catalog\Model\ResourceModel\Eav\Attribute;
 use Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory;
-use Magento\Catalog\Api\Data\EavAttributeInterface;
 use Magento\Framework\Option\ArrayInterface;
 
 class ProductAttributes implements ArrayInterface

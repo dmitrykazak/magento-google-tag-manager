@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Test\Unit\Helper;
 
@@ -12,31 +12,34 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ *
+ * @internal
+ * @coversNothing
  */
 class ConfigTest extends TestCase
 {
     /**
-     * @var ObjectManager $objectManager
+     * @var ObjectManager
      */
     private $objectManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject $scopeConfigMock
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $scopeConfigMock;
 
     /**
-     * @var Config $helper
+     * @var Config
      */
     private $helper;
 
     /**
-     * @var Store $storeMock
+     * @var Store
      */
     private $storeMock;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setUp(): void
     {
@@ -71,7 +74,7 @@ class ConfigTest extends TestCase
             $this->returnValue($accountNumber)
         );
 
-        $this->assertEquals($accountNumber, $this->helper->getAccount($this->storeMock));
+        $this->assertSame($accountNumber, $this->helper->getAccount($this->storeMock));
     }
 
     public function testGetAccountNull(): void
@@ -115,7 +118,7 @@ class ConfigTest extends TestCase
             )
         );
 
-        $this->assertEquals($returnValue, $this->helper->isGoogleTagManagerAvailable());
+        $this->assertSame($returnValue, $this->helper->isGoogleTagManagerAvailable());
     }
 
     /**
@@ -187,7 +190,7 @@ class ConfigTest extends TestCase
         ];
 
         yield 'If product identifier is entity_id' => [
-            'entity_id', 'entity_id'
+            'entity_id', 'entity_id',
         ];
     }
 }

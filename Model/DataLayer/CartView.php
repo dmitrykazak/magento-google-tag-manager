@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 
-class CartView extends AbstractLayer implements DataLayerInterface
+class CartView implements DataLayerInterface
 {
     public const CODE = 'cart-view';
 
@@ -28,30 +30,10 @@ class CartView extends AbstractLayer implements DataLayerInterface
     }
 
     /**
-     * @return array
+     * @return object
      */
-    public function getLayer(): array
+    public function getLayer()
     {
-        $this->addVariable(static::ECOMMERCE_NAME, [
-            static::DETAIL_NAME => [
-                static::ACTON_PRODUCT_NAME => static::CODE,
-                static::CATEGORY_NAME => [
-                    $this->categoryInfo()
-                ],
-            ],
-        ]);
-
-        return [];
-    }
-
-    private function categoryInfo(): array
-    {
-        $category = $this->productHandler->getCategory();
-
-        return [
-            'id' => $category->getId(),
-            'name' => $this->productHandler->getCategoryName(),
-            'path' => $this->productHandler->getCategoryPath()
-        ];
+        return new \stdClass();
     }
 }

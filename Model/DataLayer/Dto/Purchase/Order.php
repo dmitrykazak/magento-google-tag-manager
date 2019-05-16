@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DK\GoogleTagManager\Model\DataLayer\Purchase\Dto;
+namespace DK\GoogleTagManager\Model\DataLayer\Dto\Purchase;
 
 use DK\GoogleTagManager\Model\DataLayer\Dto\Product;
 
@@ -21,20 +21,20 @@ final class Order
     /**
      * @var float
      */
-    public $total;
+    public $revenue;
 
     /**
-     * @var float|null
+     * @var null|float
      */
     public $tax;
 
     /**
-     * @var float|null
+     * @var null|float
      */
     public $shipping;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $coupon;
 

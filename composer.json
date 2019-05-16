@@ -26,5 +26,17 @@
         "psr-4": {
             "DK\\GoogleTagManager\\": ""
         }
+    },
+    "scripts": {
+        "cs:check": [
+            "wget http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar -O php-cs-fixer",
+            "chmod a+x php-cs-fixer",
+            "./php-cs-fixer fix --config=.php_cs.dist -v --allow-risky=yes --dry-run --diff --stop-on-violation"
+        ],
+        "cs:fix": [
+            "wget http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar -O php-cs-fixer",
+            "chmod a+x php-cs-fixer",
+            "./php-cs-fixer fix --config=.php_cs.dist -v --allow-risky=yes --diff"
+        ]
     }
 }

@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
+use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Framework\Escaper;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order\Item;
-use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
-use Magento\Framework\Serialize\SerializerInterface;
 
 class PurchaseView extends AbstractLayer implements DataLayerInterface
 {
@@ -27,32 +25,18 @@ class PurchaseView extends AbstractLayer implements DataLayerInterface
     private $priceCurrency;
 
     /**
-     * @var Escaper
-     */
-    private $escaper;
-
-    /**
      * @var ProductHandler
      */
     private $productHandler;
 
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
     public function __construct(
         CheckoutSession $checkoutSession,
         PriceCurrencyInterface $priceCurrency,
-        Escaper $escaper,
-        ProductHandler $productHandler,
-        SerializerInterface $serializer
+        ProductHandler $productHandler
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->priceCurrency = $priceCurrency;
-        $this->escaper = $escaper;
         $this->productHandler = $productHandler;
-        $this->serializer = $serializer;
     }
 
     /**
@@ -63,11 +47,11 @@ class PurchaseView extends AbstractLayer implements DataLayerInterface
         return static::CODE;
     }
 
-    public function getLayer(): array
+    public function getLayer(): Dto\Ecommerce
     {
         $order = $this->checkoutSession->getLastRealOrder();
 
-        $purchaseOrderDto = new Purchase\Dto\Order();
+        $purchaseOrderDto = new Dto\Purchase\Order();
         $productItems = [];
 
         /** @var Item $item */
@@ -76,27 +60,28 @@ class PurchaseView extends AbstractLayer implements DataLayerInterface
 
             $productDto = new Dto\Product();
             $productDto->id = $item->getData($this->productHandler->productIdentifier());
-            $productDto->name = $this->escaper->escapeJs($item->getName());
+            $productDto->name = $item->getName();
             $productDto->price = $this->priceCurrency->format($item->getPrice(), false, 2);
             $productDto->quantity = $item->getQtyOrdered();
-            $productDto->category = $this->escaper->escapeJs($this->productHandler->getCategoriesPath());
+            $productDto->category = $this->productHandler->getCategoryName();
+            $productDto->path = $this->productHandler->getCategoriesPath();
             $productDto->brand = $this->productHandler->getBrandValue();
 
             $productItems[] = $productDto;
         }
 
         $purchaseOrderDto->id = $order->getIncrementId();
-        $purchaseOrderDto->affiliation = $this->escaper->escapeJs($order->getStore()->getFrontendName());
-        $purchaseOrderDto->total = $order->getBaseGrandTotal();
-        $purchaseOrderDto->tax = $order->getBaseTaxAmount();
-        $purchaseOrderDto->shipping = $order->getBaseShippingAmount();
+        $purchaseOrderDto->affiliation = $order->getStore()->getFrontendName();
+        $purchaseOrderDto->revenue = $order->getGrandTotal() - $order->getTaxAmount();
+        $purchaseOrderDto->tax = $order->getTaxAmount();
+        $purchaseOrderDto->shipping = $order->getShippingAmount();
         $purchaseOrderDto->coupon = $order->getCouponCode();
         $purchaseOrderDto->products = $productItems;
 
-        $ecommerce = new Dto\Purchase\Ecommerce();
+        $ecommerce = new Dto\Ecommerce();
         $ecommerce->event = 'gtm.orderPurchase';
         $ecommerce->ecommerce = $purchaseOrderDto;
 
-        return $this->getVariables();
+        return $ecommerce;
     }
 }

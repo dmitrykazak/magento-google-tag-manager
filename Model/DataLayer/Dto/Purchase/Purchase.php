@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DK\GoogleTagManager\Model\DataLayer\Dto;
+namespace DK\GoogleTagManager\Model\DataLayer\Purchase\Dto;
 
 final class Purchase
 {

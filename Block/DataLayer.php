@@ -8,24 +8,19 @@ use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Api\DataLayerListInterface;
 use DK\GoogleTagManager\Factory\DataLayerFactory;
 use DK\GoogleTagManager\Helper\Config;
-use Magento\Framework\Json\Helper\Data as JsonHelper;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 
 class DataLayer extends Template
 {
     /**
-     * @var DataLayerFactory $dataLayerFactory
+     * @var DataLayerFactory
      */
     private $dataLayerFactory;
 
     /**
-     * @var JsonHelper $jsonHelper
-     */
-    private $jsonHelper;
-
-    /**
-     * @var DataLayerListInterface $dataLayerList
+     * @var DataLayerListInterface
      */
     private $dataLayerList;
 
@@ -35,12 +30,17 @@ class DataLayer extends Template
     private $config;
 
     /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    /**
      * DataLayer constructor.
      *
      * @param Context $context
      * @param DataLayerListInterface $dataLayerList
      * @param DataLayerFactory $dataLayerFactory
-     * @param JsonHelper $jsonHelper
+     * @param SerializerInterface $serializer
      * @param Config $config
      * @param array $data
      */
@@ -48,16 +48,15 @@ class DataLayer extends Template
         Context $context,
         DataLayerListInterface $dataLayerList,
         DataLayerFactory $dataLayerFactory,
-        JsonHelper $jsonHelper,
+        SerializerInterface $serializer,
         Config $config,
         array $data = []
     ) {
+        parent::__construct($context, $data);
         $this->config = $config;
         $this->dataLayerFactory = $dataLayerFactory;
-        $this->jsonHelper = $jsonHelper;
         $this->dataLayerList = $dataLayerList;
-
-        parent::__construct($context, $data);
+        $this->serializer = $serializer;
     }
 
     /**
@@ -71,7 +70,7 @@ class DataLayer extends Template
             return null;
         }
 
-        return $this->jsonHelper->jsonEncode(
+        return $this->serializer->serialize(
             $this->getInstance()->getLayer()
         );
     }
@@ -89,7 +88,7 @@ class DataLayer extends Template
     /**
      * Get Instance of DataLayer
      *
-     * @return DataLayerInterface|null
+     * @return null|DataLayerInterface
      */
     private function getInstance(): ?DataLayerInterface
     {
@@ -107,8 +106,7 @@ class DataLayer extends Template
     private function findClass(): string
     {
         $list = $this->dataLayerList->getList();
-        $nameInstance = $list[$this->getTypeDataLayer()] ?? '';
 
-        return $nameInstance;
+        return $list[$this->getTypeDataLayer()] ?? '';
     }
 }

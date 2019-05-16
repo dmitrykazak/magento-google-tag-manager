@@ -11,7 +11,7 @@ use Magento\Framework\View\Element\Template\Context;
 class Gtm extends Template
 {
     /**
-     * @var Config $config
+     * @var Config
      */
     private $config;
 
@@ -37,7 +37,7 @@ class Gtm extends Template
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _toHtml()
     {

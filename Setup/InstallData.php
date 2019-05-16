@@ -29,6 +29,7 @@ class InstallData implements InstallDataInterface
 
     /**
      * {@inheritdoc}
+     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.NPathComplexity)

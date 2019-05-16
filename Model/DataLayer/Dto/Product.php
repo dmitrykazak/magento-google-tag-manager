@@ -22,7 +22,7 @@ final class Product
     public $price;
 
     /**
-     * @var float|null
+     * @var null|float
      */
     public $quantity;
 

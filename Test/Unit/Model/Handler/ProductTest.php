@@ -10,9 +10,13 @@ use Magento\Catalog\Helper\Data as CatalogHelper;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Api\AttributeInterface;
-use PHPUnit\Framework\TestCase;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ProductTest extends TestCase
 {
     /**
@@ -26,7 +30,7 @@ class ProductTest extends TestCase
     private $configMock;
 
     /**
-     * @var ProductHandler|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|ProductHandler
      */
     private $productHandlerMock;
 
@@ -100,7 +104,7 @@ class ProductTest extends TestCase
     /**
      * @param string $expectsBrandValue
      * @param array $valueBrand
-     * @param string|null $brandAttribute
+     * @param null|string $brandAttribute
      *
      * @throws \ReflectionException
      * @dataProvider brandValueDataProvider
@@ -109,7 +113,7 @@ class ProductTest extends TestCase
     {
         $this->configMock->expects($this->once())->method('getBrandAttribute')->willReturn($brandAttribute);
 
-        /** @var Product|\PHPUnit_Framework_MockObject_MockObject $product */
+        /** @var \PHPUnit_Framework_MockObject_MockObject|Product $product */
         $product = $this->createPartialMock(
             Product::class,
             ['getCustomAttribute']
@@ -130,7 +134,7 @@ class ProductTest extends TestCase
     {
         $this->configMock->expects($this->once())->method('getBrandAttribute')->willReturn('custom_brand');
 
-        /** @var Product|\PHPUnit_Framework_MockObject_MockObject $product */
+        /** @var \PHPUnit_Framework_MockObject_MockObject|Product $product */
         $product = $this->createPartialMock(
             Product::class,
             ['getCustomAttribute']
@@ -140,7 +144,7 @@ class ProductTest extends TestCase
 
         $attributeValue = new \Magento\Framework\Api\AttributeValue([
             AttributeInterface::ATTRIBUTE_CODE => 'custom_brand',
-            AttributeInterface::VALUE => 'Custom Brand Attribute'
+            AttributeInterface::VALUE => 'Custom Brand Attribute',
         ]);
 
         $product->expects($this->once())->method('getCustomAttribute')

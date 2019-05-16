@@ -13,12 +13,12 @@ class ProductIdentifiers implements ArrayInterface
         return [
             [
                 'value' => 'entity_id',
-                'label' => __('ID')
+                'label' => __('ID'),
             ],
             [
                 'value' => 'sku',
-                'label' => __('SKU')
-            ]
+                'label' => __('SKU'),
+            ],
         ];
     }
 }

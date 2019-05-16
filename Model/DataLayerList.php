@@ -9,7 +9,7 @@ use DK\GoogleTagManager\Api\DataLayerListInterface;
 class DataLayerList implements DataLayerListInterface
 {
     /**
-     * @var array $dataLayers
+     * @var array
      */
     private $dataLayers;
 

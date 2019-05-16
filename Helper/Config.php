@@ -35,7 +35,7 @@ class Config extends AbstractHelper
     }
 
     /**
-     * @param null|string|bool|int|Store $store
+     * @param null|bool|int|Store|string $store
      *
      * @return null|string
      */

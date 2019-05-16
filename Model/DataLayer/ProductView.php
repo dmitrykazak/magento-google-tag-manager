@@ -7,7 +7,7 @@ namespace DK\GoogleTagManager\Model\DataLayer;
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 
-class ProductView extends AbstractLayer implements DataLayerInterface
+class ProductView implements DataLayerInterface
 {
     public const CODE = 'product-view';
 
@@ -30,38 +30,21 @@ class ProductView extends AbstractLayer implements DataLayerInterface
     }
 
     /**
-     * @return array
+     * @return object
      */
-    public function getLayer(): array
-    {
-        $this->addVariable(static::ECOMMERCE_NAME, [
-            static::DETAIL_NAME => [
-                static::ACTION_FIELD_NAME => [
-                    static::ACTON_PRODUCT_NAME => static::CODE
-                ],
-                static::PRODUCTS_NAME => [
-                    $this->productInfo()
-                ],
-            ],
-        ]);
-
-        return $this->getVariables();
-    }
-
-    /**
-     * @return array
-     */
-    private function productInfo(): array
+    public function getLayer()
     {
         $product = $this->productHandler->getProduct();
 
-        return [
-            'id' => $product->getData($this->productHandler->productIdentifier()),
-            'name' => $product->getName(),
-            'price' => $product->getFinalPrice(),
-            'category' => $this->productHandler->getCategoryName(),
-            'path' => $this->productHandler->getCategoryPath(),
-            'brand' => $this->productHandler->getBrandValue(),
-        ];
+        $productDto = new Dto\Product();
+
+        $productDto->id = $product->getData($this->productHandler->productIdentifier());
+        $productDto->name = $product->getName();
+        $productDto->price = $product->getSpecialPrice() ?: $product->getPrice();
+        $productDto->category = $this->productHandler->getCategoryName();
+        $productDto->path = $this->productHandler->getCategoryPath();
+        $productDto->brand = $this->productHandler->getBrandValue();
+
+        return new \stdClass();
     }
 }

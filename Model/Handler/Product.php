@@ -23,9 +23,9 @@ class Product
     private $config;
 
     /**
-     * @var ProductCatalog|null
+     * @var null|ProductCatalog
      */
-    private $product = null;
+    private $product;
 
     public function __construct(CatalogHelper $catalogHelper, Config $config)
     {
@@ -54,7 +54,7 @@ class Product
     }
 
     /**
-     * @return ProductCatalog|null
+     * @return null|ProductCatalog
      */
     public function getProduct(): ?ProductCatalog
     {
@@ -83,7 +83,6 @@ class Product
 
         $attributeCode = $this->config->getBrandAttribute();
         if (null !== $attributeCode) {
-
             $brand = $this->getProduct()->getData($attributeCode);
             if (!$brand) {
                 $customAttribute = $this->getProduct()->getCustomAttribute('description');
@@ -93,8 +92,8 @@ class Product
                 }
             }
 
-            if (is_array($brand) && !empty($attributeCode)) {
-                $brand =  implode(',', $brand);
+            if (\is_array($brand) && !empty($attributeCode)) {
+                $brand = implode(',', $brand);
             }
         }
 
