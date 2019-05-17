@@ -5,20 +5,26 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
-use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
+use Magento\Checkout\Model\Session;
 
 class CartView implements DataLayerInterface
 {
     public const CODE = 'cart-view';
 
     /**
-     * @var ProductHandler
+     * @var Session
      */
-    private $productHandler;
+    private $session;
 
-    public function __construct(ProductHandler $productHandler)
+    /**
+     * @var Generator\Product
+     */
+    private $productGenerator;
+
+    public function __construct(Session $session, Generator\Product $productGenerator)
     {
-        $this->productHandler = $productHandler;
+        $this->session = $session;
+        $this->productGenerator = $productGenerator;
     }
 
     /**
@@ -34,6 +40,11 @@ class CartView implements DataLayerInterface
      */
     public function getLayer()
     {
-        return new \stdClass();
+        $products = [];
+        foreach ($this->session->getQuote()->getAllVisibleItems() as $item) {
+            $products[] = $this->productGenerator->generate($item->getProduct());
+        }
+
+        return $products;
     }
 }
