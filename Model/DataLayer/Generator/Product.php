@@ -32,11 +32,18 @@ class Product
         $productDto = new Dto\Product();
         $productDto->id = $product->getData($this->productHandler->productIdentifier());
         $productDto->name = $product->getName();
-        $productDto->price = $product->getSpecialPrice() ?: $product->getPrice();
+        $productDto->price = $this->getPrice($product);
         $productDto->category = $this->productHandler->getCategoryName();
         $productDto->path = $this->productHandler->getCategoryPath();
         $productDto->brand = $this->productHandler->getBrandValue();
 
         return $productDto;
+    }
+
+    private function getPrice(ProductEntity $product): string
+    {
+        $price = $product->getSpecialPrice() ?: $product->getData('price');
+
+        return (string) $price;
     }
 }
