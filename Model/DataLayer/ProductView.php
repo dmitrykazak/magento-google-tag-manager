@@ -29,10 +29,21 @@ class ProductView implements DataLayerInterface
     }
 
     /**
-     * @return Dto\Product
+     * @return Dto\Ecommerce
      */
-    public function getLayer(): Dto\Product
+    public function getLayer(): Dto\Ecommerce
     {
-        return $this->productGenerator->generate(null);
+        $productDto = new Dto\Product\Product();
+        $productDto->actionField = [];
+        $productDto->products = $this->productGenerator->generate(null);
+
+        $detailsDto = new Dto\Details();
+        $detailsDto->detail = $productDto;
+
+        $ecommerceDto = new Dto\Ecommerce();
+        $ecommerceDto->event = 'ProductView';
+        $ecommerceDto->ecommerce = $detailsDto;
+
+        return $ecommerceDto;
     }
 }
