@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Model\DataLayer\Dto\Purchase;
 
-use DK\GoogleTagManager\Model\DataLayer\Dto\Product;
-
 final class Order
 {
     /**
@@ -37,9 +35,4 @@ final class Order
      * @var null|string
      */
     public $coupon;
-
-    /**
-     * @var Product[]
-     */
-    public $products;
 }

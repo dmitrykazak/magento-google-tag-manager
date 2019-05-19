@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Model\DataLayer\Dto\Purchase;
 
-final class Purchase
+final class PurchaseDetails
 {
     /**
      * @var array
      */
-    public $purchase;
+    public $actionField;
+
+    /**
+     * @var array
+     */
+    public $products;
 }
