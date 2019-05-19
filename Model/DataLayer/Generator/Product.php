@@ -36,6 +36,7 @@ class Product
         $productDto->category = $this->productHandler->getCategoryName();
         $productDto->path = $this->productHandler->getCategoryPath();
         $productDto->brand = $this->productHandler->getBrandValue();
+        $productDto->quantity = $product->getQty();
 
         return $productDto;
     }

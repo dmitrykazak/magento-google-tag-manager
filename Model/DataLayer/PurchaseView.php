@@ -70,9 +70,10 @@ class PurchaseView implements DataLayerInterface
 
         $purchaseDto = new Dto\Purchase\Purchase();
         $purchaseDto->purchase = $purchaseDetailsDto;
+        $purchaseDto->currencyCode = $order->getOrderCurrencyCode();
 
         $ecommerce = new Dto\Ecommerce();
-        $ecommerce->event = 'gtm.orderPurchase';
+        $ecommerce->event = 'orderPurchase';
         $ecommerce->ecommerce = $purchaseDto;
 
         return $ecommerce;
