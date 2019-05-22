@@ -36,9 +36,9 @@ class CartView implements DataLayerInterface
     }
 
     /**
-     * @return object
+     * @return array
      */
-    public function getLayer()
+    public function getLayer(): array
     {
         $products = [];
         foreach ($this->session->getQuote()->getAllVisibleItems() as $item) {
