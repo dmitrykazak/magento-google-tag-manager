@@ -7,7 +7,7 @@ namespace DK\GoogleTagManager\Factory;
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use Magento\Framework\ObjectManagerInterface;
 
-final class DataLayerFactory
+final class DataLayerFactory implements DataLayerFactoryInterface
 {
     /**
      * Object Manager instance
