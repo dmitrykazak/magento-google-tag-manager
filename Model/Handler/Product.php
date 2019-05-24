@@ -44,16 +44,6 @@ class Product
     }
 
     /**
-     * @return string
-     */
-    public function getCategoryPath(): string
-    {
-        $labels = \array_column($this->catalogHelper->getBreadcrumbPath(), 'label');
-
-        return implode('/', $labels);
-    }
-
-    /**
      * @return null|ProductCatalog
      */
     public function getProduct(): ?ProductCatalog
