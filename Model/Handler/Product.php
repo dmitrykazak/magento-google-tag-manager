@@ -27,6 +27,11 @@ class Product
      */
     private $product;
 
+    /**
+     * @var null|Category
+     */
+    private $category;
+
     public function __construct(CatalogHelper $catalogHelper, Config $config)
     {
         $this->catalogHelper = $catalogHelper;
@@ -38,7 +43,7 @@ class Product
      */
     public function getCategoryName(): ?string
     {
-        $category = $this->catalogHelper->getCategory();
+        $category = $this->getCategory();
 
         return null !== $category ? $category->getName() : null;
     }
@@ -74,7 +79,18 @@ class Product
 
     public function getCategory(): ?Category
     {
+        if (null !== $this->category) {
+            return $this->category;
+        }
+
         return $this->catalogHelper->getCategory();
+    }
+
+    public function setCategory(Category $category): Category
+    {
+        $this->category = $category;
+
+        return $this->category;
     }
 
     public function getBrandValue(): string

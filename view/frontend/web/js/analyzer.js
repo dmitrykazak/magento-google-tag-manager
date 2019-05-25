@@ -5,7 +5,5 @@ define([
 ], function ($, _, customerData) {
     'use strict';
 
-    let dataObject = customerData.get('analyzer-data');
-
-    console.log(dataObject);
+    let dataObject = customerData.get('cartLayer');
 });
