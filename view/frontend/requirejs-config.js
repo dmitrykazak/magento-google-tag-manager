@@ -1,7 +1,7 @@
 let config = {
     map: {
         '*': {
-            gtmDatalayer: 'DK_GoogleTagManager/js/analyzer'
+            gtmAnalyzer: 'DK_GoogleTagManager/js/analyzer'
         }
     }
 };

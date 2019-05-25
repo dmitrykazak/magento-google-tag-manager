@@ -5,5 +5,7 @@ define([
 ], function ($, _, customerData) {
     'use strict';
 
-    console.log(customerData);
+    let dataObject = customerData.get('analyzer-data');
+
+    console.log(dataObject);
 });

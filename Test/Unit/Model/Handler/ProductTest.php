@@ -88,6 +88,20 @@ class ProductTest extends TestCase
     }
 
     /**
+     * @param array $categoryList
+     * @param string $expectsPath
+     *
+     * @dataProvider listCategoryDataProvider
+     */
+    public function testGetCategoryPath(array $categoryList, string $expectsPath)
+    {
+        $this->catalogHelperMock->expects($this->once())
+            ->method('getBreadcrumbPath')->willReturn($categoryList);
+
+        $this->assertSame($expectsPath, $this->productHandlerMock->getCategoryPath());
+    }
+
+    /**
      * @param string $expectsBrandValue
      * @param array $valueBrand
      * @param null|string $brandAttribute
