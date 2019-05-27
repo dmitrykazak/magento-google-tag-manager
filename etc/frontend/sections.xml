@@ -6,4 +6,7 @@
     <action name="checkout/cart/delete">
         <section name="analyzer-data"/>
     </action>
+    <action name="checkout/sidebar/removeItem">
+        <section name="analyzer-data"/>
+    </action>
 </config>
