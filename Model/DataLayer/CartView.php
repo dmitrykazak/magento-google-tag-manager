@@ -6,7 +6,6 @@ namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use Magento\Checkout\Model\Session;
-use Magento\Quote\Model\Quote\Item;
 
 class CartView implements DataLayerInterface
 {
