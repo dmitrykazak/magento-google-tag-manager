@@ -5,11 +5,13 @@ define([
 ], function ($, _, customerData) {
     'use strict';
 
+    let lastCart = {};
+
     function initBefore() {
         window.dataLayer = window.dataLayer || [];
     }
 
-    function initDataLayer(event, action, product) {
+    function initCartDataLayer(event, action, product) {
         initBefore();
         dataLayer.push({
             'event': event,
@@ -24,7 +26,14 @@ define([
     let analyzerData = customerData.get('analyzer-data');
 
     analyzerData.subscribe(function (dataObject) {
-        console.log(dataObject.cart);
-        initDataLayer('addToCart', 'add', dataObject.cart)
+        if (_.isObject(dataObject) && _.has(dataObject, 'cart')) {
+            if (_.isEmpty(lastCart)) {
+                lastCart = dataObject.cart;
+            }
+
+            initCartDataLayer('addToCart', 'add', dataObject.cart);
+        }
+
+        initCartDataLayer('removeFromCart', 'remove', );
     });
 });

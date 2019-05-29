@@ -93,9 +93,9 @@ class Product
         return $this->category;
     }
 
-    public function getBrandValue(): string
+    public function getBrandValue(): ?string
     {
-        $brand = '';
+        $brand = null;
 
         $attributeCode = $this->config->getBrandAttribute();
         if (null !== $attributeCode) {
