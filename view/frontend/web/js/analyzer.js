@@ -5,8 +5,6 @@ define([
 ], function ($, _, customerData) {
     'use strict';
 
-    let lastCart = {};
-
     function initBefore() {
         window.dataLayer = window.dataLayer || [];
     }
@@ -26,14 +24,16 @@ define([
     let analyzerData = customerData.get('analyzer-data');
 
     analyzerData.subscribe(function (dataObject) {
-        if (_.isObject(dataObject) && _.has(dataObject, 'cart')) {
-            if (_.isEmpty(lastCart)) {
-                lastCart = dataObject.cart;
-            }
+        if (!_.isObject(dataObject)) {
+            return;
+        }
 
+        if (_.has(dataObject, 'cart')) {
             initCartDataLayer('addToCart', 'add', dataObject.cart);
         }
 
-        initCartDataLayer('removeFromCart', 'remove', );
+        if (_.has(dataObject, 'removeCartItems') && !_.isEmpty(dataObject.removeCartItems)) {
+            initCartDataLayer('removeFromCart', 'remove', dataObject.removeCartItems);
+        }
     });
 });
