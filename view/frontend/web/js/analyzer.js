@@ -28,11 +28,11 @@ define([
             return;
         }
 
-        if (_.has(dataObject, 'cart') && !_.isEmpty(dataObject.cart)) {
+        if (_.has(dataObject, 'cart') && !_.isEmpty(_.pick(dataObject, 'cart'))) {
             initCartDataLayer('addToCart', 'add', dataObject.cart);
         }
 
-        if (_.has(dataObject, 'removeCart') && !_.isEmpty(dataObject.removeCart)) {
+        if (_.has(dataObject, 'removeCart') && !_.isEmpty(_.pick(dataObject, 'removeCart'))) {
             initCartDataLayer('removeFromCart', 'remove', dataObject.removeCart);
         }
     });
