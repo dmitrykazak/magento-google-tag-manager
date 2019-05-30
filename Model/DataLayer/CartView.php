@@ -20,11 +20,16 @@ class CartView implements DataLayerInterface
      * @var Generator\Product
      */
     private $productGenerator;
+    /**
+     * @var \DK\GoogleTagManager\Model\Session
+     */
+    private $sessionManager;
 
-    public function __construct(Session $session, Generator\Product $productGenerator)
+    public function __construct(Session $session, \DK\GoogleTagManager\Model\Session $sessionManager, Generator\Product $productGenerator)
     {
         $this->session = $session;
         $this->productGenerator = $productGenerator;
+        $this->sessionManager = $sessionManager;
     }
 
     /**
@@ -35,9 +40,6 @@ class CartView implements DataLayerInterface
         return static::CODE;
     }
 
-    /**
-     * @return array
-     */
     public function getLayer(): array
     {
         $products = [];
@@ -46,5 +48,16 @@ class CartView implements DataLayerInterface
         }
 
         return $products;
+    }
+
+    public function getRemoveCartLayer(): array
+    {
+        $product = $this->sessionManager->getRemovedProductFromCart(true);
+
+        if (null === $product) {
+            return [];
+        }
+
+        return $this->sessionManager->getRemovedProductFromCart(true);
     }
 }

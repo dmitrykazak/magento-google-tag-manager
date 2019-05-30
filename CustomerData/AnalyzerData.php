@@ -26,6 +26,7 @@ class AnalyzerData implements SectionSourceInterface
     {
         return [
             'cart' => $this->cartView->getLayer(),
+            'removeCart' => $this->cartView->getRemoveCartLayer(),
         ];
     }
 }

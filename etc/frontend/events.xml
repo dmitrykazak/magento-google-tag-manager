@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_quote_remove_item">
+        <observer name="data_layer_cart_remove_item" instance="DK\GoogleTagManager\Observer\SalesQuoteRemoveItemObserver" />
+    </event>
+</config>

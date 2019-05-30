@@ -28,12 +28,12 @@ define([
             return;
         }
 
-        if (_.has(dataObject, 'cart')) {
+        if (_.has(dataObject, 'cart') && !_.isEmpty(dataObject.cart)) {
             initCartDataLayer('addToCart', 'add', dataObject.cart);
         }
 
-        if (_.has(dataObject, 'removeCartItems') && !_.isEmpty(dataObject.removeCartItems)) {
-            initCartDataLayer('removeFromCart', 'remove', dataObject.removeCartItems);
+        if (_.has(dataObject, 'removeCart') && !_.isEmpty(dataObject.removeCart)) {
+            initCartDataLayer('removeFromCart', 'remove', dataObject.removeCart);
         }
     });
 });

@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <virtualType name="DK\GoogleTagManager\Model\Session\Storage" type="Magento\Framework\Session\Storage">
         <arguments>
-            <argument name="namespace" xsi:type="string">analyzer</argument>
+            <argument name="namespace" xsi:type="string">googleTagManager</argument>
         </arguments>
     </virtualType>
     <type name="Dk\GoogleTagManager\Model\Session">
