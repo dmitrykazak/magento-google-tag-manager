@@ -5,6 +5,8 @@ define([
 ], function ($, _, customerData) {
     'use strict';
 
+    let lastStateCart = [];
+
     function initBefore() {
         window.dataLayer = window.dataLayer || [];
     }
@@ -28,12 +30,14 @@ define([
             return;
         }
 
-        if (_.has(dataObject, 'cart') && !_.isEmpty(_.pick(dataObject, 'cart'))) {
+        if (_.has(dataObject, 'cart') && !_.isEqual(lastStateCart, dataObject.cart)) {
             initCartDataLayer('addToCart', 'add', dataObject.cart);
-        }
 
-        if (_.has(dataObject, 'removeCart') && !_.isEmpty(_.pick(dataObject, 'removeCart'))) {
-            initCartDataLayer('removeFromCart', 'remove', dataObject.removeCart);
+            if (_.has(dataObject, 'removeCart') && _.isArray(dataObject.removeCart) && dataObject.removeCart.length > 0) {
+                initCartDataLayer('removeFromCart', 'remove', dataObject.removeCart);
+            }
+
+            lastStateCart = dataObject.cart;
         }
     });
 });

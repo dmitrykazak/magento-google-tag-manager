@@ -52,12 +52,6 @@ class CartView implements DataLayerInterface
 
     public function getRemoveCartLayer(): array
     {
-        $product = $this->sessionManager->getRemovedProductFromCart(true);
-
-        if (null === $product) {
-            return [];
-        }
-
         return $this->sessionManager->getRemovedProductFromCart(true);
     }
 }

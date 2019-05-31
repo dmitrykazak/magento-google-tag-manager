@@ -8,17 +8,21 @@ use Magento\Framework\Session\SessionManager;
 
 class Session extends SessionManager
 {
-    public function setRemovedProductFromCart($product)
+    private const KEY_REMOVED_PRODUCTS_FROM_CART = 'removed_products_from_cart';
+
+    public function setRemovedProductFromCart($product): self
     {
-        $this->storage->setData('removed_product_from_cart', $product);
+        $items = $this->getRemovedProductFromCart();
+
+        $this->storage->setData(self::KEY_REMOVED_PRODUCTS_FROM_CART, \array_merge($items, [$product]));
 
         return $this;
     }
 
-    public function getRemovedProductFromCart(bool $clear = false)
+    public function getRemovedProductFromCart(bool $clear = false): array
     {
-        $product = $this->getData('removed_product_from_cart', $clear);
+        $products = $this->getData(self::KEY_REMOVED_PRODUCTS_FROM_CART, $clear);
 
-        return null !== $product ? $product : null;
+        return 0 < \count($products) ? $products : [];
     }
 }
