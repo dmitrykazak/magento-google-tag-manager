@@ -13,6 +13,7 @@ define([
 
     function initCartDataLayer(event, action, product) {
         initBefore();
+
         dataLayer.push({
             'event': event,
             'ecommerce': {
@@ -20,6 +21,21 @@ define([
                     'products': product
                 }
             }
+        });
+    }
+
+    function initDataLayerStep(step, option) {
+        initBefore();
+
+        dataLayer.push({
+            'event': 'checkout',
+            'ecommerce': {
+                'checkout': {
+                    'actionField': {'step': step, 'option': option},
+                    'products': window.products
+                }
+            },
+
         });
     }
 
