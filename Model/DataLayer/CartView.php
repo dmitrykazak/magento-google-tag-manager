@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
-use DK\GoogleTagManager\Model\DataLayer\Dto\Cart\Checkout;
 use Magento\Checkout\Model\Session;
 
 class CartView implements DataLayerInterface
