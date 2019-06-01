@@ -20,16 +20,27 @@ class CartView implements DataLayerInterface
      * @var Generator\Product
      */
     private $productGenerator;
+
     /**
      * @var \DK\GoogleTagManager\Model\Session
      */
     private $sessionManager;
 
-    public function __construct(Session $session, \DK\GoogleTagManager\Model\Session $sessionManager, Generator\Product $productGenerator)
-    {
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    private $storeManager;
+
+    public function __construct(
+        Session $session,
+        \DK\GoogleTagManager\Model\Session $sessionManager,
+        Generator\Product $productGenerator,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
+    ) {
         $this->session = $session;
         $this->productGenerator = $productGenerator;
         $this->sessionManager = $sessionManager;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -57,6 +68,7 @@ class CartView implements DataLayerInterface
 
         $checkout = new Dto\Cart\Checkout();
         $checkout->checkout = $cart;
+        $checkout->currencyCode = $this->storeManager->getStore()->getCurrentCurrency()->getCode();
 
         $ecommerce = new Dto\Ecommerce();
         $ecommerce->event = 'checkout';

@@ -10,4 +10,9 @@ final class Checkout
      * @var Cart
      */
     public $checkout;
+
+    /**
+     * @var null|string
+     */
+    public $currencyCode;
 }
