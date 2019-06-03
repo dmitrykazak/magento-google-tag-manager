@@ -8,19 +8,31 @@ use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 
 class CheckoutView implements DataLayerInterface
 {
+    public const CODE = 'checkout-view';
+
+    private const STEP = 2;
+    private const OPTION = 'onCheckoutPage';
+
+    /**
+     * @var Generator\CheckoutStep
+     */
+    private $checkoutStep;
+
+    public function __construct(Generator\CheckoutStep $checkoutStep)
+    {
+        $this->checkoutStep = $checkoutStep;
+    }
+
     /**
      * @return string
      */
     public function getCode(): string
     {
-        return '';
+        return self::CODE;
     }
 
-    /**
-     * @return array
-     */
-    public function getLayer(): array
+    public function getLayer(): Dto\Ecommerce
     {
-        return [];
+        return $this->checkoutStep->stepCheckout(self::STEP, self::OPTION);
     }
 }

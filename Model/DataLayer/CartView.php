@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
+use DK\GoogleTagManager\Model\Session as SessionManager;
 use Magento\Checkout\Model\Session;
 
 class CartView implements DataLayerInterface
 {
     public const CODE = 'cart-view';
+
+    private const STEP = 1;
+    private const OPTION = 'cart';
 
     /**
      * @var Session
@@ -17,30 +21,30 @@ class CartView implements DataLayerInterface
     private $session;
 
     /**
-     * @var Generator\Product
-     */
-    private $productGenerator;
-
-    /**
-     * @var \DK\GoogleTagManager\Model\Session
+     * @var SessionManager
      */
     private $sessionManager;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var Generator\CheckoutStep
      */
-    private $storeManager;
+    private $checkoutStep;
+
+    /**
+     * @var Generator\Product
+     */
+    private $productGenerator;
 
     public function __construct(
         Session $session,
-        \DK\GoogleTagManager\Model\Session $sessionManager,
-        Generator\Product $productGenerator,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        SessionManager $sessionManager,
+        Generator\CheckoutStep $checkoutStep,
+        Generator\Product $productGenerator
     ) {
         $this->session = $session;
-        $this->productGenerator = $productGenerator;
         $this->sessionManager = $sessionManager;
-        $this->storeManager = $storeManager;
+        $this->checkoutStep = $checkoutStep;
+        $this->productGenerator = $productGenerator;
     }
 
     /**
@@ -53,28 +57,7 @@ class CartView implements DataLayerInterface
 
     public function getLayer(): Dto\Ecommerce
     {
-        $products = [];
-        foreach ($this->session->getQuote()->getAllVisibleItems() as $item) {
-            $products[] = $this->productGenerator->generate($item->getProduct(), $item);
-        }
-
-        $actionField = new Dto\Cart\ActionField();
-        $actionField->step = 1;
-        $actionField->option = 'cart';
-
-        $cart = new Dto\Cart\Cart();
-        $cart->actionField = $actionField;
-        $cart->products = $products;
-
-        $checkout = new Dto\Cart\Checkout();
-        $checkout->checkout = $cart;
-        $checkout->currencyCode = $this->storeManager->getStore()->getCurrentCurrency()->getCode();
-
-        $ecommerce = new Dto\Ecommerce();
-        $ecommerce->event = 'checkout';
-        $ecommerce->ecommerce = $checkout;
-
-        return $ecommerce;
+        return $this->checkoutStep->stepCheckout(self::STEP, self::OPTION);
     }
 
     public function getCartLayer(): array

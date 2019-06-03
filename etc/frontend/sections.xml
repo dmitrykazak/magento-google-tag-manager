@@ -9,4 +9,37 @@
     <action name="checkout/sidebar/removeItem">
         <section name="analyzer-data"/>
     </action>
+    <action name="checkout/cart/configure">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="checkout/cart/updatePost">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="checkout/cart/updateItemOptions">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="checkout/sidebar/updateItemQty">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="checkout/cart/couponPost">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="checkout/cart/estimatePost">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="checkout/cart/estimateUpdatePost">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="rest/*/V1/carts/*/payment-information">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="rest/*/V1/guest-carts/*/payment-information">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="rest/*/V1/guest-carts/*/selected-payment-method">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="rest/*/V1/carts/*/selected-payment-method">
+        <section name="analyzer-data"/>
+    </action>
 </config>

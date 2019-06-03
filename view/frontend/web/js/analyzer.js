@@ -24,21 +24,6 @@ define([
         });
     }
 
-    function initDataLayerStep(step, option) {
-        initBefore();
-
-        dataLayer.push({
-            'event': 'checkout',
-            'ecommerce': {
-                'checkout': {
-                    'actionField': {'step': step, 'option': option},
-                    'products': window.products
-                }
-            },
-
-        });
-    }
-
     let analyzerData = customerData.get('analyzer-data');
 
     analyzerData.subscribe(function (dataObject) {
