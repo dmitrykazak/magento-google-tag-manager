@@ -11,7 +11,7 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class CheckoutStep
 {
-    private const EVENT_CHECKOUT = 'checkout';
+    private const EVENT = 'checkout';
 
     /**
      * @var Session
@@ -38,7 +38,7 @@ class CheckoutStep
         $this->productGenerator = $productGenerator;
     }
 
-    public function stepCheckout(int $step, string $option): Dto\Ecommerce
+    public function onCheckoutStep(int $step, string $option): Dto\Ecommerce
     {
         $products = [];
         foreach ($this->session->getQuote()->getAllVisibleItems() as $item) {
@@ -58,7 +58,7 @@ class CheckoutStep
         $checkout->currencyCode = $this->storeManager->getStore()->getCurrentCurrency()->getCode();
 
         $ecommerce = new Dto\Ecommerce();
-        $ecommerce->event = self::EVENT_CHECKOUT;
+        $ecommerce->event = self::EVENT;
         $ecommerce->ecommerce = $checkout;
 
         return $ecommerce;

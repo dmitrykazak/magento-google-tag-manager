@@ -13,6 +13,8 @@ class PurchaseView implements DataLayerInterface
 {
     public const CODE = 'purchase-view';
 
+    private const EVENT = 'orderPurchase';
+
     /**
      * @var CheckoutSession
      */
@@ -73,7 +75,7 @@ class PurchaseView implements DataLayerInterface
         $purchaseDto->currencyCode = $order->getOrderCurrencyCode();
 
         $ecommerce = new Dto\Ecommerce();
-        $ecommerce->event = 'orderPurchase';
+        $ecommerce->event = self::EVENT;
         $ecommerce->ecommerce = $purchaseDto;
 
         return $ecommerce;

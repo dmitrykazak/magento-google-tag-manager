@@ -33,6 +33,6 @@ class CheckoutView implements DataLayerInterface
 
     public function getLayer(): Dto\Ecommerce
     {
-        return $this->checkoutStep->stepCheckout(self::STEP, self::OPTION);
+        return $this->checkoutStep->onCheckoutStep(self::STEP, self::OPTION);
     }
 }
