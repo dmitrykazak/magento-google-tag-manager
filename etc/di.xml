@@ -13,4 +13,13 @@
     <type name="Magento\Checkout\Model\GuestPaymentInformationManagement">
         <plugin name="dk-googletagmanager-guest-payment-information" type="DK\GoogleTagManager\Plugin\GuestPaymentInformation"/>
     </type>
+    <type name="Magento\Checkout\Model\PaymentInformationManagement">
+        <plugin name="dk-googletagmanager-payment-information" type="DK\GoogleTagManager\Plugin\PaymentInformation"/>
+    </type>
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="dk-googletagmanager-shipping-information" type="DK\GoogleTagManager\Plugin\ShippingInformation"/>
+    </type>
+    <type name="Magento\Checkout\Model\GuestShippingInformationManagement">
+        <plugin name="dk-googletagmanager-guest-shipping-information" type="DK\GoogleTagManager\Plugin\GuestShippingInformation"/>
+    </type>
 </config>
