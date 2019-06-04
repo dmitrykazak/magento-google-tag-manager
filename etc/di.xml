@@ -10,4 +10,7 @@
             <argument name="storage" xsi:type="object">DK\GoogleTagManager\Model\Session\Storage</argument>
         </arguments>
     </type>
+    <type name="Magento\Checkout\Model\GuestPaymentInformationManagement">
+        <plugin name="dk-googletagmanager-guest-payment-information" type="DK\GoogleTagManager\Plugin\GuestPaymentInformation"/>
+    </type>
 </config>

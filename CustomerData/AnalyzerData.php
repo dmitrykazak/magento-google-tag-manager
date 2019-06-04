@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\CustomerData;
 
 use DK\GoogleTagManager\Model\DataLayer\CartView;
+use DK\GoogleTagManager\Model\Session;
 use Magento\Customer\CustomerData\SectionSourceInterface;
 
 class AnalyzerData implements SectionSourceInterface
@@ -14,9 +15,15 @@ class AnalyzerData implements SectionSourceInterface
      */
     private $cartView;
 
-    public function __construct(CartView $cartView)
+    /**
+     * @var Session
+     */
+    private $sessionManager;
+
+    public function __construct(CartView $cartView, Session $sessionManager)
     {
         $this->cartView = $cartView;
+        $this->sessionManager = $sessionManager;
     }
 
     /**
@@ -27,6 +34,7 @@ class AnalyzerData implements SectionSourceInterface
         return [
             'cart' => $this->cartView->getCartLayer(),
             'removeCart' => $this->cartView->getRemoveCartLayer(),
+            'checkoutSteps' => $this->sessionManager->getCheckoutSteps(true),
         ];
     }
 }

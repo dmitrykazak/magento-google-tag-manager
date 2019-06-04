@@ -24,6 +24,12 @@ define([
         });
     }
 
+    function layerPush(data) {
+        initBefore();
+
+        dataLayer.push(data);
+    }
+
     let analyzerData = customerData.get('analyzer-data');
 
     analyzerData.subscribe(function (dataObject) {
@@ -39,6 +45,10 @@ define([
             }
 
             lastStateCart = dataObject.cart;
+        }
+
+        if (_.has(dataObject, 'checkoutSteps') && _.isArray(dataObject.checkoutSteps) && dataObject.checkoutSteps.length > 0) {
+            layerPush(dataObject.checkoutSteps);
         }
     });
 });
