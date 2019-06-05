@@ -6,11 +6,13 @@ namespace DK\GoogleTagManager\Plugin;
 
 use DK\GoogleTagManager\Model\DataLayer\Generator\CheckoutOptionStep;
 use DK\GoogleTagManager\Model\Session;
+use Magento\Checkout\Api\Data\ShippingInformationInterface;
+use Magento\Checkout\Model\ShippingInformationManagement;
 use Magento\Quote\Api\CartRepositoryInterface;
 
 final class ShippingInformation
 {
-    private const SHIPPINH_STEP = 3;
+    private const SHIPPING_STEP = 3;
 
     /**
      * @var CartRepositoryInterface
@@ -36,13 +38,16 @@ final class ShippingInformation
     }
 
     public function afterSaveAddressInformation(
-        \Magento\Checkout\Model\ShippingInformationManagement $object,
+        ShippingInformationManagement $object,
         $result,
         $cartId,
-        \Magento\Checkout\Api\Data\ShippingInformationInterface $addressInformation
+        ShippingInformationInterface $addressInformation
     ) {
+        /** @var \Magento\Quote\Model\Quote $quote */
+        $quote = $this->quoteRepository->getActive($cartId);
+
         $this->session->setCheckoutStep(
-            $this->checkoutOptionStep->onCheckoutOptionStep(self::SHIPPINH_STEP, $addressInformation->getShippingDescription())
+            $this->checkoutOptionStep->onCheckoutOptionStep(self::SHIPPING_STEP, $quote->getShippingAddress()->getShippingDescription())
         );
 
         return $result;

@@ -24,7 +24,7 @@ define([
         });
     }
 
-    function layerPush(data) {
+    function dataLayerPush(data) {
         initBefore();
 
         dataLayer.push(data);
@@ -48,7 +48,7 @@ define([
         }
 
         if (_.has(dataObject, 'checkoutSteps') && _.isArray(dataObject.checkoutSteps) && dataObject.checkoutSteps.length > 0) {
-            layerPush(dataObject.checkoutSteps);
+            _.each(dataObject.checkoutSteps, dataLayerPush);
         }
     });
 });

@@ -19,7 +19,4 @@
     <type name="Magento\Checkout\Model\ShippingInformationManagement">
         <plugin name="dk-googletagmanager-shipping-information" type="DK\GoogleTagManager\Plugin\ShippingInformation"/>
     </type>
-    <type name="Magento\Checkout\Model\GuestShippingInformationManagement">
-        <plugin name="dk-googletagmanager-guest-shipping-information" type="DK\GoogleTagManager\Plugin\GuestShippingInformation"/>
-    </type>
 </config>

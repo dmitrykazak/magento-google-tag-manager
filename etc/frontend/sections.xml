@@ -42,4 +42,10 @@
     <action name="rest/*/V1/carts/*/selected-payment-method">
         <section name="analyzer-data"/>
     </action>
+    <action name="rest/*/V1/carts/*/shipping-information">
+        <section name="analyzer-data"/>
+    </action>
+    <action name="rest/*/V1/guest-carts/*/shipping-information">
+        <section name="analyzer-data"/>
+    </action>
 </config>
