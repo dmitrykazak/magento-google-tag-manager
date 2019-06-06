@@ -56,8 +56,7 @@ class DataLayer extends Template
         SerializerInterface $serializer,
         Config $config,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $data);
         $this->config = $config;
         $this->dataLayerFactory = $dataLayerFactory;
