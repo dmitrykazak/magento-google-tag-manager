@@ -35,6 +35,11 @@ class DataLayer extends Template
     private $serializer;
 
     /**
+     * @var array
+     */
+    private $layerList = [];
+
+    /**
      * DataLayer constructor.
      *
      * @param Context $context
@@ -51,7 +56,8 @@ class DataLayer extends Template
         SerializerInterface $serializer,
         Config $config,
         array $data = []
-    ) {
+    )
+    {
         parent::__construct($context, $data);
         $this->config = $config;
         $this->dataLayerFactory = $dataLayerFactory;
@@ -77,12 +83,15 @@ class DataLayer extends Template
 
     /**
      * Get type instance of DataLayer
-     *
-     * @return string
      */
     public function getTypeDataLayer(): ?string
     {
         return $this->getData('type_data_layer');
+    }
+
+    public function addLayer(string $type, string $layer): void
+    {
+        $this->layerList[$type] = $layer;
     }
 
     /**
