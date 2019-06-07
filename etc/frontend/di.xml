@@ -10,6 +10,7 @@
                 <item name="cart-view" xsi:type="string">DK\GoogleTagManager\Model\DataLayer\CartView</item>
                 <item name="purchase-view" xsi:type="string">DK\GoogleTagManager\Model\DataLayer\PurchaseView</item>
                 <item name="checkout-view" xsi:type="string">DK\GoogleTagManager\Model\DataLayer\CheckoutView</item>
+                <item name="product-related-view" xsi:type="string">DK\GoogleTagManager\Model\DataLayer\Impressions\ProductRelatedView</item>
             </argument>
         </arguments>
     </type>

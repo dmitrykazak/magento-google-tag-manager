@@ -35,11 +35,6 @@ class DataLayer extends Template
     private $serializer;
 
     /**
-     * @var array
-     */
-    private $layerList = [];
-
-    /**
      * DataLayer constructor.
      *
      * @param Context $context
@@ -67,41 +62,47 @@ class DataLayer extends Template
     /**
      * @return string
      */
-    public function getDataLayerJson(): ?string
+    public function getJsonDataLayers(): string
     {
-        $instance = $this->getInstance();
+        $data = [];
 
-        if (!($instance instanceof DataLayerInterface)) {
-            return null;
+        if (null === $this->getTypeDataLayers()) {
+            return '';
         }
 
-        return $this->serializer->serialize(
-            $this->getInstance()->getLayer()
-        );
+        foreach ($this->getTypeDataLayers() as $typeDataLayer) {
+            $instance = $this->getInstance($typeDataLayer);
+
+            if (!($instance instanceof DataLayerInterface)) {
+                continue;
+            }
+
+            $layer = $instance->getLayer();
+
+            if (null !== $layer) {
+                $data[] = $layer;
+            }
+        }
+
+        return $this->serializer->serialize($data);
     }
 
-    /**
-     * Get type instance of DataLayer
-     */
-    public function getTypeDataLayer(): ?string
+    public function getTypeDataLayers(): ?array
     {
-        return $this->getData('type_data_layer');
-    }
-
-    public function addLayer(string $type, string $layer): void
-    {
-        $this->layerList[$type] = $layer;
+        return $this->getData('layers');
     }
 
     /**
      * Get Instance of DataLayer
      *
+     * @param string $type
+     *
      * @return null|DataLayerInterface
      */
-    private function getInstance(): ?DataLayerInterface
+    private function getInstance(string $type): ?DataLayerInterface
     {
-        $nameInstance = $this->findClass();
-        if ($nameInstance && class_exists($this->findClass())) {
+        $nameInstance = $this->findClass($type);
+        if ($nameInstance && class_exists($nameInstance)) {
             return $this->dataLayerFactory->create($nameInstance);
         }
 
@@ -111,10 +112,10 @@ class DataLayer extends Template
     /**
      * @return string
      */
-    private function findClass(): string
+    private function findClass(string $type): string
     {
         $list = $this->dataLayerList->getList();
 
-        return $list[$this->getTypeDataLayer()] ?? '';
+        return $list[$type] ?? '';
     }
 }

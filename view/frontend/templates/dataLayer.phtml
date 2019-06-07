@@ -4,11 +4,16 @@
  */
 ?>
 
-<script type="text/javascript">
+<script>
     window.dataLayer = window.dataLayer || [];
 
-    dataLayer.push(
-        <?php echo $block->getDataLayerJson() ?>
-    );
+    /** @type {Array} */
+    let data = <?= /* @escapeNotVerified */ $block->getJsonDataLayers() ?>;
 
+    if (data.length !== 0) {
+        data.forEach((item) => {
+            dataLayer.push(item);
+        });
+
+    }
 </script>

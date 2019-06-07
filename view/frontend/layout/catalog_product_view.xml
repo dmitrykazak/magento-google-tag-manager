@@ -3,7 +3,10 @@
     <body>
         <referenceBlock name="gtm_datalayer">
             <arguments>
-                <argument name="type_data_layer" xsi:type="string">product-view</argument>
+                <argument name="layers" xsi:type="array">
+                    <item name="product-view" xsi:type="string">product-view</item>
+                    <item name="product-related-view" xsi:type="string">product-related-view</item>
+                </argument>
             </arguments>
         </referenceBlock>
     </body>
