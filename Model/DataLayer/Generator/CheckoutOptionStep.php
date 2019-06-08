@@ -8,7 +8,7 @@ use DK\GoogleTagManager\Model\DataLayer\Dto;
 
 class CheckoutOptionStep
 {
-    private const  EVENT = 'checkoutOption';
+    private const EVENT = 'checkoutOption';
 
     public function onCheckoutOptionStep(int $step, string $option): Dto\Ecommerce
     {
@@ -16,8 +16,11 @@ class CheckoutOptionStep
         $actionField->step = $step;
         $actionField->option = $option;
 
+        $optionActionField = new Dto\Cart\OptionActionFields();
+        $optionActionField->actionField = $actionField;
+
         $checkoutOption = new Dto\Cart\CheckoutOption();
-        $checkoutOption->checkout_option = $actionField;
+        $checkoutOption->checkout_option = $optionActionField;
 
         $ecommerce = new Dto\Ecommerce();
         $ecommerce->event = self::EVENT;
