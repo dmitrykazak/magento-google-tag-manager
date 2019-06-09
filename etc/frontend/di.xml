@@ -19,6 +19,7 @@
         <arguments>
             <argument name="sectionSourceMap" xsi:type="array">
                 <item name="analyzer-data" xsi:type="string">DK\GoogleTagManager\CustomerData\AnalyzerData</item>
+                <item name="impression-data" xsi:type="string">DK\GoogleTagManager\CustomerData\ImpressionData</item>
             </argument>
         </arguments>
     </type>

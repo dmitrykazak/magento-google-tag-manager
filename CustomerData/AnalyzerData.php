@@ -8,7 +8,7 @@ use DK\GoogleTagManager\Model\DataLayer\CartView;
 use DK\GoogleTagManager\Model\Session;
 use Magento\Customer\CustomerData\SectionSourceInterface;
 
-class AnalyzerData implements SectionSourceInterface
+final class AnalyzerData implements SectionSourceInterface
 {
     /**
      * @var CartView
@@ -29,7 +29,7 @@ class AnalyzerData implements SectionSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function getSectionData()
+    public function getSectionData(): array
     {
         return [
             'cart' => $this->cartView->getCartLayer(),

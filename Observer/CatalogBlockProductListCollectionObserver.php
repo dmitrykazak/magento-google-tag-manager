@@ -10,7 +10,7 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Psr\Log\LoggerInterface;
 
-final class SalesQuoteRemoveItemObserver implements ObserverInterface
+final class CatalogBlockProductListCollectionObserver implements ObserverInterface
 {
     /**
      * @var Product
@@ -20,7 +20,7 @@ final class SalesQuoteRemoveItemObserver implements ObserverInterface
     /**
      * @var Session
      */
-    private $sessionManager;
+    private $session;
 
     /**
      * @var LoggerInterface
@@ -29,25 +29,29 @@ final class SalesQuoteRemoveItemObserver implements ObserverInterface
 
     public function __construct(
         Product $productGenerator,
-        Session $sessionManager,
+        Session $session,
         LoggerInterface $logger
     ) {
-        $this->logger = $logger;
         $this->productGenerator = $productGenerator;
-        $this->sessionManager = $sessionManager;
+        $this->session = $session;
+        $this->logger = $logger;
     }
 
     /**
-     * {@inheritdoc}
+     * @param Observer $observer
      */
     public function execute(Observer $observer): void
     {
         try {
-            /** @var \Magento\Quote\Model\Quote\Item $item */
-            $item = $observer->getEvent()->getData('quote_item');
-            $product = $this->productGenerator->generate($item->getProduct(), $item);
+            /** @var \Magento\Catalog\Model\ResourceModel\Product\Collection $collection */
+            $collection = $observer->getEvent()->getCollection();
 
-            $this->sessionManager->setRemovedProductFromCart($product);
+            /** @var \Magento\Catalog\Model\Product $product */
+            foreach ($collection as $product) {
+                $this->session->setImpressionCatalogProducts(
+                    $this->productGenerator->generate($product)
+                );
+            }
         } catch (\Exception $e) {
             $this->logger->critical($e);
         }
