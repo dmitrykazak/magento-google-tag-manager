@@ -24,6 +24,16 @@ define([
         });
     }
 
+    function initImpressionCatalog(action, product) {
+        initBefore();
+
+        dataLayer.push({
+            'ecommerce': {
+                [action]: product
+            }
+        });
+    }
+
     function dataLayerPush(data) {
         initBefore();
 
@@ -32,7 +42,7 @@ define([
 
     let analyzerData = customerData.get('analyzer-data');
 
-    analyzerData.subscribe(function (dataObject) {
+    analyzerData.subscribe((dataObject) => {
         if (!_.isObject(dataObject)) {
             return;
         }
@@ -49,6 +59,18 @@ define([
 
         if (_.has(dataObject, 'checkoutSteps') && _.isArray(dataObject.checkoutSteps) && dataObject.checkoutSteps.length > 0) {
             _.each(dataObject.checkoutSteps, dataLayerPush);
+        }
+    });
+
+    let impressionData = customerData.get('impression-data');
+
+    impressionData.subscribe((dataObject) => {
+        if (!_.isObject(dataObject)) {
+            return;
+        }
+
+        if (_.has(dataObject, 'impressionCatalog') && _.isArray(dataObject.impressionCatalog) && dataObject.impressionCatalog.length > 0) {
+            initImpressionCatalog('impressions', dataObject.impressionCatalog);
         }
     });
 });

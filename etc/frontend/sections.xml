@@ -48,7 +48,7 @@
     <action name="rest/*/V1/guest-carts/*/shipping-information">
         <section name="analyzer-data"/>
     </action>
-    <action name="catalog/category/view">
+    <action name="catalog/category/view/*">
         <section name="impression-data"/>
     </action>
 </config>

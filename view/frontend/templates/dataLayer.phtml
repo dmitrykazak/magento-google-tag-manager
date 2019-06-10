@@ -7,13 +7,15 @@
 <script>
     window.dataLayer = window.dataLayer || [];
 
-    /** @type {Array} */
-    let data = <?= /* @escapeNotVerified */ $block->getJsonDataLayers() ?>;
+    <?php if ($data = $block->getJsonDataLayers()): ?>
+        /** @type {Array} */
+        let data = <?= /* @escapeNotVerified */ $data ?>;
 
-    if (data.length !== 0) {
-        data.forEach((item) => {
-            dataLayer.push(item);
-        });
+        if (data.length !== 0) {
+            data.forEach((item) => {
+                dataLayer.push(item);
+            });
 
-    }
+        }
+    <?php endif; ?>
 </script>
