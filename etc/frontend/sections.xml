@@ -48,10 +48,4 @@
     <action name="rest/*/V1/guest-carts/*/shipping-information">
         <section name="analyzer-data"/>
     </action>
-    <action name="catalog/category/view/id/*">
-        <section name="impression-data"/>
-    </action>
-    <action name="catalogsearch/result/index/*">
-        <section name="impression-data"/>
-    </action>
 </config>

@@ -1,7 +1,7 @@
 define([
     'jquery',
     'underscore',
-    'Magento_Customer/js/customer-data'
+    'Magento_Customer/js/customer-data',
 ], function ($, _, customerData) {
     'use strict';
 
@@ -59,24 +59,6 @@ define([
 
         if (_.has(dataObject, 'checkoutSteps') && _.isArray(dataObject.checkoutSteps) && dataObject.checkoutSteps.length > 0) {
             _.each(dataObject.checkoutSteps, dataLayerPush);
-        }
-    });
-
-    let impressionData = customerData.get('impression-data');
-
-    impressionData.subscribe((dataObject) => {
-        if (!_.isObject(dataObject)) {
-            return;
-        }
-
-        console.log(dataObject);
-
-        if (_.has(dataObject, 'impressionCatalog') && _.isArray(dataObject.impressionCatalog) && dataObject.impressionCatalog.length > 0) {
-            initImpressions('impressions', dataObject.impressionCatalog);
-        }
-
-        if (_.has(dataObject, 'impressionSearch') && _.isArray(dataObject.impressionSearch) && dataObject.impressionSearch.length > 0) {
-            initImpressions('impressions', dataObject.impressionSearch);
         }
     });
 });

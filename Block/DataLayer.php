@@ -35,6 +35,11 @@ class DataLayer extends Template
     private $serializer;
 
     /**
+     * @var array
+     */
+    private $codes = [];
+
+    /**
      * DataLayer constructor.
      *
      * @param Context $context
@@ -60,14 +65,14 @@ class DataLayer extends Template
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getJsonDataLayers(): string
+    public function getJsonDataLayers(): ?string
     {
         $data = [];
 
         if (null === $this->getTypeDataLayers()) {
-            return '';
+            return null;
         }
 
         foreach ($this->getTypeDataLayers() as $typeDataLayer) {
@@ -77,10 +82,13 @@ class DataLayer extends Template
                 continue;
             }
 
+            /** @var DataLayerInterface $layer */
             $layer = $instance->getLayer();
 
             if (null !== $layer) {
                 $data[] = $layer;
+
+                $this->codes[] = $layer->getCode();
             }
         }
 
@@ -90,6 +98,11 @@ class DataLayer extends Template
     public function getTypeDataLayers(): ?array
     {
         return $this->getData('layers');
+    }
+
+    public function getCodes(): array
+    {
+        return $this->codes;
     }
 
     /**
