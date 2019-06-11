@@ -2,6 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
    <preference for="DK\GoogleTagManager\Api\DataLayerListInterface" type="DK\GoogleTagManager\Model\DataLayerList"/>
    <preference for="Dk\GoogleTagManager\Factory\DataLayerFactoryInterface" type="Dk\GoogleTagManager\Factory\DataLayerFactory"/>
+   <preference for="Dk\GoogleTagManager\Factory\ImpressionHandlerFactoryInterface" type="Dk\GoogleTagManager\Factory\ImpressionHandlerFactory"/>
 
     <type name="DK\GoogleTagManager\Api\DataLayerListInterface">
         <arguments>

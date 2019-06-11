@@ -12,6 +12,7 @@ class Session extends SessionManager
     private const KEY_REMOVED_PRODUCTS_FROM_CART = 'removed_products_from_cart';
     private const KEY_CHECKOUT_STEPS = 'checkout_step';
     private const KEY_IMPRESSION_CATALOG_PRODUCTS = 'impression_catalog_products';
+    private const KEY_IMPRESSION_SEARCH_PRODUCTS = 'impression_search_products';
 
     public function setRemovedProductFromCart($product): self
     {
@@ -57,6 +58,22 @@ class Session extends SessionManager
     public function getImpressionCatalogProducts(bool $clear = false): array
     {
         $items = $this->getData(self::KEY_IMPRESSION_CATALOG_PRODUCTS, $clear);
+
+        return 0 < \count($items) ? $items : [];
+    }
+
+    public function setImpressionSearchProducts($product): self
+    {
+        $items = $this->getImpressionSearchProducts();
+
+        $this->storage->setData(self::KEY_IMPRESSION_SEARCH_PRODUCTS, \array_merge($items, [$product]));
+
+        return $this;
+    }
+
+    public function getImpressionSearchProducts(bool $clear = false): array
+    {
+        $items = $this->getData(self::KEY_IMPRESSION_SEARCH_PRODUCTS, $clear);
 
         return 0 < \count($items) ? $items : [];
     }

@@ -26,6 +26,7 @@ final class ImpressionData implements SectionSourceInterface
     {
         return [
             'impressionCatalog' => $this->session->getImpressionCatalogProducts(true),
+            'impressionSearch' => $this->session->getImpressionSearchProducts(true),
         ];
     }
 }

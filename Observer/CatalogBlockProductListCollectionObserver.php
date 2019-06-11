@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Observer;
 
-use DK\GoogleTagManager\Model\DataLayer\Generator\Product;
-use DK\GoogleTagManager\Model\Session;
+use DK\GoogleTagManager\Factory\ImpressionHandlerFactory;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Psr\Log\LoggerInterface;
@@ -13,14 +13,14 @@ use Psr\Log\LoggerInterface;
 final class CatalogBlockProductListCollectionObserver implements ObserverInterface
 {
     /**
-     * @var Product
+     * @var RequestInterface
      */
-    private $productGenerator;
+    private $request;
 
     /**
-     * @var Session
+     * @var ImpressionHandlerFactory
      */
-    private $session;
+    private $impressionHandlerFactory;
 
     /**
      * @var LoggerInterface
@@ -28,12 +28,12 @@ final class CatalogBlockProductListCollectionObserver implements ObserverInterfa
     private $logger;
 
     public function __construct(
-        Product $productGenerator,
-        Session $session,
+        RequestInterface $request,
+        ImpressionHandlerFactory $impressionHandlerFactory,
         LoggerInterface $logger
     ) {
-        $this->productGenerator = $productGenerator;
-        $this->session = $session;
+        $this->request = $request;
+        $this->impressionHandlerFactory = $impressionHandlerFactory;
         $this->logger = $logger;
     }
 
@@ -46,11 +46,10 @@ final class CatalogBlockProductListCollectionObserver implements ObserverInterfa
             /** @var \Magento\Catalog\Model\ResourceModel\Product\Collection $collection */
             $collection = $observer->getEvent()->getCollection();
 
-            /** @var \Magento\Catalog\Model\Product $product */
-            foreach ($collection as $product) {
-                $this->session->setImpressionCatalogProducts(
-                    $this->productGenerator->generate($product)
-                );
+            $handlerImpression = $this->impressionHandlerFactory->create($this->request->getRouteName());
+
+            if (null !== $handlerImpression) {
+                $handlerImpression->handle($collection);
             }
         } catch (\Exception $e) {
             $this->logger->critical($e);

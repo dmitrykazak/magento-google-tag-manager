@@ -6,7 +6,7 @@ namespace DK\GoogleTagManager\Model\DataLayer\Impressions;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Model\DataLayer\Dto;
-use DK\GoogleTagManager\Model\Handler;
+use DK\GoogleTagManager\Model\DataLayer\Generator\Impression;
 use Magento\Catalog\Model\Product as ProductEntity;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -17,19 +17,19 @@ class ProductRelatedView implements DataLayerInterface
     private const RELATED = 'Related Products';
 
     /**
-     * @var Handler\Product
-     */
-    private $productHandler;
-
-    /**
      * @var StoreManagerInterface
      */
     private $storeManager;
 
-    public function __construct(Handler\Product $productHandler, StoreManagerInterface $storeManager)
+    /**
+     * @var Impression
+     */
+    private $impressionGenerator;
+
+    public function __construct(Impression $impressionGenerator, StoreManagerInterface $storeManager)
     {
-        $this->productHandler = $productHandler;
         $this->storeManager = $storeManager;
+        $this->impressionGenerator = $impressionGenerator;
     }
 
     /**
@@ -56,21 +56,7 @@ class ProductRelatedView implements DataLayerInterface
 
         $impressionProducts = [];
         foreach ($relatedProducts as $relatedProduct) {
-            $productImpressionDto = new Dto\Impression\ImpressionProduct();
-
-            $this->productHandler->setProduct($relatedProduct);
-            $this->productHandler->setCategory($relatedProduct->getCategory());
-
-            $productImpressionDto->id = $relatedProduct->getData($this->productHandler->productIdentifier());
-            $productImpressionDto->name = $relatedProduct->getName();
-            $productImpressionDto->price = $this->getPrice($relatedProduct);
-            $productImpressionDto->category = $this->productHandler->getCategoryName();
-            $productImpressionDto->path = $this->productHandler->getCategoriesPath();
-            $productImpressionDto->brand = $this->productHandler->getBrandValue();
-            $productImpressionDto->list = self::RELATED;
-            $productImpressionDto->position = $relatedProduct->getPosition();
-
-            $impressionProducts[] = $productImpressionDto;
+            $impressionProducts[] = $this->impressionGenerator->generate($relatedProduct, self::RELATED);
         }
 
         $impression = new Dto\Impression\Impression();
@@ -81,12 +67,5 @@ class ProductRelatedView implements DataLayerInterface
         $ecommerce->ecommerce = $impression;
 
         return $ecommerce;
-    }
-
-    private function getPrice(ProductEntity $product): string
-    {
-        $price = $product->getSpecialPrice() ?: $product->getData('price');
-
-        return (string) $price;
     }
 }

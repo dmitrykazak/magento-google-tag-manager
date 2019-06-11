@@ -24,7 +24,7 @@ define([
         });
     }
 
-    function initImpressionCatalog(action, product) {
+    function initImpressions(action, product) {
         initBefore();
 
         dataLayer.push({
@@ -69,8 +69,14 @@ define([
             return;
         }
 
+        console.log(dataObject);
+
         if (_.has(dataObject, 'impressionCatalog') && _.isArray(dataObject.impressionCatalog) && dataObject.impressionCatalog.length > 0) {
-            initImpressionCatalog('impressions', dataObject.impressionCatalog);
+            initImpressions('impressions', dataObject.impressionCatalog);
+        }
+
+        if (_.has(dataObject, 'impressionSearch') && _.isArray(dataObject.impressionSearch) && dataObject.impressionSearch.length > 0) {
+            initImpressions('impressions', dataObject.impressionSearch);
         }
     });
 });
