@@ -2,9 +2,6 @@
 /**
  * @var $block DK\GoogleTagManager\Block\DataLayer
  */
-
-use DK\GoogleTagManager\Model\DataLayer\Impressions\CatalogImpressionView;
-
 ?>
 
 <script>
@@ -14,18 +11,14 @@ use DK\GoogleTagManager\Model\DataLayer\Impressions\CatalogImpressionView;
         $data = $block->getJsonDataLayers();
         if (null !== $data): ?>
 
-            <?php if (\in_array(CatalogImpressionView::CODE, $block->getCodes(), true)):  ?>
-                window.impressions = <?= $data ?>;
-            <?php else: ?>
-                /** @type {Array} */
-                let data = <?= /* @escapeNotVerified */ $data ?>;
+            /** @type {Array} */
+            let data = <?= /* @escapeNotVerified */ $data ?>;
 
-                if (data.length !== 0) {
-                    data.forEach((item) => {
-                        dataLayer.push(item);
-                    });
-                }
-            <?php endif; ?>
+            if (data.length !== 0) {
+                data.forEach((item) => {
+                    dataLayer.push(item);
+                });
+            }
 
         <?php endif; ?>
 </script>

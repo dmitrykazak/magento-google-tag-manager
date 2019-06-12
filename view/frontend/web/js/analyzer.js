@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'Magento_Customer/js/customer-data',
-], function ($, _, customerData) {
+], function ($, _, storage) {
     'use strict';
 
     let lastStateCart = [];
@@ -24,30 +24,13 @@ define([
         });
     }
 
-    function initImpressions(action, product) {
-        initBefore();
-
-        dataLayer.push({
-            'ecommerce': {
-                [action]: product
-            }
-        });
-    }
-
     function dataLayerPush(data) {
         initBefore();
 
         dataLayer.push(data);
     }
 
-    console.log(window.impressions);
-
-    if (typeof window.impressions !== 'undefined') {
-        initImpressions('impressions', window.impressions);
-    }
-
-
-    let analyzerData = customerData.get('analyzer-data');
+    let analyzerData = storage.get('analyzer-data');
 
     analyzerData.subscribe((dataObject) => {
         if (!_.isObject(dataObject)) {
