@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DK\GoogleTagManager\Model\DataLayer\Impressions;
+
+use DK\GoogleTagManager\Api\Data\DataLayerInterface;
+use DK\GoogleTagManager\Model\Session;
+
+class SearchImpressionView implements DataLayerInterface
+{
+    public const CODE = 'search-impression-view';
+    /**
+     * @var Session
+     */
+    private $session;
+
+    public function __construct(Session $session)
+    {
+        $this->session = $session;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode(): string
+    {
+        return static::CODE;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLayer(): array
+    {
+        $impressions = $this->session->getImpressionSearchProducts(true);
+
+        if (0 === \count($impressions)) {
+            return [];
+        }
+
+        return $impressions;
+    }
+}

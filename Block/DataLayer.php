@@ -88,7 +88,7 @@ class DataLayer extends Template
             if (null !== $layer) {
                 $data[] = $layer;
 
-                $this->codes[] = $layer->getCode();
+                $this->codes[] = $instance->getCode();
             }
         }
 

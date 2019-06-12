@@ -40,6 +40,13 @@ define([
         dataLayer.push(data);
     }
 
+    console.log(window.impressions);
+
+    if (typeof window.impressions !== 'undefined') {
+        initImpressions('impressions', window.impressions);
+    }
+
+
     let analyzerData = customerData.get('analyzer-data');
 
     analyzerData.subscribe((dataObject) => {

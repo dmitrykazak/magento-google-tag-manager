@@ -1,0 +1,12 @@
+<?php
+/**
+ * @var $block DK\GoogleTagManager\Block\CatalogImpression
+ */
+
+?>
+
+<script>
+    window.impression = window.impression || [];
+
+    impression.push(<?= $block->getJsonDataLayers() ?>);
+</script>
