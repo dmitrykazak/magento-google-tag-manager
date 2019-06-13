@@ -7,6 +7,7 @@ namespace DK\GoogleTagManager\Model\DataLayer\Impressions;
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\DataLayer\Generator\Impression;
+use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
 use Magento\Catalog\Model\Product as ProductEntity;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -26,10 +27,16 @@ class ProductRelatedView implements DataLayerInterface
      */
     private $impressionGenerator;
 
-    public function __construct(Impression $impressionGenerator, StoreManagerInterface $storeManager)
+    /**
+     * @var Product
+     */
+    private $productHandler;
+
+    public function __construct(Impression $impressionGenerator, StoreManagerInterface $storeManager, ProductHandler $productHandler)
     {
         $this->storeManager = $storeManager;
         $this->impressionGenerator = $impressionGenerator;
+        $this->productHandler = $productHandler;
     }
 
     /**

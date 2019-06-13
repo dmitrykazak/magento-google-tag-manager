@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DK\GoogleTagManager\Block;
+namespace DK\GoogleTagManager\Block\Impressions;
 
 use DK\GoogleTagManager\Model\DataLayer\Impressions\CatalogImpressionView;
 use Magento\Framework\Serialize\SerializerInterface;

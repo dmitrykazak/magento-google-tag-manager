@@ -14,6 +14,18 @@ define([
         });
     }
 
+    function initClickImpression(action, product) {
+        dataLayer.push({
+            'event': 'productClick',
+            'ecommerce': {
+                'click' : {
+                    'actionField': {'list': action},
+                    'products': product
+                }
+            }
+        });
+    }
+
     /**
      * @param {Object} config
      */
