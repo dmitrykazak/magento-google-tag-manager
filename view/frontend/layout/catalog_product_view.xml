@@ -6,6 +6,7 @@
                 <argument name="layers" xsi:type="array">
                     <item name="product-view" xsi:type="string">product-view</item>
                     <item name="product-related-view" xsi:type="string">product-related-view</item>
+                    <item name="click-impression-view" xsi:type="string">click-impression-view</item>
                 </argument>
             </arguments>
         </referenceBlock>

@@ -8,5 +8,5 @@ use Magento\Catalog\Model\ResourceModel\Product\Collection;
 
 interface ImpressionHandlerInterface
 {
-    public function handle(Collection $collection);
+    public function handle(Collection $collection): void;
 }
