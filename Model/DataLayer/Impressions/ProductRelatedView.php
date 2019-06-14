@@ -58,7 +58,7 @@ class ProductRelatedView implements DataLayerInterface
         $relatedProducts = $product->getRelatedProducts();
 
         if (0 === \count($relatedProducts)) {
-            return [];
+            return null;
         }
 
         $impressionProducts = [];

@@ -33,9 +33,14 @@ class ProductView implements DataLayerInterface
      */
     public function getLayer(): Dto\Ecommerce
     {
+        $product = $this->productGenerator->generate(null);
+
+        $actionField = new Dto\Impression\ActionField();
+        $actionField->list = $product->category;
+
         $productDto = new Dto\Product\Product();
-        $productDto->actionField = [];
-        $productDto->products = $this->productGenerator->generate(null);
+        $productDto->actionField = $actionField;
+        $productDto->products = $product;
 
         $detailsDto = new Dto\Details();
         $detailsDto->detail = $productDto;

@@ -12,7 +12,7 @@ interface DataLayerInterface
     public function getCode(): string;
 
     /**
-     * @return object
+     * @return null|array|object
      */
     public function getLayer();
 }

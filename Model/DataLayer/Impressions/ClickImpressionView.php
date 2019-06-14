@@ -34,6 +34,8 @@ class ClickImpressionView implements DataLayerInterface
      */
     public function getLayer()
     {
-        return $this->session->getClickImpressionProducts(true);
+        $ecommerceClick = $this->session->getClickImpressionProducts(true);
+
+        return 0 < \count($ecommerceClick) ? $ecommerceClick : null;
     }
 }
