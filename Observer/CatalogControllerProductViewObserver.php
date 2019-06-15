@@ -35,12 +35,10 @@ final class CatalogControllerProductViewObserver implements ObserverInterface
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $observer->getEvent()->getProduct();
 
-        $referer = $this->redirect->getRedirectUrl();
+        $handlerImpressionClick = $this->clickImpressionHandlerFactory->create(
+            $this->redirect->getRedirectUrl()
+        );
 
-        $handlerImpressionClick = $this->clickImpressionHandlerFactory->create($referer);
-
-        if (null !== $handlerImpressionClick) {
-            $handlerImpressionClick->handle($product);
-        }
+        $handlerImpressionClick->handle($product);
     }
 }
