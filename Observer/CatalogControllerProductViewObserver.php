@@ -8,6 +8,7 @@ use DK\GoogleTagManager\Factory\ClickImpressionHandlerFactory;
 use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\UrlInterface;
 
 final class CatalogControllerProductViewObserver implements ObserverInterface
 {
@@ -21,10 +22,19 @@ final class CatalogControllerProductViewObserver implements ObserverInterface
      */
     private $clickImpressionHandlerFactory;
 
-    public function __construct(RedirectInterface $redirect, ClickImpressionHandlerFactory $clickImpressionHandlerFactory)
-    {
+    /**
+     * @var UrlInterface
+     */
+    private $url;
+
+    public function __construct(
+        RedirectInterface $redirect,
+        ClickImpressionHandlerFactory $clickImpressionHandlerFactory,
+        UrlInterface $url
+    ) {
         $this->redirect = $redirect;
         $this->clickImpressionHandlerFactory = $clickImpressionHandlerFactory;
+        $this->url = $url;
     }
 
     /**
@@ -32,12 +42,16 @@ final class CatalogControllerProductViewObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
+        $refererUrl = $this->redirect->getRefererUrl();
+
+        if ($refererUrl === $this->url->getBaseUrl()) {
+            return;
+        }
+
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $observer->getEvent()->getProduct();
 
-        $handlerImpressionClick = $this->clickImpressionHandlerFactory->create(
-            $this->redirect->getRedirectUrl()
-        );
+        $handlerImpressionClick = $this->clickImpressionHandlerFactory->create($refererUrl);
 
         $handlerImpressionClick->handle($product);
     }

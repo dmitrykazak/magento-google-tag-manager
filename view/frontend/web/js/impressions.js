@@ -18,10 +18,12 @@ define([
      * @param {Object} config
      */
     return function (config) {
-        if (_.isArray(config.impressions) && config.impressions.length > 0) {
+        if (_.has(config, 'impressions') && _.isArray(config.impressions) && config.impressions.length > 0) {
             initImpressions('impressions', config.impressions);
 
-            impressionStorage.push(config.impressions)
+            config.impressions.forEach((item) => {
+                impressionStorage.push(item)
+            });
         }
     }
 });
