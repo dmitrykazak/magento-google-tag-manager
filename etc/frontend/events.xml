@@ -6,10 +6,4 @@
     <event name="catalog_block_product_list_collection">
         <observer name="dk_data_layer_catalog_block_product_list_collection" instance="DK\GoogleTagManager\Observer\CatalogBlockProductListCollectionObserver"/>
     </event>
-    <event name="catalog_controller_product_view">
-        <observer name="dk_data_layer_catalog_controller_product_view" instance="DK\GoogleTagManager\Observer\CatalogControllerProductViewObserver"/>
-    </event>
-    <event name="controller_front_send_response_before">
-        <observer name="dk_data_layer_controller_front_send_response_before" instance="DK\GoogleTagManager\Observer\ControllerFrontSendResponseBeforeObserver"/>
-    </event>
 </config>

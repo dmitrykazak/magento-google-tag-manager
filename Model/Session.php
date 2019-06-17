@@ -95,18 +95,4 @@ class Session extends SessionManager
 
         return 0 < \count($items) ? $items : [];
     }
-
-    public function setLastRefererUrl(string $referer): self
-    {
-        $this->storage->setData(self::KEY_LAST_REFERER_URL, $referer);
-
-        return $this;
-    }
-
-    public function getLastRefererUrl(bool $clear = false): ?string
-    {
-        $referer = $this->getData(self::KEY_LAST_REFERER_URL, $clear);
-
-        return $referer ?: null;
-    }
 }

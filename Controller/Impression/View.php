@@ -6,7 +6,6 @@ namespace DK\GoogleTagManager\Controller\Impression;
 
 use DK\GoogleTagManager\Factory\ClickImpressionHandlerFactory;
 use DK\GoogleTagManager\Model\DataLayer\Impressions\ClickImpressionView;
-use DK\GoogleTagManager\Model\Session;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
@@ -25,11 +24,6 @@ class View extends Action
      * @var ClickImpressionHandlerFactory
      */
     private $clickImpressionHandlerFactory;
-
-    /**
-     * @var Session
-     */
-    private $session;
 
     /**
      * @var ProductRepositoryInterface
@@ -55,7 +49,6 @@ class View extends Action
         Context $context,
         RedirectInterface $redirect,
         ClickImpressionHandlerFactory $clickImpressionHandlerFactory,
-        Session $session,
         ProductRepositoryInterface $productRepository,
         ClickImpressionView $clickImpressionView,
         SerializerInterface $serializer,
@@ -64,7 +57,6 @@ class View extends Action
         parent::__construct($context);
         $this->redirect = $redirect;
         $this->clickImpressionHandlerFactory = $clickImpressionHandlerFactory;
-        $this->session = $session;
         $this->productRepository = $productRepository;
         $this->clickImpressionView = $clickImpressionView;
         $this->serializer = $serializer;
@@ -77,12 +69,10 @@ class View extends Action
     public function execute()
     {
         if ($this->getRequest()->isAjax()) {
-            $refererUrl = $this->session->getLastRefererUrl(true);
-
             $currentUrl = $this->getRequest()->getParam('currentUrl');
-            $refererPageUrl = $this->getRequest()->getParam('refererUrl');
+            $refererUrl = $this->getRequest()->getParam('refererUrl');
 
-            if (null === $refererUrl || $refererPageUrl === $currentUrl) {
+            if (null === $refererUrl || $refererUrl === $currentUrl) {
                 return null;
             }
 

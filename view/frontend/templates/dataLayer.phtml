@@ -8,7 +8,7 @@
     {
         "*": {
             "DK_GoogleTagManager/js/analyzer": {
-                "dataLayer": <?= $block->getJsonDataLayers() ?>,
+                "dataLayer": <?= $block->getJsonDataLayers() ?: '{}' ?>,
                 "ajaxUrl": "<?= $block->getAjaxUrl() ?>",
                 "currentUrl": "<?= $block->getCurrentUrl() ?>",
                 "refererUrl": "<?= $block->getRerererUrl() ?>"
