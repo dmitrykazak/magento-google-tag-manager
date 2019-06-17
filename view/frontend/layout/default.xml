@@ -4,7 +4,6 @@
         <referenceContainer name="head.additional">
             <block class="DK\GoogleTagManager\Block\DataLayer" name="gtm_datalayer" as="gtm_datalayer" template="DK_GoogleTagManager::dataLayer.phtml" />
             <block class="DK\GoogleTagManager\Block\Gtm" name="gtm_js" as="gtm_js" template="DK_GoogleTagManager::gtm.phtml" />
-            <block class="DK\GoogleTagManager\Block\Analyzer" name="analyzer_datalayer" as="analyzer_datalayer" template="DK_GoogleTagManager::analyzer.phtml"  />
         </referenceContainer>
         <referenceContainer name="after.body.start">
             <block class="DK\GoogleTagManager\Block\Gtm" name="gtm_noscript" as="gtm_noscript" template="DK_GoogleTagManager::noscript.phtml" />

@@ -25,30 +25,57 @@ define([
     }
 
     function dataLayerPush(data) {
-        initBefore();
-
         dataLayer.push(data);
     }
 
-    let analyzerData = storage.get('analyzer-data');
+    /**
+     * @param {Object} config
+     */
+    return function (config) {
+        initBefore();
 
-    analyzerData.subscribe((dataObject) => {
-        if (!_.isObject(dataObject)) {
-            return;
+        const productId = $('input[name="product"]').val();
+
+        $.ajax({
+            type: 'POST',
+            data: {id: productId, currentUrl: config.currentUrl, refererUrl: config.refererUrl},
+            url: config.ajaxUrl,
+            success: (result, status) => {
+                if (_.isArray(result) && result.length > 0) {
+                    result.forEach((item) => {
+                        dataLayerPush(item);
+                    });
+                }
+            },
+            dataType: 'json'
+        });
+
+        if (_.has(config, 'dataLayer') && _.isArray(config.dataLayer) && config.dataLayer.length > 0) {
+            config.dataLayer.forEach((item) => {
+                dataLayerPush(item);
+            });
         }
 
-        if (_.has(dataObject, 'cart') && !_.isEqual(lastStateCart, dataObject.cart)) {
-            initCartDataLayer('addToCart', 'add', dataObject.cart);
+        let analyzerData = storage.get('analyzer-data');
 
-            if (_.has(dataObject, 'removeCart') && _.isArray(dataObject.removeCart) && dataObject.removeCart.length > 0) {
-                initCartDataLayer('removeFromCart', 'remove', dataObject.removeCart);
+        analyzerData.subscribe((dataObject) => {
+            if (!_.isObject(dataObject)) {
+                return;
             }
 
-            lastStateCart = dataObject.cart;
-        }
+            if (_.has(dataObject, 'cart') && !_.isEqual(lastStateCart, dataObject.cart)) {
+                initCartDataLayer('addToCart', 'add', dataObject.cart);
 
-        if (_.has(dataObject, 'checkoutSteps') && _.isArray(dataObject.checkoutSteps) && dataObject.checkoutSteps.length > 0) {
-            _.each(dataObject.checkoutSteps, dataLayerPush);
-        }
-    });
+                if (_.has(dataObject, 'removeCart') && _.isArray(dataObject.removeCart) && dataObject.removeCart.length > 0) {
+                    initCartDataLayer('removeFromCart', 'remove', dataObject.removeCart);
+                }
+
+                lastStateCart = dataObject.cart;
+            }
+
+            if (_.has(dataObject, 'checkoutSteps') && _.isArray(dataObject.checkoutSteps) && dataObject.checkoutSteps.length > 0) {
+                _.each(dataObject.checkoutSteps, dataLayerPush);
+            }
+        });
+    };
 });

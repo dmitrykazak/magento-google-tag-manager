@@ -32,7 +32,7 @@ class ClickImpressionView implements DataLayerInterface
     /**
      * {@inheritdoc}
      */
-    public function getLayer()
+    public function getLayer(): ?array
     {
         $ecommerceClick = $this->session->getClickImpressionProducts(true);
 

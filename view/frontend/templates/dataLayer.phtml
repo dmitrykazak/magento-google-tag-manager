@@ -4,21 +4,15 @@
  */
 ?>
 
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    <?php
-        $data = $block->getJsonDataLayers();
-        if (null !== $data): ?>
-
-            /** @type {Array} */
-            let data = <?= /* @escapeNotVerified */ $data ?>;
-
-            if (data.length !== 0) {
-                data.forEach((item) => {
-                    dataLayer.push(item);
-                });
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "DK_GoogleTagManager/js/analyzer": {
+                "dataLayer": <?= $block->getJsonDataLayers() ?>,
+                "ajaxUrl": "<?= $block->getAjaxUrl() ?>",
+                "currentUrl": "<?= $block->getCurrentUrl() ?>",
+                "refererUrl": "<?= $block->getRerererUrl() ?>"
             }
-
-        <?php endif; ?>
+        }
+    }
 </script>

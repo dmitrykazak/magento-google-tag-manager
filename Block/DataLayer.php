@@ -8,7 +8,9 @@ use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Api\DataLayerListInterface;
 use DK\GoogleTagManager\Factory\DataLayerFactory;
 use DK\GoogleTagManager\Helper\Config;
+use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Serialize\SerializerInterface;
+use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 
@@ -35,9 +37,19 @@ class DataLayer extends Template
     private $serializer;
 
     /**
+     * @var UrlInterface
+     */
+    private $url;
+
+    /**
      * @var array
      */
     private $codes = [];
+
+    /**
+     * @var \Magento\Framework\App\Response\RedirectInterface
+     */
+    private $redirect;
 
     /**
      * DataLayer constructor.
@@ -54,7 +66,9 @@ class DataLayer extends Template
         DataLayerListInterface $dataLayerList,
         DataLayerFactory $dataLayerFactory,
         SerializerInterface $serializer,
+        UrlInterface $url,
         Config $config,
+        RedirectInterface $redirect,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -62,6 +76,8 @@ class DataLayer extends Template
         $this->dataLayerFactory = $dataLayerFactory;
         $this->dataLayerList = $dataLayerList;
         $this->serializer = $serializer;
+        $this->url = $url;
+        $this->redirect = $redirect;
     }
 
     /**
@@ -86,7 +102,13 @@ class DataLayer extends Template
             $layer = $instance->getLayer();
 
             if (null !== $layer) {
-                $data[] = $layer;
+                if (\is_array($layer)) {
+                    foreach ($layer as $item) {
+                        $data[] = $item;
+                    }
+                } else {
+                    $data[] = $layer;
+                }
 
                 $this->codes[] = $instance->getCode();
             }
@@ -103,6 +125,21 @@ class DataLayer extends Template
     public function getCodes(): array
     {
         return $this->codes;
+    }
+
+    public function getAjaxUrl(): string
+    {
+        return $this->getUrl('googletagmanager/impression/view');
+    }
+
+    public function getCurrentUrl(): string
+    {
+        return $this->url->getCurrentUrl();
+    }
+
+    public function getRerererUrl(): string
+    {
+        return $this->redirect->getRefererUrl();
     }
 
     /**
