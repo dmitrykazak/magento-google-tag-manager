@@ -137,7 +137,7 @@ class DataLayer extends Template
         return $this->url->getCurrentUrl();
     }
 
-    public function getRerererUrl(): string
+    public function getRefererUrl(): string
     {
         return $this->redirect->getRefererUrl();
     }
