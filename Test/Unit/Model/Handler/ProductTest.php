@@ -10,6 +10,7 @@ use Magento\Catalog\Helper\Data as CatalogHelper;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Api\AttributeInterface;
+use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
@@ -142,7 +143,7 @@ class ProductTest extends TestCase
 
         $this->catalogHelperMock->expects($this->any())->method('getProduct')->willReturn($product);
 
-        $attributeValue = new \Magento\Framework\Api\AttributeValue([
+        $attributeValue = new AttributeValue([
             AttributeInterface::ATTRIBUTE_CODE => 'custom_brand',
             AttributeInterface::VALUE => 'Custom Brand Attribute',
         ]);
