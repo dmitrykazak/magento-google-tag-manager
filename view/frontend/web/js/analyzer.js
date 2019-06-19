@@ -34,21 +34,21 @@ define([
     return function (config) {
         initBefore();
 
-        const productId = $('input[name="product"]').val();
-
-        $.ajax({
-            type: 'POST',
-            data: {id: productId, currentUrl: config.currentUrl, refererUrl: config.refererUrl},
-            url: config.ajaxUrl,
-            success: (result, status) => {
-                if (_.isArray(result) && result.length > 0) {
-                    result.forEach((item) => {
-                        dataLayerPush(item);
-                    });
-                }
-            },
-            dataType: 'json'
-        });
+        if (config.currentProductId) {
+            $.ajax({
+                type: 'POST',
+                data: {id: config.currentProductId, currentUrl: config.currentUrl, refererUrl: config.refererUrl},
+                url: config.ajaxUrl,
+                success: (result, status) => {
+                    if (_.isArray(result) && result.length > 0) {
+                        result.forEach((item) => {
+                            dataLayerPush(item);
+                        });
+                    }
+                },
+                dataType: 'json'
+            });
+        }
 
         if (_.has(config, 'dataLayer') && _.isArray(config.dataLayer) && config.dataLayer.length > 0) {
             config.dataLayer.forEach((item) => {

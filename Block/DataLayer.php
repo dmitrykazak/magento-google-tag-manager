@@ -6,6 +6,7 @@ namespace DK\GoogleTagManager\Block;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Api\DataLayerListInterface;
+use DK\GoogleTagManager\DataProvider\CurrentProduct;
 use DK\GoogleTagManager\Factory\DataLayerFactory;
 use DK\GoogleTagManager\Helper\Config;
 use Magento\Framework\App\Response\RedirectInterface;
@@ -47,9 +48,14 @@ class DataLayer extends Template
     private $codes = [];
 
     /**
-     * @var \Magento\Framework\App\Response\RedirectInterface
+     * @var RedirectInterface
      */
     private $redirect;
+
+    /**
+     * @var CurrentProduct
+     */
+    private $currentProduct;
 
     /**
      * DataLayer constructor.
@@ -69,6 +75,7 @@ class DataLayer extends Template
         UrlInterface $url,
         Config $config,
         RedirectInterface $redirect,
+        CurrentProduct $currentProduct,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -78,6 +85,7 @@ class DataLayer extends Template
         $this->serializer = $serializer;
         $this->url = $url;
         $this->redirect = $redirect;
+        $this->currentProduct = $currentProduct;
     }
 
     /**
@@ -140,6 +148,13 @@ class DataLayer extends Template
     public function getRefererUrl(): string
     {
         return $this->redirect->getRefererUrl();
+    }
+
+    public function getCurrentProductId(): ?int
+    {
+        $product = $this->currentProduct->get();
+
+        return null === $product ? null : (int) $product->getId();
     }
 
     /**
