@@ -8,6 +8,9 @@ use Magento\Catalog\Api\Data\ProductInterface;
 
 class CurrentProduct
 {
+    /**
+     * @var null|ProductInterface
+     */
     private $product;
 
     public function set(ProductInterface $product): void
@@ -17,6 +20,6 @@ class CurrentProduct
 
     public function get(): ?ProductInterface
     {
-        return $this->product;
+        return null === $this->product ? null : $this->product;
     }
 }
