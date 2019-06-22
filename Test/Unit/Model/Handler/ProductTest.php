@@ -110,7 +110,7 @@ class ProductTest extends TestCase
      * @throws \ReflectionException
      * @dataProvider brandValueDataProvider
      */
-    public function testGetBrandValue(string $expectsBrandValue, array $valueBrand, ?string $brandAttribute): void
+    public function testGetBrandValue(?string $expectsBrandValue, array $valueBrand, ?string $brandAttribute): void
     {
         $this->configMock->expects($this->once())->method('getBrandAttribute')->willReturn($brandAttribute);
 
@@ -160,7 +160,7 @@ class ProductTest extends TestCase
     public function brandValueDataProvider(): \Generator
     {
         yield 'If brand attribute is null' => [
-            '', [], null,
+            null, [], null,
         ];
 
         yield 'If brand attribute is full' => [

@@ -7,7 +7,7 @@ namespace DK\GoogleTagManager\Model\DataLayer\Dto\Cart;
 final class OptionActionFields
 {
     /**
-     * @var
+     * @var ActionField
      */
     public $actionField;
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Model\DataLayer\Dto;
 
+use DK\GoogleTagManager\Model\DataLayer\Dto\Cart\CheckoutOption;
+
 final class Ecommerce
 {
     /**
@@ -12,7 +14,7 @@ final class Ecommerce
     public $event;
 
     /**
-     * @var array
+     * @var array|CheckoutOption
      */
     public $ecommerce;
 }
