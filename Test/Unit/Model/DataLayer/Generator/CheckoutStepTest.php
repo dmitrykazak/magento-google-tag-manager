@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Test\Unit\Model\DataLayer\Generator;
 
-use DK\GoogleTagManager\Model\DataLayer\Dto\Product;
+use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\DataLayer\Generator;
 use Magento\Checkout\Model\Session;
 use Magento\Quote\Model\Quote;
@@ -89,10 +89,31 @@ final class CheckoutStepTest extends TestCase
                 $itemMock,
             ]);
 
-        $this->generatorProduct->method('generate')->willReturn(new Product());
+        $this->generatorProduct->method('generate')->willReturn($this->getProductDto());
 
         $itemMock->expects(self::once())->method('getProduct');
 
-        $this->checkoutStep->onCheckoutStep(1, 'Checkout');
+        $json = <<<'JSON'
+{"event":"checkout","ecommerce":{"checkout":{"actionField":{"step":1,"option":"Visa"},"products":[{"id":12345,"name":"Triblend Android T-Shirt","price":"15.25","quantity":1,"category":"Apparel","brand":"Google","path":"Apparel\/Android"}]},"currencyCode":"USD"}}
+JSON;
+
+        $result = $this->checkoutStep->onCheckoutStep(1, 'Visa');
+
+        $this->assertSame($json, \json_encode($result));
+    }
+
+    private function getProductDto(): Dto\Product
+    {
+        $product = new Dto\Product();
+
+        $product->name = 'Triblend Android T-Shirt';
+        $product->id = 12345;
+        $product->price = '15.25';
+        $product->brand = 'Google';
+        $product->category = 'Apparel';
+        $product->quantity = 1;
+        $product->path = 'Apparel/Android';
+
+        return $product;
     }
 }
