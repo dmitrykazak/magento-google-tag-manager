@@ -41,18 +41,15 @@ class ClickImpression
 
         $this->productHandler->setCategory($category);
 
-        /** @var ProductEntity $product */
-        $product = $this->productHandler->getProduct();
-
         $productImpressionDto = new Dto\Impression\ImpressionProduct();
-        $productImpressionDto->id = $product->getData($this->productHandler->productIdentifier());
-        $productImpressionDto->name = $product->getName();
-        $productImpressionDto->price = $this->getPrice($product);
+        $productImpressionDto->id = $entity->getData($this->productHandler->productIdentifier());
+        $productImpressionDto->name = $entity->getName();
+        $productImpressionDto->price = $this->getPrice($entity);
         $productImpressionDto->category = $this->productHandler->getCategoryName();
         $productImpressionDto->path = $this->productHandler->getCategoriesPath();
         $productImpressionDto->brand = $this->productHandler->getBrandValue();
         $productImpressionDto->list = $list;
-        $productImpressionDto->position = $product->getPosition();
+        $productImpressionDto->position = $entity->getPosition();
 
         $actionField = new Dto\Impression\ActionField();
         $actionField->list = $list;
