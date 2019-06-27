@@ -49,14 +49,14 @@ class ClickImpression
         $productImpressionDto->path = $this->productHandler->getCategoriesPath();
         $productImpressionDto->brand = $this->productHandler->getBrandValue();
         $productImpressionDto->list = $list;
-        $productImpressionDto->position = $entity->getPosition();
+        $productImpressionDto->position = $this->productHandler->getProductPosition();
 
         $actionField = new Dto\Impression\ActionField();
         $actionField->list = $list;
 
         $productDto = new Dto\Product\Product();
         $productDto->actionField = $actionField;
-        $productDto->products = $productImpressionDto;
+        $productDto->products[] = $productImpressionDto;
 
         $click = new Dto\Impression\ClickImpression();
         $click->click = $productDto;

@@ -12,6 +12,8 @@ use Magento\Catalog\Model\ResourceModel\Category\Collection;
 
 class Product
 {
+    private const DEFAULT_PRODUCT_POSITION = 1;
+
     /**
      * @var CatalogHelper
      */
@@ -134,5 +136,14 @@ class Product
     public function productIdentifier(): string
     {
         return $this->config->getProductIdentifier();
+    }
+
+    public function getProductPosition(): int
+    {
+        if (null === $this->getCategory() || null === $this->getProduct()) {
+            return self::DEFAULT_PRODUCT_POSITION;
+        }
+
+        return $productPositions[$this->getProduct()->getId()] ?? self::DEFAULT_PRODUCT_POSITION;
     }
 }
