@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Test\Unit\Model\DataLayer\Generator;
 
+use DK\GoogleTagManager\Model\DataLayer\Builder\ImpressionBuilder;
 use DK\GoogleTagManager\Model\DataLayer\Generator\ClickImpression;
-use DK\GoogleTagManager\Model\Handler;
-use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use PHPUnit\Framework\TestCase;
@@ -19,14 +18,9 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 final class ClickImpressionTest extends TestCase
 {
     /**
-     * @var Handler\Product|MockObject
+     * @var ImpressionBuilder|MockObject
      */
-    private $productHandler;
-
-    /**
-     * @var CategoryRepositoryInterface|MockObject
-     */
-    private $categoryRepository;
+    private $impressionBuilder;
 
     /**
      * @var ClickImpression
@@ -37,13 +31,9 @@ final class ClickImpressionTest extends TestCase
     {
         parent::setUp();
 
-        $this->productHandler = $this->createMock(Handler\Product::class);
-        $this->categoryRepository = $this->createMock(CategoryRepositoryInterface::class);
+        $this->impressionBuilder = $this->createMock(ImpressionBuilder::class);
 
-        $this->clickImpression = new ClickImpression(
-            $this->productHandler,
-            $this->categoryRepository
-        );
+        $this->clickImpression = new ClickImpression($this->impressionBuilder);
     }
 
     public function testGenerate(): void
