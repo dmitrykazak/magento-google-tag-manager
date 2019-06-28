@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Test\Unit\Model\DataLayer\Builder;
 
 use DK\GoogleTagManager\Model\DataLayer\Builder\ImpressionBuilder;
+use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\Handler;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Category;
@@ -46,7 +47,7 @@ final class ImpressionBuilderTest extends TestCase
         );
     }
 
-    public function testBuild(): test
+    public function testBuild(): void
     {
         /** @var MockObject|Product $product */
         $product = $this->createMock(Product::class);
@@ -61,6 +62,29 @@ final class ImpressionBuilderTest extends TestCase
         $this->productHandler->method('productIdentifier')
             ->willReturn('sku');
 
-        $this->impressionBuilder->build($product, 'Search Catalog');
+        $this->productHandler->method('getProductPosition')->willReturn(1);
+        $this->productHandler->method('getCategoryName')->willReturn('Apparel');
+        $this->productHandler->method('getCategoriesPath')->willReturn('Apparel/Android');
+        $this->productHandler->method('getBrandValue')->willReturn('Google');
+
+        $result = $this->impressionBuilder->build($product, 'Search Catalog');
+
+        $this->assertSame($this->impressionObject($product, 'Search Catalog'), $result);
+    }
+
+    private function impressionObject(Product $product, string $list): Dto\Impression\ImpressionProduct
+    {
+        $productImpressionDto = new Dto\Impression\ImpressionProduct();
+
+        $productImpressionDto->id = $product->getData('sku');
+        $productImpressionDto->name = $product->getName();
+        $productImpressionDto->price = '10';
+        $productImpressionDto->category = 'Apparel';
+        $productImpressionDto->brand = 'Google';
+        $productImpressionDto->path = 'Apparel/Android';
+        $productImpressionDto->list = $list;
+        $productImpressionDto->position = 1;
+
+        return $productImpressionDto;
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Test\Unit\Model\DataLayer\Generator;
 
 use DK\GoogleTagManager\Model\DataLayer\Builder\ImpressionBuilder;
+use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\DataLayer\Generator\ClickImpression;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
@@ -48,8 +49,11 @@ final class ClickImpressionTest extends TestCase
         $product->method('getSpecialPrice')->willReturn(10.0);
         $product->method('getName')->willReturn('Test');
 
-        $this->productHandler->method('productIdentifier')
-            ->willReturn('sku');
+        $this->impressionBuilder
+            ->expects(self::once())
+            ->method('build')
+            ->with($product, 'Search Catalog')
+            ->willReturn($this->impressionObject($product, 'Search Catalog'));
 
         $this->clickImpression->generate($product, 'Search Catalog');
     }
@@ -66,15 +70,11 @@ final class ClickImpressionTest extends TestCase
         $product->method('getSpecialPrice')->willReturn(10.0);
         $product->method('getName')->willReturn('Test');
 
-        $this->productHandler->method('productIdentifier')
-            ->willReturn('sku');
-
-        $this->productHandler->method('getProductPosition')
-            ->willReturn(1);
-
-        $this->productHandler->method('getCategoryName')->willReturn('Apparel');
-        $this->productHandler->method('getCategoriesPath')->willReturn('Apparel/Android');
-        $this->productHandler->method('getBrandValue')->willReturn('Google');
+        $this->impressionBuilder
+            ->expects(self::once())
+            ->method('build')
+            ->with($product, 'Search Catalog')
+            ->willReturn($this->impressionObject($product, 'Search Catalog'));
 
         $result = $this->clickImpression->generate($product, 'Search Catalog');
 
@@ -83,5 +83,21 @@ final class ClickImpressionTest extends TestCase
 JSON;
 
         $this->assertSame($json, \json_encode($result));
+    }
+
+    private function impressionObject(Product $product, string $list): Dto\Impression\ImpressionProduct
+    {
+        $productImpressionDto = new Dto\Impression\ImpressionProduct();
+
+        $productImpressionDto->id = $product->getData('sku');
+        $productImpressionDto->name = $product->getName();
+        $productImpressionDto->price = '10';
+        $productImpressionDto->category = 'Apparel';
+        $productImpressionDto->brand = 'Google';
+        $productImpressionDto->path = 'Apparel/Android';
+        $productImpressionDto->list = $list;
+        $productImpressionDto->position = 1;
+
+        return $productImpressionDto;
     }
 }
