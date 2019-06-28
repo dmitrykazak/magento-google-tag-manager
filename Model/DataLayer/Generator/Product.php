@@ -13,7 +13,7 @@ use Magento\Quote\Model\Quote\Item;
 class Product
 {
     /**
-     * @var Handler\Product
+     * @var Handler\ProductHandler
      */
     private $productHandler;
     /**
@@ -21,7 +21,7 @@ class Product
      */
     private $categoryRepository;
 
-    public function __construct(Handler\Product $productHandler, CategoryRepositoryInterface $categoryRepository)
+    public function __construct(Handler\ProductHandler $productHandler, CategoryRepositoryInterface $categoryRepository)
     {
         $this->productHandler = $productHandler;
         $this->categoryRepository = $categoryRepository;

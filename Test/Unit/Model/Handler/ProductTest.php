@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Test\Unit\Model\Handler;
 
 use DK\GoogleTagManager\Helper\Config;
-use DK\GoogleTagManager\Model\Handler\Product as ProductHandler;
+use DK\GoogleTagManager\Model\Handler\ProductHandler as ProductHandler;
 use Magento\Catalog\Helper\Data as CatalogHelper;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;

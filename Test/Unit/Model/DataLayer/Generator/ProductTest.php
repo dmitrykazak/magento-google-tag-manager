@@ -20,7 +20,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 final class ProductTest extends TestCase
 {
     /**
-     * @var Handler\Product|MockObject
+     * @var Handler\ProductHandler|MockObject
      */
     private $productHandler;
 
@@ -38,7 +38,7 @@ final class ProductTest extends TestCase
     {
         parent::setUp();
 
-        $this->productHandler = $this->createMock(Handler\Product::class);
+        $this->productHandler = $this->createMock(Handler\ProductHandler::class);
         $this->categoryRepository = $this->createMock(CategoryRepositoryInterface::class);
 
         $this->productGenerator = new Generator\Product(

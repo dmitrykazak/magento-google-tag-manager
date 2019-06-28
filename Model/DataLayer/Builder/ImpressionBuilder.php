@@ -12,7 +12,7 @@ use Magento\Catalog\Model\Product as ProductEntity;
 class ImpressionBuilder
 {
     /**
-     * @var Handler\Product
+     * @var Handler\ProductHandler
      */
     private $productHandler;
 
@@ -21,7 +21,7 @@ class ImpressionBuilder
      */
     private $categoryRepository;
 
-    public function __construct(Handler\Product $productHandler, CategoryRepositoryInterface $categoryRepository)
+    public function __construct(Handler\ProductHandler $productHandler, CategoryRepositoryInterface $categoryRepository)
     {
         $this->productHandler = $productHandler;
         $this->categoryRepository = $categoryRepository;

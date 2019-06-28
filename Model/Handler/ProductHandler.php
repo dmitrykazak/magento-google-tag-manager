@@ -10,7 +10,7 @@ use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product as ProductCatalog;
 use Magento\Catalog\Model\ResourceModel\Category\Collection;
 
-class Product
+class ProductHandler
 {
     private const DEFAULT_PRODUCT_POSITION = 1;
 
