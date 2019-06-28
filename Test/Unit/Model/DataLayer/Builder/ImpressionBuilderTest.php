@@ -69,7 +69,7 @@ final class ImpressionBuilderTest extends TestCase
 
         $result = $this->impressionBuilder->build($product, 'Search Catalog');
 
-        $this->assertSame($this->impressionObject($product, 'Search Catalog'), $result);
+        $this->assertSame((array) $this->impressionObject($product, 'Search Catalog'), (array) $result);
     }
 
     private function impressionObject(Product $product, string $list): Dto\Impression\ImpressionProduct
