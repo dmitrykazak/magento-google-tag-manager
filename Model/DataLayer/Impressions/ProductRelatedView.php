@@ -32,8 +32,11 @@ class ProductRelatedView implements DataLayerInterface
      */
     private $productHandler;
 
-    public function __construct(Impression $impressionGenerator, StoreManagerInterface $storeManager, ProductHandler $productHandler)
-    {
+    public function __construct(
+        Impression $impressionGenerator,
+        StoreManagerInterface $storeManager,
+        ProductHandler $productHandler
+    ) {
         $this->storeManager = $storeManager;
         $this->impressionGenerator = $impressionGenerator;
         $this->productHandler = $productHandler;
