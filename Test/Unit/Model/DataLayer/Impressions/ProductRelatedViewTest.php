@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Test\Unit\Model\DataLayer\Impressions;
 
+use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\DataLayer\Generator\Impression;
 use DK\GoogleTagManager\Model\DataLayer\Impressions\ProductRelatedView;
 use DK\GoogleTagManager\Model\Handler\ProductHandler;
@@ -75,18 +76,6 @@ final class ProductRelatedViewTest extends TestCase
         /** @var MockObject|Product $product */
         $product = $this->createMock(Product::class);
 
-        $product->method('getRelatedProducts')->willReturn($this->relatedProducts());
-
-        $this->productHandler->method('getProduct')->willReturn($product);
-
-        $this->productRelatedView->getLayer();
-    }
-
-    private function relatedProducts(): array
-    {
-        /** @var MockObject|Product $product */
-        $product = $this->createMock(Product::class);
-
         /** @var Category|MockObject $category */
         $category = $this->createMock(Category::class);
 
@@ -95,6 +84,52 @@ final class ProductRelatedViewTest extends TestCase
         $product->method('getSpecialPrice')->willReturn(10.0);
         $product->method('getName')->willReturn('Test');
 
-        return [$product];
+        $product->method('getRelatedProducts')->willReturn([$product]);
+
+        $this->productHandler->method('getProduct')->willReturn($product);
+
+        $this->impressionGenerator
+            ->expects(self::once())
+            ->method('generate')
+            ->willReturn($this->impressionObject($product, 'Related Products'));
+
+        $json = <<<'JSON'
+{
+  "ecommerce": {
+    "currencyCode": "USD",
+    "impressions": [
+     {
+       "name": "Test",
+       "id": "ART1",
+       "price": "10",
+       "brand": "Google",
+       "category": "Apparel",
+       "list": "Related Products",
+       "path": "Apparel/Android",
+       "position": 1
+     }]
+  }
+}
+JSON;
+
+        $result = $this->productRelatedView->getLayer();
+
+        $this->assertJsonStringEqualsJsonString($json, \json_encode($result));
+    }
+
+    private function impressionObject(Product $product, string $list): Dto\Impression\ImpressionProduct
+    {
+        $productImpressionDto = new Dto\Impression\ImpressionProduct();
+
+        $productImpressionDto->id = $product->getData('sku');
+        $productImpressionDto->name = $product->getName();
+        $productImpressionDto->price = '10';
+        $productImpressionDto->category = 'Apparel';
+        $productImpressionDto->brand = 'Google';
+        $productImpressionDto->path = 'Apparel/Android';
+        $productImpressionDto->list = $list;
+        $productImpressionDto->position = 1;
+
+        return $productImpressionDto;
     }
 }
