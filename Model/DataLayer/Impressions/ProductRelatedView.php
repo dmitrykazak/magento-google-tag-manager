@@ -7,7 +7,7 @@ namespace DK\GoogleTagManager\Model\DataLayer\Impressions;
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\DataLayer\Generator\Impression;
-use DK\GoogleTagManager\Model\Handler\ProductHandler as ProductHandler;
+use DK\GoogleTagManager\Model\Handler\ProductHandler;
 use Magento\Catalog\Model\Product as ProductEntity;
 use Magento\Store\Model\StoreManagerInterface;
 

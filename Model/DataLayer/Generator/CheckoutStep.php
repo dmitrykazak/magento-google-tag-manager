@@ -42,7 +42,7 @@ class CheckoutStep
     {
         $products = [];
         foreach ($this->session->getQuote()->getAllVisibleItems() as $item) {
-            $products[] = $this->productGenerator->generate($item->getProduct(), $item);
+            $products[] = $this->productGenerator->generate($item->getProduct(), $item->getQty());
         }
 
         $actionField = new Dto\Cart\ActionField();

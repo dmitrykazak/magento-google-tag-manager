@@ -45,7 +45,7 @@ final class SalesQuoteRemoveItemObserver implements ObserverInterface
         try {
             /** @var \Magento\Quote\Model\Quote\Item $item */
             $item = $observer->getEvent()->getData('quote_item');
-            $product = $this->productGenerator->generate($item->getProduct(), $item);
+            $product = $this->productGenerator->generate($item->getProduct(), $item->getQty());
 
             $this->sessionManager->setRemovedProductFromCart($product);
         } catch (\Exception $e) {

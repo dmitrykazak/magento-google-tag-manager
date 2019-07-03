@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
-use DK\GoogleTagManager\Test\Unit\Model\UnsetProperty;
+use DK\GoogleTagManager\Model\UnsetProperty;
 
 class ProductView implements DataLayerInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DK\GoogleTagManager\Test\Unit\Model;
+namespace DK\GoogleTagManager\Model;
 
 trait UnsetProperty
 {
@@ -10,7 +10,7 @@ trait UnsetProperty
      * Removing property from object (DTO)
      *
      * @param object $object
-     * @param array $property
+     * @param array $properties
      */
     private function unset($object, array $properties): void
     {

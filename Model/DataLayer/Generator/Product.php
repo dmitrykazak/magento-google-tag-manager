@@ -8,7 +8,6 @@ use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\Handler;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Product as ProductEntity;
-use Magento\Quote\Model\Quote\Item;
 
 class Product
 {
@@ -27,7 +26,7 @@ class Product
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function generate(?ProductEntity $entity, Item $item = null): Dto\Product
+    public function generate(?ProductEntity $entity, $quantity = null): Dto\Product
     {
         if (null !== $entity) {
             $this->productHandler->setProduct($entity);
@@ -52,8 +51,8 @@ class Product
         $productDto->path = $this->productHandler->getCategoriesPath();
         $productDto->brand = $this->productHandler->getBrandValue();
 
-        if (null !== $item) {
-            $productDto->quantity = $item->getQty();
+        if (null !== $quantity) {
+            $productDto->quantity = $quantity;
         }
 
         return $productDto;

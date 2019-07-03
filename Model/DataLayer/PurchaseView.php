@@ -13,8 +13,6 @@ class PurchaseView implements DataLayerInterface
 {
     public const CODE = 'purchase-view';
 
-    private const EVENT = 'orderPurchase';
-
     /**
      * @var CheckoutSession
      */
@@ -47,7 +45,7 @@ class PurchaseView implements DataLayerInterface
         return static::CODE;
     }
 
-    public function getLayer(): Dto\Ecommerce
+    public function getLayer(): Dto\Impression\Ecommerce
     {
         $order = $this->checkoutSession->getLastRealOrder();
 
@@ -56,14 +54,14 @@ class PurchaseView implements DataLayerInterface
 
         /** @var Item $item */
         foreach ($order->getAllVisibleItems() as $item) {
-            $productItems[] = $this->productGenerator->generate($item->getProduct());
+            $productItems[] = $this->productGenerator->generate($item->getProduct(), $item->getQtyOrdered());
         }
 
         $purchaseOrderDto->id = $order->getIncrementId();
         $purchaseOrderDto->affiliation = $order->getStore()->getFrontendName();
-        $purchaseOrderDto->revenue = $order->getGrandTotal() - $order->getTaxAmount();
-        $purchaseOrderDto->tax = $order->getTaxAmount();
-        $purchaseOrderDto->shipping = $order->getShippingAmount();
+        $purchaseOrderDto->revenue = (string) ($order->getGrandTotal() - $order->getTaxAmount());
+        $purchaseOrderDto->tax = (string) $order->getTaxAmount();
+        $purchaseOrderDto->shipping = (string) $order->getShippingAmount();
         $purchaseOrderDto->coupon = $order->getCouponCode();
 
         $purchaseDetailsDto = new Dto\Purchase\PurchaseDetails();
@@ -74,8 +72,7 @@ class PurchaseView implements DataLayerInterface
         $purchaseDto->purchase = $purchaseDetailsDto;
         $purchaseDto->currencyCode = $order->getOrderCurrencyCode();
 
-        $ecommerce = new Dto\Ecommerce();
-        $ecommerce->event = self::EVENT;
+        $ecommerce = new Dto\Impression\Ecommerce();
         $ecommerce->ecommerce = $purchaseDto;
 
         return $ecommerce;

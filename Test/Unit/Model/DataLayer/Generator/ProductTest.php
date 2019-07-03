@@ -9,7 +9,6 @@ use DK\GoogleTagManager\Model\Handler;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
-use Magento\Quote\Model\Quote\Item;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
@@ -78,10 +77,6 @@ final class ProductTest extends TestCase
 
     public function testGenerateItem(): void
     {
-        /** @var Item|MockObject $itemMock */
-        $itemMock = $this->createMock(Item::class);
-        $itemMock->method('getQty')->willReturn(5);
-
         /** @var MockObject|Product $product */
         $product = $this->createMock(Product::class);
         /** @var Category|MockObject $category */
@@ -101,7 +96,7 @@ final class ProductTest extends TestCase
         $this->productHandler->method('getCategoriesPath')->willReturn('Apparel/Android');
         $this->productHandler->method('getBrandValue')->willReturn('Google');
 
-        $result = $this->productGenerator->generate($product, $itemMock);
+        $result = $this->productGenerator->generate($product, 5);
 
         $this->assertSame('Test', $result->name);
         $this->assertSame('Google', $result->brand);
