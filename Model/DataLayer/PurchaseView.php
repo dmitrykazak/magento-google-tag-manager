@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
+use DK\GoogleTagManager\Model\UnsetProperty;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order\Item;
 
 class PurchaseView implements DataLayerInterface
 {
+    use UnsetProperty;
+
     public const CODE = 'purchase-view';
 
     /**
@@ -45,7 +48,7 @@ class PurchaseView implements DataLayerInterface
         return static::CODE;
     }
 
-    public function getLayer(): Dto\Impression\Ecommerce
+    public function getLayer(): Dto\Ecommerce
     {
         $order = $this->checkoutSession->getLastRealOrder();
 
@@ -72,8 +75,10 @@ class PurchaseView implements DataLayerInterface
         $purchaseDto->purchase = $purchaseDetailsDto;
         $purchaseDto->currencyCode = $order->getOrderCurrencyCode();
 
-        $ecommerce = new Dto\Impression\Ecommerce();
+        $ecommerce = new Dto\Ecommerce();
         $ecommerce->ecommerce = $purchaseDto;
+
+        $this->unset($ecommerce, ['event']);
 
         return $ecommerce;
     }

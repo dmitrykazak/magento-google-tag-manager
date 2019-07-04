@@ -35,10 +35,7 @@ class ProductView implements DataLayerInterface
         return static::CODE;
     }
 
-    /**
-     * @return Dto\Impression\Ecommerce
-     */
-    public function getLayer(): Dto\Impression\Ecommerce
+    public function getLayer(): Dto\Ecommerce
     {
         $product = $this->productGenerator->generate(null);
 
@@ -54,9 +51,11 @@ class ProductView implements DataLayerInterface
         $detailsDto = new Dto\Details();
         $detailsDto->detail = $productDto;
 
-        $ecommerceDto = new Dto\Impression\Ecommerce();
-        $ecommerceDto->ecommerce = $detailsDto;
+        $ecommerce = new Dto\Ecommerce();
+        $ecommerce->ecommerce = $detailsDto;
 
-        return $ecommerceDto;
+        $this->unset($ecommerce, ['event']);
+
+        return $ecommerce;
     }
 }

@@ -8,11 +8,14 @@ use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\DataLayer\Generator\Impression;
 use DK\GoogleTagManager\Model\Handler\ProductHandler;
+use DK\GoogleTagManager\Model\UnsetProperty;
 use Magento\Catalog\Model\Product as ProductEntity;
 use Magento\Store\Model\StoreManagerInterface;
 
 class ProductRelatedView implements DataLayerInterface
 {
+    use UnsetProperty;
+
     public const CODE = 'product-related-view';
 
     private const RELATED = 'Related Products';
@@ -53,7 +56,7 @@ class ProductRelatedView implements DataLayerInterface
     /**
      * {@inheritdoc}
      */
-    public function getLayer()
+    public function getLayer(): Dto\Ecommerce
     {
         /** @var ProductEntity $product */
         $product = $this->productHandler->getProduct();
@@ -73,8 +76,10 @@ class ProductRelatedView implements DataLayerInterface
         $impression->currencyCode = $this->storeManager->getStore()->getCurrentCurrency()->getCode();
         $impression->impressions = $impressionProducts;
 
-        $ecommerce = new Dto\Impression\Ecommerce();
+        $ecommerce = new Dto\Ecommerce();
         $ecommerce->ecommerce = $impression;
+
+        $this->unset($ecommerce, ['event']);
 
         return $ecommerce;
     }
