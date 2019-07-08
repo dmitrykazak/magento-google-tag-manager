@@ -27,12 +27,12 @@ class ClickImpression
         $actionField = new Dto\Impression\ActionField();
         $actionField->list = $list;
 
-        $productDto = new Dto\Product\Product();
-        $productDto->actionField = $actionField;
-        $productDto->products[] = $this->impressionBuilder->build($entity, $list);
+        $detailsDto = new Dto\EcommerceDetails();
+        $detailsDto->actionField = $actionField;
+        $detailsDto->products[] = $this->impressionBuilder->build($entity, $list);
 
         $click = new Dto\Impression\ClickImpression();
-        $click->click = $productDto;
+        $click->click = $detailsDto;
 
         $ecommerce = new Dto\Ecommerce();
         $ecommerce->event = static::EVENT;

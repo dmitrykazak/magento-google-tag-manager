@@ -44,12 +44,12 @@ class ProductView implements DataLayerInterface
         $actionField = new Dto\Impression\ActionField();
         $actionField->list = $product->category;
 
-        $productDto = new Dto\Product\Product();
-        $productDto->actionField = $actionField;
-        $productDto->products[] = $product;
+        $detailEcommerceDto = new Dto\EcommerceDetails();
+        $detailEcommerceDto->actionField = $actionField;
+        $detailEcommerceDto->products[] = $product;
 
         $detailsDto = new Dto\Details();
-        $detailsDto->detail = $productDto;
+        $detailsDto->detail = $detailEcommerceDto;
 
         $ecommerce = new Dto\Ecommerce();
         $ecommerce->ecommerce = $detailsDto;

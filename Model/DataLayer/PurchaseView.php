@@ -67,7 +67,7 @@ class PurchaseView implements DataLayerInterface
         $purchaseOrderDto->shipping = (string) $order->getShippingAmount();
         $purchaseOrderDto->coupon = $order->getCouponCode();
 
-        $purchaseDetailsDto = new Dto\Purchase\PurchaseDetails();
+        $purchaseDetailsDto = new Dto\EcommerceDetails();
         $purchaseDetailsDto->products = $productItems;
         $purchaseDetailsDto->actionField = $purchaseOrderDto;
 

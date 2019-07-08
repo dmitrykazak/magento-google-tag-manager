@@ -49,12 +49,12 @@ class CheckoutStep
         $actionField->step = $step;
         $actionField->option = $option;
 
-        $cart = new Dto\Product\Product();
-        $cart->actionField = $actionField;
-        $cart->products = $products;
+        $detailCart = new Dto\EcommerceDetails();
+        $detailCart->actionField = $actionField;
+        $detailCart->products = $products;
 
         $checkout = new Dto\Cart\Checkout();
-        $checkout->checkout = $cart;
+        $checkout->checkout = $detailCart;
         $checkout->currencyCode = $this->storeManager->getStore()->getCurrentCurrency()->getCode();
 
         $ecommerce = new Dto\Ecommerce();

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Model\DataLayer\Dto\Cart;
 
-use DK\GoogleTagManager\Model\DataLayer\Dto\Product\Product;
+use DK\GoogleTagManager\Model\DataLayer\Dto\EcommerceDetails;
 
 final class Checkout
 {
     /**
-     * @var Product
+     * @var EcommerceDetails
      */
     public $checkout;
 
