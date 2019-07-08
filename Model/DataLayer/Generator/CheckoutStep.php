@@ -49,7 +49,7 @@ class CheckoutStep
         $actionField->step = $step;
         $actionField->option = $option;
 
-        $cart = new Dto\Cart\Cart();
+        $cart = new Dto\Product\Product();
         $cart->actionField = $actionField;
         $cart->products = $products;
 
