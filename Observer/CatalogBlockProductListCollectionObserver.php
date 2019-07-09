@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Observer;
 
 use DK\GoogleTagManager\Factory\ImpressionHandlerFactory;
+use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
@@ -13,7 +14,7 @@ use Psr\Log\LoggerInterface;
 final class CatalogBlockProductListCollectionObserver implements ObserverInterface
 {
     /**
-     * @var RequestInterface
+     * @var \Magento\Framework\App\Request\Http|RequestInterface
      */
     private $request;
 
@@ -43,8 +44,8 @@ final class CatalogBlockProductListCollectionObserver implements ObserverInterfa
     public function execute(Observer $observer): void
     {
         try {
-            /** @var \Magento\Catalog\Model\ResourceModel\Product\Collection $collection */
-            $collection = $observer->getEvent()->getCollection();
+            /** @var Collection $collection */
+            $collection = $observer->getEvent()->getData('collection');
 
             $handlerImpression = $this->impressionHandlerFactory->create($this->request->getRouteName());
 
