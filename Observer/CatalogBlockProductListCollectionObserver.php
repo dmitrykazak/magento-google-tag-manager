@@ -6,6 +6,7 @@ namespace DK\GoogleTagManager\Observer;
 
 use DK\GoogleTagManager\Factory\ImpressionHandlerFactory;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
+use Magento\Framework\App\Request\Http;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
@@ -14,7 +15,7 @@ use Psr\Log\LoggerInterface;
 final class CatalogBlockProductListCollectionObserver implements ObserverInterface
 {
     /**
-     * @var \Magento\Framework\App\Request\Http|RequestInterface
+     * @var Http|RequestInterface
      */
     private $request;
 
