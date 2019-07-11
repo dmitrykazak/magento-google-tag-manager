@@ -33,9 +33,9 @@ final class SalesQuoteRemoveItemObserver implements ObserverInterface
         Session $sessionManager,
         LoggerInterface $logger
     ) {
-        $this->logger = $logger;
         $this->productGenerator = $productGenerator;
         $this->sessionManager = $sessionManager;
+        $this->logger = $logger;
     }
 
     /**
@@ -50,7 +50,7 @@ final class SalesQuoteRemoveItemObserver implements ObserverInterface
 
             $this->sessionManager->setRemovedProductFromCart($product);
         } catch (\Exception $e) {
-            $this->logger->critical($e);
+            $this->logger->critical($e->getMessage());
         }
     }
 }

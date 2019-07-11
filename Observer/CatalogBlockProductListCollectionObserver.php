@@ -54,7 +54,7 @@ final class CatalogBlockProductListCollectionObserver implements ObserverInterfa
                 $handlerImpression->handle($collection);
             }
         } catch (\Exception $e) {
-            $this->logger->critical($e);
+            $this->logger->critical($e->getMessage());
         }
     }
 }
