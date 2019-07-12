@@ -6,6 +6,7 @@ namespace DK\GoogleTagManager\Model\DataLayer\Impressions;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Model\Session;
+use Magento\Framework\Event\Manager;
 
 class ClickImpressionView implements DataLayerInterface
 {
@@ -16,9 +17,15 @@ class ClickImpressionView implements DataLayerInterface
      */
     private $session;
 
-    public function __construct(Session $session)
+    /**
+     * @var Manager
+     */
+    private $eventManager;
+
+    public function __construct(Session $session, Manager $eventManager)
     {
         $this->session = $session;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -36,6 +43,12 @@ class ClickImpressionView implements DataLayerInterface
     {
         $ecommerceClick = $this->session->getClickImpressionProducts(true);
 
-        return 0 < \count($ecommerceClick) ? $ecommerceClick : null;
+        $impression = 0 < \count($ecommerceClick) ? $ecommerceClick : null;
+
+        $this->eventManager->dispatch('dk_googletagmanager_click_impression_view', [
+            'impression' => $impression,
+        ]);
+
+        return $impression;
     }
 }

@@ -10,6 +10,7 @@ use DK\GoogleTagManager\DataProvider\CurrentProduct;
 use DK\GoogleTagManager\Factory\DataLayerFactory;
 use DK\GoogleTagManager\Helper\Config;
 use Magento\Framework\App\Response\RedirectInterface;
+use Magento\Framework\Event\Manager;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;
@@ -58,15 +59,10 @@ class DataLayer extends Template
     private $currentProduct;
 
     /**
-     * DataLayer constructor.
-     *
-     * @param Context $context
-     * @param DataLayerListInterface $dataLayerList
-     * @param DataLayerFactory $dataLayerFactory
-     * @param SerializerInterface $serializer
-     * @param Config $config
-     * @param array $data
+     * @var Manager
      */
+    private $eventManage;
+
     public function __construct(
         Context $context,
         DataLayerListInterface $dataLayerList,
@@ -76,6 +72,7 @@ class DataLayer extends Template
         Config $config,
         RedirectInterface $redirect,
         CurrentProduct $currentProduct,
+        Manager $eventManage,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -86,6 +83,7 @@ class DataLayer extends Template
         $this->url = $url;
         $this->redirect = $redirect;
         $this->currentProduct = $currentProduct;
+        $this->eventManage = $eventManage;
     }
 
     /**
@@ -121,6 +119,8 @@ class DataLayer extends Template
                 $this->codes[] = $instance->getCode();
             }
         }
+
+        $this->eventManage->dispatch('dk_googletagmanager_after_build_layer', ['dataLayers' => $data]);
 
         return $this->serializer->serialize($data);
     }
