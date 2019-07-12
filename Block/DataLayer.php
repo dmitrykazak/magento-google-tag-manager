@@ -120,7 +120,7 @@ class DataLayer extends Template
             }
         }
 
-        $this->eventManage->dispatch('dk_googletagmanager_after_build_layer', ['dataLayers' => $data]);
+        $this->eventManage->dispatch('dk_googletagmanager_after_build_layer', ['dataLayer' => $data]);
 
         return $this->serializer->serialize($data);
     }

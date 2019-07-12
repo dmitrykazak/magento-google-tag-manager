@@ -46,7 +46,7 @@ class ClickImpressionView implements DataLayerInterface
         $impression = 0 < \count($ecommerceClick) ? $ecommerceClick : null;
 
         $this->eventManager->dispatch('dk_googletagmanager_click_impression_view', [
-            'impression' => $impression,
+            'dataLayer' => $impression,
         ]);
 
         return $impression;

@@ -6,18 +6,26 @@ namespace DK\GoogleTagManager\Model\DataLayer\Impressions;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Model\Session;
+use Magento\Framework\Event\Manager;
 
 class SearchImpressionView implements DataLayerInterface
 {
     public const CODE = 'search-impression-view';
+
     /**
      * @var Session
      */
     private $session;
 
-    public function __construct(Session $session)
+    /**
+     * @var Manager
+     */
+    private $eventManager;
+
+    public function __construct(Session $session, Manager $eventManager)
     {
         $this->session = $session;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -33,12 +41,14 @@ class SearchImpressionView implements DataLayerInterface
      */
     public function getLayer(): array
     {
-        $impressions = $this->session->getImpressionSearchProducts(true);
+        $products = $this->session->getImpressionSearchProducts(true);
 
-        if (0 === \count($impressions)) {
-            return [];
-        }
+        $impression = 0 === \count($products) ? [] : $products;
 
-        return $impressions;
+        $this->eventManager->dispatch('dk_googletagmanager_search_impression_view', [
+            'dataLayer' => $impression,
+        ]);
+
+        return $impression;
     }
 }

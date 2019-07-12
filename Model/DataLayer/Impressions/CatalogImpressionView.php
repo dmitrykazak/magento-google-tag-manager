@@ -6,18 +6,26 @@ namespace DK\GoogleTagManager\Model\DataLayer\Impressions;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use DK\GoogleTagManager\Model\Session;
+use Magento\Framework\Event\Manager;
 
 class CatalogImpressionView implements DataLayerInterface
 {
     public const CODE = 'catalog-impression-view';
+
     /**
      * @var Session
      */
     private $session;
 
-    public function __construct(Session $session)
+    /**
+     * @var Manager
+     */
+    private $eventManager;
+
+    public function __construct(Session $session, Manager $eventManager)
     {
         $this->session = $session;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -33,12 +41,14 @@ class CatalogImpressionView implements DataLayerInterface
      */
     public function getLayer(): array
     {
-        $impressions = $this->session->getImpressionCatalogProducts(true);
+        $products = $this->session->getImpressionCatalogProducts(true);
 
-        if (0 === \count($impressions)) {
-            return [];
-        }
+        $impression = 0 === \count($products) ? [] : $products;
 
-        return $impressions;
+        $this->eventManager->dispatch('dk_googletagmanager_catalog_impression_view', [
+            'dataLayer' => $impression,
+        ]);
+
+        return $impression;
     }
 }
