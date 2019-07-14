@@ -9,17 +9,21 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
 ````composer require dmitrykazak/magento-google-tag-manager ````
 
 3. After installation is completed the extension:
+ ```bash
+# Enable the extension and clear static view files
+ $ bin/magento module:enable DK_GoogleTagManager --clear-static-content
+ 
+ # Update the database schema and data
+ $ bin/magento setup:upgrade
+ 
+ # Recompile your Magento project
+ $ bin/magento setup:di:compile
+ 
+ # Clean the cache 
+ $ bin/magento cache:flush
+```
 
-> Enable the extension and clear static view files
-- ````$ bin/magento module:enable DK_GoogleTagManager --clear-static-content ````
-> Update the database schema and data
-- ````$ bin/magento setup:upgrade````
-> Recompile your Magento project
-- ````$ bin/magento setup:di:compile````
-> Clean the cache
-- ````$ bin/magento cache:flush````
-
-# Description
+# Magento Google Tag Manager Features
 
 TBD.
 
