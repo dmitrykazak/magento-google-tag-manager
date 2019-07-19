@@ -4,9 +4,10 @@ define([
 ], function ($, _) {
     'use strict';
 
-    function initImpressions(action, product) {
+    function initImpressions(action, product, currency) {
         dataLayer.push({
             'ecommerce': {
+                'currencyCode': currency,
                 [action]: product
             }
         });
@@ -17,7 +18,7 @@ define([
      */
     return function (config) {
         if (_.has(config, 'impressions') && _.isArray(config.impressions) && config.impressions.length > 0) {
-            initImpressions('impressions', config.impressions);
+            initImpressions('impressions', config.impressions, config.currency);
         }
     }
 });

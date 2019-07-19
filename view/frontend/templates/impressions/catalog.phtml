@@ -10,7 +10,8 @@
 {
     "*": {
         "DK_GoogleTagManager/js/impressions": {
-            "impressions": <?= $block->getJsonDataLayers() ?>
+            "impressions": <?= $block->getJsonDataLayers() ?>,
+            "currency": "<?= $block->getCurrentCurrency() ?>"
         }
     }
 }

@@ -35,4 +35,9 @@ class CatalogImpression extends Template
     {
         return $this->serializer->serialize($this->catalogImpressionView->getLayer());
     }
+
+    public function getCurrentCurrency(): string
+    {
+        return $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
+    }
 }

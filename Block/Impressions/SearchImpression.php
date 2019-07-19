@@ -35,4 +35,9 @@ class SearchImpression extends Template
     {
         return $this->serializer->serialize($this->searchImpressionView->getLayer());
     }
+
+    public function getCurrentCurrency(): string
+    {
+        return $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
+    }
 }
