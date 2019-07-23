@@ -5,8 +5,6 @@ define([
 ], function ($, _, storage) {
     'use strict';
 
-    let lastStateCart = [];
-
     function initBefore() {
         window.dataLayer = window.dataLayer || [];
     }
@@ -64,15 +62,13 @@ define([
             }
 
             let cartValidate = _.has(dataObject, 'cart') && _.isArray(dataObject.cart) && dataObject.cart.length > 0;
-            if (cartValidate && !_.isEqual(lastStateCart, dataObject.cart)) {
+            if (cartValidate) {
                 initCartDataLayer('addToCart', 'add', dataObject.cart);
-                lastStateCart = dataObject.cart;
+                dataObject.cart = { };
             }
 
             if (_.has(dataObject, 'removeCart') && _.isArray(dataObject.removeCart) && dataObject.removeCart.length > 0) {
                 initCartDataLayer('removeFromCart', 'remove', dataObject.removeCart);
-
-                lastStateCart = dataObject.cart;
             }
 
             if (_.has(dataObject, 'checkoutSteps') && _.isArray(dataObject.checkoutSteps) && dataObject.checkoutSteps.length > 0) {

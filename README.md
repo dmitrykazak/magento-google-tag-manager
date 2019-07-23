@@ -218,7 +218,7 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
     "purchase": {
       "actionField": {
         "id": "000000033",
-        "affileation": "Main Website Store",
+        "affiliation": "Main Website Store",
         "revenue": "82",
         "tax": "0",
         "shipping": "5.0000",
