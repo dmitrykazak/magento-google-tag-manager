@@ -63,12 +63,14 @@ define([
                 return;
             }
 
-            if (_.has(dataObject, 'cart') && !_.isEqual(lastStateCart, dataObject.cart)) {
+            let cartValidate = _.has(dataObject, 'cart') && _.isArray(dataObject.cart) && dataObject.cart.length > 0;
+            if (cartValidate && !_.isEqual(lastStateCart, dataObject.cart)) {
                 initCartDataLayer('addToCart', 'add', dataObject.cart);
+                lastStateCart = dataObject.cart;
+            }
 
-                if (_.has(dataObject, 'removeCart') && _.isArray(dataObject.removeCart) && dataObject.removeCart.length > 0) {
-                    initCartDataLayer('removeFromCart', 'remove', dataObject.removeCart);
-                }
+            if (_.has(dataObject, 'removeCart') && _.isArray(dataObject.removeCart) && dataObject.removeCart.length > 0) {
+                initCartDataLayer('removeFromCart', 'remove', dataObject.removeCart);
 
                 lastStateCart = dataObject.cart;
             }

@@ -30,18 +30,18 @@ class Product
     {
         if (null !== $entity) {
             $this->productHandler->setProduct($entity);
-
-            $category = $entity->getCategory();
-            if (null === $category) {
-                $categoryIds = $entity->getCategoryIds();
-                $category = $this->categoryRepository->get(\reset($categoryIds));
-            }
-
-            $this->productHandler->setCategory($category);
         }
 
         /** @var ProductEntity $product */
         $product = $this->productHandler->getProduct();
+
+        $category = $product->getCategory();
+        if (null === $category) {
+            $categoryIds = $product->getCategoryIds();
+            $category = $this->categoryRepository->get(\reset($categoryIds));
+        }
+
+        $this->productHandler->setCategory($category);
 
         $productDto = new Dto\Product();
         $productDto->id = $product->getData($this->productHandler->productIdentifier());

@@ -5,7 +5,7 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
 #### Step-by-step to install the Magento 2 extension through Composer:
 1. Locate your Magento 2 project root.
 
-2. Install the Magento 2 extension using **composer**  
+2. Install the Magento 2 extension using [Composer](https://getcomposer.org/)  
  ```bash 
  composer require dmitrykazak/magento-google-tag-manager 
  ```
@@ -52,7 +52,193 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
 
 #### Data Layers
 
-TBD.
+ * Product Impressions
+```json
+{
+  "ecommerce": {
+    "currencyCoce": "USD",
+    "impressions": [
+      {
+        "id": "WT09",
+        "name": "Breathe-Easy Tank",
+        "price": "34.0000",
+        "category": "Bras & Tanks",
+        "brand": "Breathe-Easy Tank",
+        "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category",
+        "list": "Search Results",
+        "position": 1
+      },
+      {
+        "id": "WT09",
+        "name": "Breathe-Easy",
+        "price": "31.0000",
+        "category": "Bras & Tanks",
+        "brand": "Breathe-Easy Tank",
+        "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category",
+        "list": "Search Results",
+        "position": 2
+      }
+    ]
+  }
+}
+```
+* Product Clicks
+```json
+{
+  "event": "productClick",
+  "ecommerce": {
+    "click": {
+      "actionField": {
+        "list": "Search Results"
+      }
+    },
+    "products": [
+      {
+        "id": "WT09",
+        "name": "Breathe-Easy Tank",
+        "price": "34.0000",
+        "category": "Bras & Tanks",
+        "brand": "Breathe-Easy Tank",
+        "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category",
+        "list": "Search Results",
+        "position": 1
+      }
+    ]
+  }
+}
+```
+* Product Details
+```json
+{
+  "ecommerce": {
+    "detail": {
+      "actionField": {
+        "list": "Bras"
+      }
+    },
+    "products": [
+      {
+        "id": "WT09",
+        "name": "Breathe-Easy Tank",
+        "price": "34.0000",
+        "category": "Bras & Tanks",
+        "brand": "Breathe-Easy Tank",
+        "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category"
+      }
+    ]
+  }
+}
+```
+* Add to Cart
+```json
+{
+  "event": "addToCart",
+  "ecommerce": {
+    "add": {
+      "products": [
+        {
+          "id": "WT09",
+          "name": "Breathe-Easy Tank",
+          "price": "34.0000",
+          "quantity": 1,
+          "category": "Bras & Tanks",
+          "brand": "Breathe-Easy Tank",
+          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category"
+        }
+      ]
+    }
+  }
+}
+```
+* Remove from Cart
+```json
+{
+  "event": "removeFromCart",
+  "ecommerce": {
+    "remove": {
+      "products": [
+        {
+          "id": "WT11",
+          "name": "Breathe-Easy Tank",
+          "price": "69.0000",
+          "quantity": 1,
+          "category": "Bras & Tanks",
+          "brand": "Breathe-Easy Tank",
+          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category"
+        }
+      ]
+    }
+  }
+}
+```
+* Checkout
+```json
+{
+  "event": "checkout",
+  "ecommerce": {
+    "currencyCode": "USD",
+    "checkout": {
+      "actionField": {
+        "step": 1,
+        "option": "cart"
+      },
+      "products": [
+        {
+          "id": "WT09",
+          "name": "Breathe-Easy Tank",
+          "price": "34.0000",
+          "category": "Bras & Tanks",
+          "brand": "Breathe-Easy Tank",
+          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category"
+        }
+      ]
+    }
+  }
+}
+```
+* Checkout options
+```json
+{
+  "event": "checkoutOption",
+  "ecommerce": {
+    "checkout_option": {
+      "actionField": {
+        "step": 3,
+        "option": "Flat Rate - Fixed"
+      }
+    }
+  }
+}
+```
+* Purchases
+```json
+{
+  "ecommerce": {
+    "currencyCode": "USD",
+    "purchase": {
+      "actionField": {
+        "id": "000000033",
+        "affileation": "Main Website Store",
+        "revenue": "82",
+        "tax": "0",
+        "shipping": "5.0000",
+        "coupon": "NEW"
+      },
+      "products": [
+        {
+          "id": "WT06",
+          "name": "Breathe-Easy Tank",
+          "price": "77.0000",
+          "quantity": "1.0000",
+          "category": "Bras & Tanks",
+          "brand": "Breathe-Easy Tank",
+          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category"
+        }
+      ]
+    }
+  }
+}
+```
 
 #### Links
 * [Contact with me](https://developer-vub3295.slack.com/messages/CLG5P5A0N)
