@@ -60,7 +60,7 @@ class Product
 
     private function getPrice(ProductEntity $product): string
     {
-        $price = $product->getSpecialPrice() ?: $product->getData('price');
+        $price = $product->getSpecialPrice() ?: $product->getFinalPrice();
 
         return (string) $price;
     }

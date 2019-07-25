@@ -8,6 +8,7 @@ use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\DataLayer\Generator\Impression;
 use DK\GoogleTagManager\Model\DataLayer\Impressions\ProductRelatedView;
 use DK\GoogleTagManager\Model\Handler\ProductHandler;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\Store\Model\Store;
@@ -41,6 +42,11 @@ final class ProductRelatedViewTest extends TestCase
      */
     private $productRelatedView;
 
+    /**
+     * @var MockObject|ProductRepositoryInterface
+     */
+    private $productRepository;
+
     protected function setUp()
     {
         parent::setUp();
@@ -48,6 +54,7 @@ final class ProductRelatedViewTest extends TestCase
         $this->impressionGenerator = $this->createMock(Impression::class);
         $this->storeManager = $this->createMock(StoreManagerInterface::class);
         $this->productHandler = $this->createMock(ProductHandler::class);
+        $this->productRepository = $this->createMock(ProductRepositoryInterface::class);
 
         /** @var MockObject|Store $storeMock */
         $storeMock = $this->createMock(Store::class);
@@ -67,7 +74,8 @@ final class ProductRelatedViewTest extends TestCase
         $this->productRelatedView = new ProductRelatedView(
             $this->impressionGenerator,
             $this->storeManager,
-            $this->productHandler
+            $this->productHandler,
+            $this->productRepository
         );
     }
 
@@ -86,7 +94,7 @@ final class ProductRelatedViewTest extends TestCase
 
         $product->method('getRelatedProducts')->willReturn([$product]);
 
-        $this->productHandler->method('getProduct')->willReturn($product);
+        $this->productRepository->expects(self::once())->method('getById')->willReturn($product);
 
         $this->impressionGenerator
             ->expects(self::once())
