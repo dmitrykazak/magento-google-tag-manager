@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer\Generator;
 
 use DK\GoogleTagManager\Model\DataLayer\Dto;
+use DK\GoogleTagManager\Model\UnsetProperty;
 
 class CheckoutOptionStep
 {
-    private const EVENT = 'checkoutOption';
+    use UnsetProperty;
+
+    private const EVENT = 'checkout';
 
     public function onCheckoutOptionStep(int $step, string $option): Dto\Ecommerce
     {
@@ -19,8 +22,10 @@ class CheckoutOptionStep
         $optionActionField = new Dto\Cart\OptionActionFields();
         $optionActionField->actionField = $actionField;
 
-        $checkoutOption = new Dto\Cart\CheckoutOption();
-        $checkoutOption->checkout_option = $optionActionField;
+        $checkoutOption = new Dto\Cart\Checkout();
+        $checkoutOption->checkout = $optionActionField;
+
+        $this->unset($checkoutOption, ['currencyCode']);
 
         $ecommerce = new Dto\Ecommerce();
         $ecommerce->event = self::EVENT;

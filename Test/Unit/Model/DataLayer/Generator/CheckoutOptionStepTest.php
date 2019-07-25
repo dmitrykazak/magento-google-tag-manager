@@ -34,13 +34,13 @@ final class CheckoutOptionStepTest extends TestCase
         $ref = new \ReflectionClassConstant(CheckoutOptionStep::class, 'EVENT');
 
         $this->assertSame($ref->getValue(), $result->event);
-        $this->assertSame('Checkout', $result->ecommerce->checkout_option->actionField->option);
+        $this->assertSame('Checkout', $result->ecommerce->checkout->actionField->option);
     }
 
     public function testOnCheckoutOptionSchema(): void
     {
         $json = <<<'JSON'
-{"event":"checkoutOption","ecommerce":{"checkout_option":{"actionField":{"step":1,"option":"Checkout"}}}}
+{"event":"checkout","ecommerce":{"checkout":{"actionField":{"step":1,"option":"Checkout"}}}}
 JSON;
         /** @var Dto\Ecommerce $result */
         $result = $this->checkoutOptionStep->onCheckoutOptionStep(1, 'Checkout');

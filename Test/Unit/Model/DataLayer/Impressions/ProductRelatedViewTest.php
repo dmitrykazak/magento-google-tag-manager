@@ -92,6 +92,8 @@ final class ProductRelatedViewTest extends TestCase
         $product->method('getSpecialPrice')->willReturn(10.0);
         $product->method('getName')->willReturn('Test');
 
+        $this->productHandler->method('getProduct')->willReturn($product);
+
         $product->method('getRelatedProducts')->willReturn([$product]);
 
         $this->productRepository->expects(self::once())->method('getById')->willReturn($product);

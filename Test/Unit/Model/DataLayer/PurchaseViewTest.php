@@ -101,6 +101,7 @@ final class PurchaseViewTest extends TestCase
 
         $json = <<<'JSON'
 {
+  "event": "purchase",
   "ecommerce": {
     "currencyCode": "USD",
     "purchase": {

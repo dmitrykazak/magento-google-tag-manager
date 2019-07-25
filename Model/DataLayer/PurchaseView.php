@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
-use DK\GoogleTagManager\Model\UnsetProperty;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order\Item;
 
 class PurchaseView implements DataLayerInterface
 {
-    use UnsetProperty;
-
     public const CODE = 'purchase-view';
+
+    private const EVENT = 'purchase';
 
     /**
      * @var CheckoutSession
@@ -52,7 +51,6 @@ class PurchaseView implements DataLayerInterface
     {
         $order = $this->checkoutSession->getLastRealOrder();
 
-        $purchaseOrderDto = new Dto\Purchase\Order();
         $productItems = [];
 
         /** @var Item $item */
@@ -60,12 +58,13 @@ class PurchaseView implements DataLayerInterface
             $productItems[] = $this->productGenerator->generate($item->getProduct(), $item->getQtyOrdered());
         }
 
+        $purchaseOrderDto = new Dto\Purchase\Order();
         $purchaseOrderDto->id = $order->getIncrementId();
         $purchaseOrderDto->affiliation = $order->getStore()->getFrontendName();
         $purchaseOrderDto->revenue = (string) ($order->getGrandTotal() - $order->getTaxAmount());
         $purchaseOrderDto->tax = (string) $order->getTaxAmount();
         $purchaseOrderDto->shipping = (string) $order->getShippingAmount();
-        $purchaseOrderDto->coupon = $order->getCouponCode();
+        $purchaseOrderDto->coupon = $order->getCouponCode() ?: '';
 
         $purchaseDetailsDto = new Dto\EcommerceDetails();
         $purchaseDetailsDto->products = $productItems;
@@ -77,8 +76,7 @@ class PurchaseView implements DataLayerInterface
 
         $ecommerce = new Dto\Ecommerce();
         $ecommerce->ecommerce = $purchaseDto;
-
-        $this->unset($ecommerce, ['event']);
+        $ecommerce->event = self::EVENT;
 
         return $ecommerce;
     }

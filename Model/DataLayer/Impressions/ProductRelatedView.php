@@ -65,7 +65,7 @@ class ProductRelatedView implements DataLayerInterface
     /**
      * {@inheritdoc}
      */
-    public function getLayer(): Dto\Ecommerce
+    public function getLayer(): ?Dto\Ecommerce
     {
         /** @var ProductEntity $product */
         $product = $this->productHandler->getProduct();

@@ -199,9 +199,9 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
 * Checkout options
 ```json
 {
-  "event": "checkoutOption",
+  "event": "checkout",
   "ecommerce": {
-    "checkout_option": {
+    "checkout": {
       "actionField": {
         "step": 3,
         "option": "Flat Rate - Fixed"
@@ -213,6 +213,7 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
 * Purchases
 ```json
 {
+  "event": "purchase",
   "ecommerce": {
     "currencyCode": "USD",
     "purchase": {
