@@ -5,6 +5,10 @@ define([
 ], function ($, _, storage) {
     'use strict';
 
+    const storageName = 'analyzer-data';
+
+    let stateCart = { };
+
     function initBefore() {
         window.dataLayer = window.dataLayer || [];
     }
@@ -54,7 +58,7 @@ define([
             });
         }
 
-        let analyzerData = storage.get('analyzer-data');
+        let analyzerData = storage.get(storageName);
 
         analyzerData.subscribe((dataObject) => {
             if (!_.isObject(dataObject)) {
@@ -62,9 +66,10 @@ define([
             }
 
             let cartValidate = _.has(dataObject, 'cart') && _.isArray(dataObject.cart) && dataObject.cart.length > 0;
-            if (cartValidate) {
+            if (cartValidate && !_.isEqual(stateCart, dataObject.cart)) {
                 initCartDataLayer('addToCart', 'add', dataObject.cart);
-                dataObject.cart = { };
+
+                stateCart = dataObject.cart;
             }
 
             if (_.has(dataObject, 'removeCart') && _.isArray(dataObject.removeCart) && dataObject.removeCart.length > 0) {
