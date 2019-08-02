@@ -6,7 +6,6 @@ namespace DK\GoogleTagManager\Model\DataLayer;
 
 use DK\GoogleTagManager\Api\Data\DataLayerInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order\Item;
 
 class PurchaseView implements DataLayerInterface
@@ -21,21 +20,15 @@ class PurchaseView implements DataLayerInterface
     private $checkoutSession;
 
     /**
-     * @var PriceCurrencyInterface
-     */
-    private $priceCurrency;
-    /**
      * @var Generator\Product
      */
     private $productGenerator;
 
     public function __construct(
         CheckoutSession $checkoutSession,
-        PriceCurrencyInterface $priceCurrency,
         Generator\Product $productGenerator
     ) {
         $this->checkoutSession = $checkoutSession;
-        $this->priceCurrency = $priceCurrency;
         $this->productGenerator = $productGenerator;
     }
 
