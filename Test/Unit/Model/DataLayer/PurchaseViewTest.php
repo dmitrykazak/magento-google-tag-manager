@@ -10,7 +10,6 @@ use DK\GoogleTagManager\Model\DataLayer\PurchaseView;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Item;
 use Magento\Store\Model\Store;
@@ -29,11 +28,6 @@ final class PurchaseViewTest extends TestCase
     private $checkoutSession;
 
     /**
-     * @var MockObject|PriceCurrencyInterface
-     */
-    private $priceCureency;
-
-    /**
      * @var Generator\Product|MockObject
      */
     private $productGenerator;
@@ -48,12 +42,10 @@ final class PurchaseViewTest extends TestCase
         parent::setUp();
 
         $this->checkoutSession = $this->createMock(CheckoutSession::class);
-        $this->priceCureency = $this->createMock(PriceCurrencyInterface::class);
         $this->productGenerator = $this->createMock(Generator\Product::class);
 
         $this->purchaseView = new PurchaseView(
             $this->checkoutSession,
-            $this->priceCureency,
             $this->productGenerator
         );
     }
