@@ -15,7 +15,7 @@ class Session extends SessionManager
     private const KEY_IMPRESSION_SEARCH_PRODUCTS = 'impression_search_products';
     private const KEY_CLICK_IMPRESSION_PRODUCTS = 'click_impression_products';
 
-    public function setRemovedProductFromCart($product): self
+    public function setRemovedProductFromCart($product): Session
     {
         $items = $this->getRemovedProductFromCart();
 
@@ -31,7 +31,7 @@ class Session extends SessionManager
         return 0 < \count($products) ? $products : [];
     }
 
-    public function setCheckoutStep(Dto\Ecommerce $paymentStepCheckout): self
+    public function setCheckoutStep(Dto\Ecommerce $paymentStepCheckout): Session
     {
         $steps = $this->getCheckoutSteps();
 
@@ -47,7 +47,7 @@ class Session extends SessionManager
         return 0 < \count($steps) ? $steps : [];
     }
 
-    public function setImpressionCatalogProducts($product): self
+    public function setImpressionCatalogProducts($product): Session
     {
         $items = $this->getImpressionCatalogProducts();
 
@@ -63,7 +63,7 @@ class Session extends SessionManager
         return 0 < \count($items) ? $items : [];
     }
 
-    public function setImpressionSearchProducts($product): self
+    public function setImpressionSearchProducts($product): Session
     {
         $items = $this->getImpressionSearchProducts();
 
@@ -79,7 +79,7 @@ class Session extends SessionManager
         return 0 < \count($items) ? $items : [];
     }
 
-    public function setClickImpressionProducts($product): self
+    public function setClickImpressionProducts($product): Session
     {
         $items = $this->getClickImpressionProducts();
 
