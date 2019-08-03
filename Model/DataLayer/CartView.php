@@ -64,7 +64,7 @@ class CartView implements DataLayerInterface
     {
         $products = [];
         foreach ($this->session->getQuote()->getAllVisibleItems() as $item) {
-            $products[] = $this->productGenerator->generate($item->getProduct(), $item->getQty());
+            $products[] = $this->productGenerator->generate($item->getProduct(), $item->getQty(), $item);
         }
 
         return $products;

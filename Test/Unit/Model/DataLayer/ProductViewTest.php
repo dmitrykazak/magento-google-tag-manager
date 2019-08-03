@@ -7,6 +7,7 @@ namespace DK\GoogleTagManager\Test\Unit\Model\DataLayer;
 use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\DataLayer\Generator;
 use DK\GoogleTagManager\Model\DataLayer\ProductView;
+use DK\GoogleTagManager\Model\UnsetProperty;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
@@ -16,6 +17,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 final class ProductViewTest extends TestCase
 {
+    use UnsetProperty;
+
     /**
      * @var Generator\Product|MockObject
      */
@@ -75,6 +78,8 @@ JSON;
         $productDto->category = 'Apparel';
         $productDto->path = 'Apparel/Android';
         $productDto->brand = 'Google';
+
+        $this->unset($productDto, ['variant']);
 
         return $productDto;
     }

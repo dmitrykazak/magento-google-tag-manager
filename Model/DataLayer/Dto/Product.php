@@ -40,4 +40,9 @@ final class Product
      * @var string
      */
     public $path;
+
+    /**
+     * @var string
+     */
+    public $variant;
 }

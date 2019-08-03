@@ -6,27 +6,51 @@ namespace DK\GoogleTagManager\Model\DataLayer\Generator;
 
 use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\Handler;
+use DK\GoogleTagManager\Model\UnsetProperty;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Product as ProductEntity;
+use Magento\Quote\Model\Quote\Item as QuoteItem;
+use Magento\Sales\Model\Order\Item as OrderItem;
 
 class Product
 {
+    use UnsetProperty;
+
     /**
      * @var Handler\ProductHandler
      */
     private $productHandler;
+
+    /**
+     * @var Handler\ItemHandler
+     */
+    private $itemHandler;
+
     /**
      * @var CategoryRepositoryInterface
      */
     private $categoryRepository;
 
-    public function __construct(Handler\ProductHandler $productHandler, CategoryRepositoryInterface $categoryRepository)
-    {
+    public function __construct(
+        Handler\ProductHandler $productHandler,
+        Handler\ItemHandler $itemHandler,
+        CategoryRepositoryInterface $categoryRepository
+    ) {
         $this->productHandler = $productHandler;
         $this->categoryRepository = $categoryRepository;
+        $this->itemHandler = $itemHandler;
     }
 
-    public function generate(?ProductEntity $entity, $quantity = null): Dto\Product
+    /**
+     * @param null|ProductEntity $entity
+     * @param null|int $quantity
+     * @param null|OrderItem|QuoteItem $item
+     *
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     *
+     * @return Dto\Product
+     */
+    public function generate(?ProductEntity $entity, $quantity = null, $item = null): Dto\Product
     {
         if (null !== $entity) {
             $this->productHandler->setProduct($entity);
@@ -53,6 +77,12 @@ class Product
 
         if (null !== $quantity) {
             $productDto->quantity = $quantity;
+        }
+
+        if (null !== $item) {
+            $productDto->variant = $this->itemHandler->getVariant($item);
+
+            $this->unset($productDto, ['quantity', 'variant']);
         }
 
         return $productDto;

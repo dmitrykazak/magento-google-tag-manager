@@ -48,7 +48,7 @@ class PurchaseView implements DataLayerInterface
 
         /** @var Item $item */
         foreach ($order->getAllVisibleItems() as $item) {
-            $productItems[] = $this->productGenerator->generate($item->getProduct(), $item->getQtyOrdered());
+            $productItems[] = $this->productGenerator->generate($item->getProduct(), $item->getQtyOrdered(), $item);
         }
 
         $purchaseOrderDto = new Dto\Purchase\Order();

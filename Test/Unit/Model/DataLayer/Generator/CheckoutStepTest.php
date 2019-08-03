@@ -94,7 +94,7 @@ final class CheckoutStepTest extends TestCase
         $itemMock->expects(self::once())->method('getProduct');
 
         $json = <<<'JSON'
-{"event":"checkout","ecommerce":{"checkout":{"actionField":{"step":1,"option":"Visa"},"products":[{"id":12345,"name":"Triblend Android T-Shirt","price":"15.25","quantity":1,"category":"Apparel","brand":"Google","path":"Apparel\/Android"}]},"currencyCode":"USD"}}
+{"event":"checkout","ecommerce":{"checkout":{"actionField":{"step":1,"option":"Visa"},"products":[{"id":12345,"name":"Triblend Android T-Shirt","price":"15.25","quantity":1,"category":"Apparel","brand":"Google","path":"Apparel\/Android","variant":"Color:Red"}]},"currencyCode":"USD"}}
 JSON;
 
         $result = $this->checkoutStep->onCheckoutStep(1, 'Visa');
@@ -113,6 +113,7 @@ JSON;
         $product->category = 'Apparel';
         $product->quantity = 1;
         $product->path = 'Apparel/Android';
+        $product->variant = 'Color:Red';
 
         return $product;
     }

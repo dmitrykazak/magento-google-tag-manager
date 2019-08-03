@@ -24,6 +24,11 @@ final class ProductTest extends TestCase
     private $productHandler;
 
     /**
+     * @var Handler\ItemHandler
+     */
+    private $itemHandler;
+
+    /**
      * @varCategoryRepositoryInterface|MockObject
      */
     private $categoryRepository;
@@ -38,10 +43,12 @@ final class ProductTest extends TestCase
         parent::setUp();
 
         $this->productHandler = $this->createMock(Handler\ProductHandler::class);
+        $this->itemHandler = $this->createMock(Handler\ItemHandler::class);
         $this->categoryRepository = $this->createMock(CategoryRepositoryInterface::class);
 
         $this->productGenerator = new Generator\Product(
             $this->productHandler,
+            $this->itemHandler,
             $this->categoryRepository
         );
     }

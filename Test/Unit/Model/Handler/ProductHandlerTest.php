@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class ProductTest extends TestCase
+class ProductHandlerTest extends TestCase
 {
     /**
      * @var CatalogHelper|\PHPUnit_Framework_MockObject_MockObject

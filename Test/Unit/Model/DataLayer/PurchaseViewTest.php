@@ -112,7 +112,8 @@ final class PurchaseViewTest extends TestCase
         "brand": "Google",
         "category": "Apparel",
         "quantity": 5,
-        "path": "Apparel/Android"
+        "path": "Apparel/Android",
+        "variant": "Color:Red"
        }]
     }
   }
@@ -134,6 +135,7 @@ JSON;
         $productDto->path = 'Apparel/Android';
         $productDto->brand = 'Google';
         $productDto->quantity = 5;
+        $productDto->variant = 'Color:Red';
 
         return $productDto;
     }
