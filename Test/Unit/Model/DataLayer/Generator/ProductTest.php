@@ -9,6 +9,7 @@ use DK\GoogleTagManager\Model\Handler;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
+use Magento\Sales\Model\Order\Item;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
@@ -24,7 +25,7 @@ final class ProductTest extends TestCase
     private $productHandler;
 
     /**
-     * @var Handler\ItemHandler
+     * @var Handler\ItemHandler|MockObject
      */
     private $itemHandler;
 
@@ -84,6 +85,12 @@ final class ProductTest extends TestCase
 
     public function testGenerateItem(): void
     {
+        /** @var Item|MockObject $itemMock */
+        $itemMock = $this->createMock(Item::class);
+        $itemMock->method('getQtyOrdered')->willReturn(5);
+
+        $this->itemHandler->method('getVariant')->willReturn('Color:Red');
+
         /** @var MockObject|Product $product */
         $product = $this->createMock(Product::class);
         /** @var Category|MockObject $category */
@@ -103,12 +110,13 @@ final class ProductTest extends TestCase
         $this->productHandler->method('getCategoriesPath')->willReturn('Apparel/Android');
         $this->productHandler->method('getBrandValue')->willReturn('Google');
 
-        $result = $this->productGenerator->generate($product, 5);
+        $result = $this->productGenerator->generate($product, $itemMock->getQtyOrdered(), $itemMock);
 
         $this->assertSame('Test', $result->name);
         $this->assertSame('Google', $result->brand);
         $this->assertSame('Apparel', $result->category);
         $this->assertSame('ART1', $result->id);
         $this->assertSame(5, $result->quantity);
+        $this->assertSame('Color:Red', $result->variant);
     }
 }

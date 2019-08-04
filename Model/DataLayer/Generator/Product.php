@@ -81,7 +81,9 @@ class Product
 
         if (null !== $item) {
             $productDto->variant = $this->itemHandler->getVariant($item);
+        }
 
+        if (null === $item) {
             $this->unset($productDto, ['quantity', 'variant']);
         }
 
