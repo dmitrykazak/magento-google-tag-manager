@@ -72,10 +72,10 @@ class ItemHandler
 
         foreach (self::KEY_OPTIONS as $keyOption) {
             if (isset($options[$keyOption])) {
-                $result = \array_merge($result, $options[$keyOption]);
+                $result[] = $options[$keyOption];
             }
         }
 
-        return $result;
+        return 0 < \count($result) ? \array_merge(...$result) : [];
     }
 }

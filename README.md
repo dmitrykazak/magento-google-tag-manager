@@ -143,7 +143,8 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
           "quantity": 1,
           "category": "Bras & Tanks",
           "brand": "Breathe-Easy Tank",
-          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category"
+          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category",
+          "variant": "Color:Red | Size:X"
         }
       ]
     }
@@ -164,7 +165,8 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
           "quantity": 1,
           "category": "Bras & Tanks",
           "brand": "Breathe-Easy Tank",
-          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category"
+          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category",
+          "variant": "Color:Red | Size:X"
         }
       ]
     }
@@ -189,7 +191,8 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
           "price": "34.0000",
           "category": "Bras & Tanks",
           "brand": "Breathe-Easy Tank",
-          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category"
+          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category",
+          "variant": "Color:Red | Size:X"
         }
       ]
     }
@@ -233,7 +236,8 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
           "quantity": "1.0000",
           "category": "Bras & Tanks",
           "brand": "Breathe-Easy Tank",
-          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category"
+          "path": "Bras & Tanks/Women Sale/Erin Recommends/Default Category",
+          "variant": "Color:Red | Size:X"
         }
       ]
     }
