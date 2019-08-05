@@ -245,5 +245,8 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
 }
 ```
 
+#### Support
+ If you encounter any problems or bugs, please open an [issue](https://github.com/dmitrykazak/magento-google-tag-manager/issues) on GitHub.
+
 #### Links
 * [Contact with me](https://developer-vub3295.slack.com/messages/CLG5P5A0N)
