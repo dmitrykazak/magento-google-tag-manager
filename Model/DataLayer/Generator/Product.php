@@ -9,6 +9,7 @@ use DK\GoogleTagManager\Model\Handler;
 use DK\GoogleTagManager\Model\UnsetProperty;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Product as ProductEntity;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Model\Quote\Item as QuoteItem;
 use Magento\Sales\Model\Order\Item as OrderItem;
 
@@ -42,13 +43,10 @@ class Product
     }
 
     /**
-     * @param null|ProductEntity $entity
      * @param null|int $quantity
      * @param null|OrderItem|QuoteItem $item
      *
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     *
-     * @return Dto\Product
+     * @throws NoSuchEntityException
      */
     public function generate(?ProductEntity $entity, $quantity = null, $item = null): Dto\Product
     {
@@ -62,10 +60,16 @@ class Product
         $category = $product->getCategory();
         if (null === $category) {
             $categoryIds = $product->getCategoryIds();
-            $category = $this->categoryRepository->get(\reset($categoryIds));
+
+            try {
+                $category = $this->categoryRepository->get(\reset($categoryIds));
+            } catch (NoSuchEntityException $exception) {
+            }
         }
 
-        $this->productHandler->setCategory($category);
+        if (null !== $category) {
+            $this->productHandler->setCategory($category);
+        }
 
         $productDto = new Dto\Product();
         $productDto->id = $product->getData($this->productHandler->productIdentifier());

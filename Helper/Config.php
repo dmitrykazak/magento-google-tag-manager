@@ -20,8 +20,6 @@ class Config extends AbstractHelper
 
     /**
      * @param null $store
-     *
-     * @return bool
      */
     public function isGoogleTagManagerAvailable($store = null): bool
     {
@@ -36,8 +34,6 @@ class Config extends AbstractHelper
 
     /**
      * @param null|bool|int|Store|string $store
-     *
-     * @return null|string
      */
     public function getAccount($store = null): ?string
     {

@@ -15,17 +15,12 @@ class DataLayerList implements DataLayerListInterface
 
     /**
      * DataLayerList constructor.
-     *
-     * @param array $dataLayers
      */
     public function __construct(array $dataLayers = [])
     {
         $this->dataLayers = $dataLayers;
     }
 
-    /**
-     * @return array
-     */
     public function getList(): array
     {
         return $this->dataLayers;

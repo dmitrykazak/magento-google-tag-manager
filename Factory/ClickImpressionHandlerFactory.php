@@ -28,20 +28,12 @@ class ClickImpressionHandlerFactory implements ClickImpressionHandlerFactoryInte
 
     /**
      * DataLayerFactory constructor.
-     *
-     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * @param string $impressionUrl
-     * @param array $data
-     *
-     * @return ClickImpressionHandlerInterface
-     */
     public function create(string $impressionUrl, array $data = []): ClickImpressionHandlerInterface
     {
         foreach (self::HANDLERS as $url => $handlerClass) {

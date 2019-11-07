@@ -10,7 +10,6 @@ trait UnsetProperty
      * Removing property from object (DTO)
      *
      * @param object $object
-     * @param array $properties
      */
     private function unset($object, array $properties): void
     {

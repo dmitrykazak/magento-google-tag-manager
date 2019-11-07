@@ -54,9 +54,6 @@ class ProductRelatedView implements DataLayerInterface
         $this->productRepository = $productRepository;
     }
 
-    /**
-     * @return string
-     */
     public function getCode(): string
     {
         return static::CODE;

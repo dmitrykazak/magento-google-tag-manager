@@ -27,8 +27,6 @@ class ImpressionHandlerFactory implements ImpressionHandlerFactoryInterface
 
     /**
      * DataLayerFactory constructor.
-     *
-     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(ObjectManagerInterface $objectManager)
     {
@@ -36,9 +34,6 @@ class ImpressionHandlerFactory implements ImpressionHandlerFactoryInterface
     }
 
     /**
-     * @param string $impressionName
-     * @param array $data
-     *
      * @return mixed
      */
     public function create(string $impressionName = self::DEFAULT_HANDLER, array $data = []): ?ImpressionHandlerInterface

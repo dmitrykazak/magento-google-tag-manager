@@ -28,9 +28,6 @@ class ClickImpressionView implements DataLayerInterface
         $this->eventManager = $eventManager;
     }
 
-    /**
-     * @return string
-     */
     public function getCode(): string
     {
         return static::CODE;

@@ -40,9 +40,6 @@ class ProductHandler
         $this->config = $config;
     }
 
-    /**
-     * @return null|string
-     */
     public function getCategoryName(): ?string
     {
         $category = $this->getCategory();
@@ -50,9 +47,6 @@ class ProductHandler
         return null !== $category ? $category->getName() : null;
     }
 
-    /**
-     * @return string
-     */
     public function getCategoryPath(): string
     {
         $labels = \array_column($this->catalogHelper->getBreadcrumbPath(), 'label');
@@ -60,9 +54,6 @@ class ProductHandler
         return implode('/', $labels);
     }
 
-    /**
-     * @return null|ProductCatalog
-     */
     public function getProduct(): ?ProductCatalog
     {
         if (null !== $this->product) {

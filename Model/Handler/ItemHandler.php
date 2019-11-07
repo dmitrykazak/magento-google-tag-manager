@@ -20,8 +20,6 @@ class ItemHandler
 
     /**
      * @param OrderItem|QuoteItem $item
-     *
-     * @return string
      */
     public function getVariant($item): string
     {
@@ -50,8 +48,6 @@ class ItemHandler
 
     /**
      * @param OrderItem|QuoteItem $item
-     *
-     * @return array
      */
     private function getOptions($item): array
     {

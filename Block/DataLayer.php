@@ -86,9 +86,6 @@ class DataLayer extends Template
         $this->eventManage = $eventManage;
     }
 
-    /**
-     * @return null|string
-     */
     public function getJsonDataLayers(): ?string
     {
         $data = [];
@@ -159,10 +156,6 @@ class DataLayer extends Template
 
     /**
      * Get Instance of DataLayer
-     *
-     * @param string $type
-     *
-     * @return null|DataLayerInterface
      */
     private function getInstance(string $type): ?DataLayerInterface
     {
@@ -174,9 +167,6 @@ class DataLayer extends Template
         return null;
     }
 
-    /**
-     * @return string
-     */
     private function findClass(string $type): string
     {
         $list = $this->dataLayerList->getList();

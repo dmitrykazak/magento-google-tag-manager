@@ -6,9 +6,6 @@ namespace DK\GoogleTagManager\Api\Data;
 
 interface DataLayerInterface
 {
-    /**
-     * @return string
-     */
     public function getCode(): string;
 
     /**

@@ -23,9 +23,6 @@ class CheckoutView implements DataLayerInterface
         $this->checkoutStep = $checkoutStep;
     }
 
-    /**
-     * @return string
-     */
     public function getCode(): string
     {
         return self::CODE;

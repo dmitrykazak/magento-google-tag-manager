@@ -39,9 +39,6 @@ final class CatalogBlockProductListCollectionObserver implements ObserverInterfa
         $this->logger = $logger;
     }
 
-    /**
-     * @param Observer $observer
-     */
     public function execute(Observer $observer): void
     {
         try {

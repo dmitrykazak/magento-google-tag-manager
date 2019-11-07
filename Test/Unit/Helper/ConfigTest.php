@@ -159,9 +159,6 @@ class ConfigTest extends TestCase
         $this->assertSame($expect, $this->helper->getProductIdentifier());
     }
 
-    /**
-     * @return array
-     */
     public function dataProviderForTestIsActive(): array
     {
         return [

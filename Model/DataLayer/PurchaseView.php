@@ -32,9 +32,6 @@ class PurchaseView implements DataLayerInterface
         $this->productGenerator = $productGenerator;
     }
 
-    /**
-     * @return string
-     */
     public function getCode(): string
     {
         return static::CODE;

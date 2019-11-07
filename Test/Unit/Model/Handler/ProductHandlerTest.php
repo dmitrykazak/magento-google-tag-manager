@@ -89,9 +89,6 @@ class ProductHandlerTest extends TestCase
     }
 
     /**
-     * @param array $categoryList
-     * @param string $expectsPath
-     *
      * @dataProvider listCategoryDataProvider
      */
     public function testGetCategoryPath(array $categoryList, string $expectsPath)
@@ -104,8 +101,6 @@ class ProductHandlerTest extends TestCase
 
     /**
      * @param string $expectsBrandValue
-     * @param array $valueBrand
-     * @param null|string $brandAttribute
      *
      * @throws \ReflectionException
      * @dataProvider brandValueDataProvider

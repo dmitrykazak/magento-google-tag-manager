@@ -17,10 +17,6 @@ class Gtm extends Template
 
     /**
      * Gtm constructor.
-     *
-     * @param Context $context
-     * @param Config $config
-     * @param array $data
      */
     public function __construct(Context $context, Config $config, array $data = [])
     {
@@ -28,9 +24,6 @@ class Gtm extends Template
         parent::__construct($context, $data);
     }
 
-    /**
-     * @return Config
-     */
     public function getConfig(): Config
     {
         return $this->config;
