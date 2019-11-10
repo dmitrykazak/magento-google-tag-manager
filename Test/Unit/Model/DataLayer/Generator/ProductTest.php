@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Test\Unit\Model\DataLayer\Generator;
 
+use DK\GoogleTagManager\Model\DataLayer\DataProvider\AdapterDataProvider;
 use DK\GoogleTagManager\Model\DataLayer\Generator;
 use DK\GoogleTagManager\Model\Handler;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
@@ -12,6 +13,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Sales\Model\Order\Item;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Psr\Log\LoggerInterface;
 
 /**
  * @internal
@@ -39,6 +41,16 @@ final class ProductTest extends TestCase
      */
     private $productGenerator;
 
+    /**
+     * @var AdapterDataProvider|MockObject
+     */
+    private $adapterDataProvider;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -46,11 +58,15 @@ final class ProductTest extends TestCase
         $this->productHandler = $this->createMock(Handler\ProductHandler::class);
         $this->itemHandler = $this->createMock(Handler\ItemHandler::class);
         $this->categoryRepository = $this->createMock(CategoryRepositoryInterface::class);
+        $this->adapterDataProvider = $this->createMock(AdapterDataProvider::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->productGenerator = new Generator\Product(
             $this->productHandler,
             $this->itemHandler,
-            $this->categoryRepository
+            $this->categoryRepository,
+            $this->adapterDataProvider,
+            $this->logger
         );
     }
 
@@ -74,6 +90,8 @@ final class ProductTest extends TestCase
         $this->productHandler->method('getCategoryName')->willReturn('Apparel');
         $this->productHandler->method('getCategoriesPath')->willReturn('Apparel/Android');
         $this->productHandler->method('getBrandValue')->willReturn('Google');
+
+        $this->adapterDataProvider->expects(self::once())->method('handle');
 
         $result = $this->productGenerator->generate($product);
 

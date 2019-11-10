@@ -248,5 +248,37 @@ GTM Extension for Magento 2. GTM allows you to quickly and easily update trackin
 #### Support
  If you encounter any problems or bugs, please open an [issue](https://github.com/dmitrykazak/magento-google-tag-manager/issues) on GitHub.
 
+#### Customization
+if you want to add additional fields for product dto
+
+* Add a new DataProvider in *di.xml*
+```xml
+<type name="DK\GoogleTagManager\Model\DataLayer\DataProvider\DataProviderList">
+    <arguments>
+        <argument name="dataProviders" xsi:type="array">
+            <item name="DK\GoogleTagManager\Model\DataLayer\Dto\Product" xsi:type="array">
+                <item name="category-id" xsi:type="object">DK\GoogleTagManager\Model\DataLayer\DataProvider\CategoryId</item>
+            </item>
+        </argument>
+    </arguments>
+</type>
+```
+* Add Custom DataProvider for fields
+```php
+declare(strict_types=1);
+
+namespace DK\GoogleTagManager\Model\DataLayer\DataProvider;
+
+class CategoryId implements DataProviderInterface
+{
+    public function getData(array $params = []): array
+    {
+        return [
+            'categoryId' => 1,
+        ];
+    }
+}
+```
+
 #### Links
 * [Contact with me](https://developer-vub3295.slack.com/messages/CLG5P5A0N)

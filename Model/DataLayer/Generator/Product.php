@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DK\GoogleTagManager\Model\DataLayer\Generator;
 
+use DK\GoogleTagManager\Model\DataLayer\DataProvider\AdapterDataProvider;
 use DK\GoogleTagManager\Model\DataLayer\Dto;
 use DK\GoogleTagManager\Model\Handler;
 use DK\GoogleTagManager\Model\UnsetProperty;
@@ -12,6 +13,7 @@ use Magento\Catalog\Model\Product as ProductEntity;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Model\Quote\Item as QuoteItem;
 use Magento\Sales\Model\Order\Item as OrderItem;
+use Psr\Log\LoggerInterface;
 
 class Product
 {
@@ -32,21 +34,33 @@ class Product
      */
     private $categoryRepository;
 
+    /**
+     * @var AdapterDataProvider
+     */
+    private $adapterDataProvider;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         Handler\ProductHandler $productHandler,
         Handler\ItemHandler $itemHandler,
-        CategoryRepositoryInterface $categoryRepository
+        CategoryRepositoryInterface $categoryRepository,
+        AdapterDataProvider $adapterDataProvider,
+        LoggerInterface $logger
     ) {
         $this->productHandler = $productHandler;
         $this->categoryRepository = $categoryRepository;
         $this->itemHandler = $itemHandler;
+        $this->adapterDataProvider = $adapterDataProvider;
+        $this->logger = $logger;
     }
 
     /**
      * @param null|int $quantity
      * @param null|OrderItem|QuoteItem $item
-     *
-     * @throws NoSuchEntityException
      */
     public function generate(?ProductEntity $entity, $quantity = null, $item = null): Dto\Product
     {
@@ -64,6 +78,7 @@ class Product
             try {
                 $category = $this->categoryRepository->get(\reset($categoryIds));
             } catch (NoSuchEntityException $exception) {
+                $this->logger->notice($exception->getMessage());
             }
         }
 
@@ -90,6 +105,11 @@ class Product
         if (null === $item) {
             $this->unset($productDto, ['quantity', 'variant']);
         }
+
+        $this->adapterDataProvider->handle($productDto, [
+            'category' => $category,
+            'product' => $product,
+        ]);
 
         return $productDto;
     }
