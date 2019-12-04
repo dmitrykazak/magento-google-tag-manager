@@ -64,7 +64,7 @@ class Session extends SessionManager
             return [];
         }
 
-        if (!\is_array($items) || $items instanceof \Countable) {
+        if (!\is_array($items) || !($items instanceof \Countable)) {
             return  [];
         }
 
@@ -88,7 +88,7 @@ class Session extends SessionManager
             return [];
         }
 
-        if (!\is_array($items) || $items instanceof \Countable) {
+        if (!\is_array($items) || !($items instanceof \Countable)) {
             return  [];
         }
 
