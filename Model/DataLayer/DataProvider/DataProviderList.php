@@ -11,7 +11,7 @@ class DataProviderList
      */
     private $dataProviders;
 
-    public function __construct(array $dataProviders)
+    public function __construct(array $dataProviders = [])
     {
         $this->dataProviders = $dataProviders;
     }

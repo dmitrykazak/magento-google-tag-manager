@@ -60,6 +60,14 @@ class Session extends SessionManager
     {
         $items = $this->getData(self::KEY_IMPRESSION_CATALOG_PRODUCTS, $clear);
 
+        if (null === $items) {
+            return [];
+        }
+
+        if (!\is_array($items) || $items instanceof \Countable) {
+            return  [];
+        }
+
         return 0 < \count($items) ? $items : [];
     }
 
@@ -75,6 +83,14 @@ class Session extends SessionManager
     public function getImpressionSearchProducts(bool $clear = false): array
     {
         $items = $this->getData(self::KEY_IMPRESSION_SEARCH_PRODUCTS, $clear);
+
+        if (null === $items) {
+            return [];
+        }
+
+        if (!\is_array($items) || $items instanceof \Countable) {
+            return  [];
+        }
 
         return 0 < \count($items) ? $items : [];
     }
