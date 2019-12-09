@@ -28,6 +28,14 @@ class Session extends SessionManager
     {
         $products = $this->getData(self::KEY_REMOVED_PRODUCTS_FROM_CART, $clear);
 
+        if (null === $products) {
+            return [];
+        }
+
+        if (!\is_array($products) || !($products instanceof \Countable)) {
+            return  [];
+        }
+
         return 0 < \count($products) ? $products : [];
     }
 
@@ -43,6 +51,14 @@ class Session extends SessionManager
     public function getCheckoutSteps(bool $clear = false): array
     {
         $steps = $this->getData(self::KEY_CHECKOUT_STEPS, $clear);
+
+        if (null === $steps) {
+            return [];
+        }
+
+        if (!\is_array($steps) || !($steps instanceof \Countable)) {
+            return  [];
+        }
 
         return 0 < \count($steps) ? $steps : [];
     }
@@ -107,6 +123,14 @@ class Session extends SessionManager
     public function getClickImpressionProducts(bool $clear = false): array
     {
         $items = $this->getData(self::KEY_CLICK_IMPRESSION_PRODUCTS, $clear);
+
+        if (null === $items) {
+            return [];
+        }
+
+        if (!\is_array($items) || !($items instanceof \Countable)) {
+            return  [];
+        }
 
         return 0 < \count($items) ? $items : [];
     }
