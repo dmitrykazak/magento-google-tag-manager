@@ -112,7 +112,7 @@ class ProductHandlerTest extends TestCase
         /** @var \PHPUnit_Framework_MockObject_MockObject|Product $product */
         $product = $this->createPartialMock(
             Product::class,
-            ['getCustomAttribute']
+            ['getCustomAttribute', 'getAttributes', 'getAttributeText']
         );
 
         if (null === $brandAttribute) {
@@ -120,6 +120,13 @@ class ProductHandlerTest extends TestCase
         } else {
             $value = \count($valueBrand) === 1 ? \array_shift($valueBrand) : $valueBrand;
             $this->catalogHelperMock->expects($this->any())->method('getProduct')->willReturn($product);
+
+            $product->expects($this->once())->method('getAttributes')->willReturn([
+                $brandAttribute => [],
+            ]);
+
+            $product->expects($this->once())->method('getAttributeText')->willReturn($value);
+
             $this->catalogHelperMock->getProduct()->setData($brandAttribute, $value);
         }
 
@@ -133,8 +140,10 @@ class ProductHandlerTest extends TestCase
         /** @var \PHPUnit_Framework_MockObject_MockObject|Product $product */
         $product = $this->createPartialMock(
             Product::class,
-            ['getCustomAttribute']
+            ['getCustomAttribute', 'getAttributes']
         );
+
+        $product->expects($this->once())->method('getAttributes')->willReturn([]);
 
         $this->catalogHelperMock->expects($this->any())->method('getProduct')->willReturn($product);
 
