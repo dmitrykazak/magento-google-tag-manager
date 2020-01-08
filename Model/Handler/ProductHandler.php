@@ -92,7 +92,11 @@ class ProductHandler
 
         $attributeCode = $this->config->getBrandAttribute();
         if (null !== $attributeCode) {
-            $brand = $this->getProduct()->getData($attributeCode);
+            $attributes = $this->getProduct()->getAttributes();
+            $brand = isset($attributes[$attributeCode])
+                ? $this->getProduct()->getAttributeText($attributeCode)
+                : $this->getProduct()->getData($attributeCode);
+
             if (!$brand) {
                 $customAttribute = $this->getProduct()->getCustomAttribute($attributeCode);
 
@@ -101,12 +105,12 @@ class ProductHandler
                 }
             }
 
-            if (\is_array($brand) && !empty($attributeCode)) {
+            if (\is_array($brand)) {
                 $brand = implode(',', $brand);
             }
         }
 
-        return $brand;
+        return $brand ?: null;
     }
 
     public function getCategoriesPath(): string

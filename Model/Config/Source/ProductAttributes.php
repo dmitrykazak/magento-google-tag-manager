@@ -34,11 +34,10 @@ class ProductAttributes implements ArrayInterface
     public function toOptionArray(): array
     {
         $collection = $this->collectionFactory->create();
-        $collection->addFieldToFilter(EavAttributeInterface::USED_IN_PRODUCT_LISTING, true)
-            ->addFieldToSelect([
-                EavAttributeInterface::ATTRIBUTE_CODE,
-                EavAttributeInterface::FRONTEND_LABEL,
-            ]);
+        $collection->addFieldToSelect([
+            EavAttributeInterface::ATTRIBUTE_CODE,
+            EavAttributeInterface::FRONTEND_LABEL,
+        ]);
 
         /** @var Attribute $attribute */
         foreach ($collection as $attribute) {
